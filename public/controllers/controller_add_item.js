@@ -46,9 +46,14 @@ angular.module('myApp.add_item', ['ngRoute'])
                     "location" : "8374839,8437839"
                 }
             }).then(function mySucces(response) {
-                alert("Sucess, response is: " + response);
+			if(response.data.code == 101){
+             			   alert("Success, response is: " + response.data.message);
+			}
+			else{
+				  alert("ERROR: " + response.data.code + "MESSAGE: " + response.data.message);
+			}
             }, function myError(response) {
-                alert("Error, response is: " + response);
+                alert("Error, response is: " + response.data);
             });
 
         };

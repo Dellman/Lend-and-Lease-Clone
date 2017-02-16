@@ -13,6 +13,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+var response_status = function(code, message){
+	this.code = code;
+	this.message = message;
+}
+
 /* ***************** SQL SECTION *********************
  ****************************************************** */
 var connection = mysql.createConnection({
@@ -43,10 +48,10 @@ app.post('/login', function(req, res){
     console.log(sql);
     connection.query(sql, function(err, rows, fields) {
         if(!err && rows.length == 1){
-            res.send("success");
+            res.send(new response_status(101, "success"));
             console.log("success with query in login");
         }else if(sql == null){
-            res.send("fail");
+            res.send(new response_status(601, "Wrong username or password"));
             console.log(err);
         }
         else{
@@ -76,17 +81,18 @@ app.post('/additem', function(req, res){
             console.log(post);
             connection.query('INSERT INTO items SET ?', post, function(err, result){
                 if(!err){
-                    res.send("success");
+                    res.send(new response_status(101, "success"));
                     console.log("success");
                 }
                 else{
-                    res.send("fail");
+                    res.send(new response_status(801, "Failed to add new item"));
                     console.log(err);
                 }
             });
         }
         else{
-            console.log("ITEM ALREADY EXISTS");
+            	console.log("ITEM ALREADY EXISTS" + post.item_name);
+		res.send(new response_status(802, "Item already added to users items"));	
 
         }
 
@@ -114,17 +120,17 @@ app.post('/register', function(req, res){
         if(rows.length == 0){
             connection.query('INSERT INTO users SET ?', post, function(err, result){
                 if(!err){
-                    res.send("success");
-                    console.log("success");
+                    res.send(new response_status(101, "success"));
+                    console.log("user registered successfully");
                 }
                 else{
-                    res.send("fail");
+                    res.send(new response_status(701, "Failed to register user"));
                     console.log(err);
                 }
             });
         }
         else{
-            res.send("EMAIL ALREADY IN USE");
+            res.send(new response_status(702, "User with that email already exists"));
             console.log("EMAIL ALREADY IN USE !!! " + post.email);
         }
     });
