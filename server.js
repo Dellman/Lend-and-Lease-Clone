@@ -43,10 +43,10 @@ app.post('/login', function(req, res){
 	console.log(sql);
 	connection.query(sql, function(err, rows, fields) {
 	if(!err && rows.length == 1){
-		res.send("SUCCES AT LOGIN WELCOME");
+		res.send("success");
 		console.log("success with query in login");
 	}else if(sql == null){
-		res.send("PASSWORD OR USERNAME INCORRECTED");
+		res.send("fail");
 		console.log(err);
 	}
 	else{
@@ -70,10 +70,11 @@ app.post('/additem', function(req, res){
 	console.log(post);
 	connection.query('INSERT INTO items SET ?', post, function(err, result){
 	if(!err){
-		res.send("SUCCESSFULLY ADDED AN ITEM");
+		res.send("success");
 		console.log("success");
 	 }
 	else{
+		res.send("fail");
 		console.log(err);
 	}
 	});
@@ -95,10 +96,11 @@ app.post('/register', function(req, res){
 	console.log(post);
 	connection.query('INSERT INTO users SET ?', post, function(err, result){
 	if(!err){
-		res.send("SUCCESSFULLY ADDED A USER");
+		res.send("success");
 		console.log("success");
 	 }
 	else{
+		res.send("fail");
 		console.log(err);
 	}
 	});
@@ -106,12 +108,22 @@ app.post('/register', function(req, res){
 });
 /* *********************** END OF SQL SECTION ***********************
 ******************************************************************** */
+
+/* *********************** WEB APP SECTION ***************************
+********************************************************************* */
 app.get('/', function(req, res){
 
 	res.sendFile(public/index.html);
 
 });
 
+/* ******************END OF WEB APP SECTION ***************************
+********************************************************************* */
+
+/* *********************** SERVER INIT ******************************** */
 app.listen(3000, function () {
 console.log('listening on port 3000');
 })
+
+/* ******************* END OF SERVER INIT ********************************
+************************************************************************ */
