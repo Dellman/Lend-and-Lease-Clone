@@ -13,6 +13,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+var no_of_email;
+
 /* ***************** SQL SECTION *********************
 ****************************************************** */
 var connection = mysql.createConnection({ 
@@ -94,17 +96,30 @@ app.post('/register', function(req, res){
 		password: req.body.password
 	};
 	console.log(post);
-	connection.query('INSERT INTO users SET ?', post, function(err, result){
-	if(!err){
-		res.send("success");
-		console.log("success");
-	 }
-	else{
-		res.send("fail");
-		console.log(err);
-	}
-	});
+	var sql = mysql.format("SELECT * FROM users WHERE email=?", [post.email]);
 
+	connection.query(sql, function(err, rows, fields) {
+		console.log("ROWS LENGTH IS: " + rows.length);
+
+		if(rows.length == 0){
+		connection.query('INSERT INTO users SET ?', post, function(err, result){
+			if(!err){
+				res.send("success");
+				console.log("success");
+			 }
+			else{
+				res.send("fail");
+				console.log(err);
+			}
+			});
+		}
+		else{
+			res.send("EMAIL ALREADY IN USE");
+			console.log("EMAIL ALREADY IN USE !!! " + post.email);
+		}
+
+		
+	});
 });
 /* *********************** END OF SQL SECTION ***********************
 ******************************************************************** */
