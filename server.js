@@ -91,7 +91,7 @@ app.post('/additem', function(req, res){
             });
         }
         else{
-            	console.log("ITEM ALREADY EXISTS" + post.item_name);
+            	console.log("ITEM ALREADY EXISTS: " + post.item_name);
 		res.send(new response_status(802, "Item already added to users items"));	
 
         }
