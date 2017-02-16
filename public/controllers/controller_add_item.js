@@ -46,7 +46,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                     "location" : "8374839,8437839"
                 }
             }).then(function mySucces(response) {
-                alert(response);
+                alert("Sucess, response is: " + response);
             }, function myError(response) {
                 alert("Error, response is: " + response);
             });
