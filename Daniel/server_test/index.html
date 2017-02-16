@@ -1,0 +1,59 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+   <script src="app/app.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+  <div >
+    <form ng-submit="submit()">
+      Author:
+      <input type="text" ng-model="author">
+      <br>
+      <br> Title:
+      <input type="text" ng-model="title">
+      <br>
+      <br> Body:
+      <input type="author" ng-model="body">
+      <br>
+      <br>
+      <input type="submit" value="Submit" ng-click="ping();">
+    </form>
+  </div>
+</body> -->
+
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<p>Today's welcome message is:</p>
+
+<h1>{{myWelcome}}</h1>
+
+</div>
+
+<p>The $http service requests a page on the server, and the response is set as the value of the "myWelcome" variable.</p>
+
+<script>
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+  $http({
+    method : "GET",
+    url : "htpp://198.211.126.133:8080"
+  //  url : "Localhost:8080"
+  }).then(function mySucces(response) {
+     //  $scope.myWelcome = response.data;
+      $scope.myWelcome = "Success?";
+    }, function myError(response) {
+      $scope.myWelcome = response.statusText;
+      console.log(response);
+  });
+});
+</script>
+
+</body>
+</html>
