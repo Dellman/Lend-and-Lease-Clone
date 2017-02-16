@@ -69,17 +69,28 @@ app.post('/additem', function(req, res){
 		expiration_date: req.body.expiration_date,
 		location: req.body.location
 	};
-	console.log(post);
-	connection.query('INSERT INTO items SET ?', post, function(err, result){
-	if(!err){
-		res.send("success");
-		console.log("success");
-	 }
-	else{
-		res.send("fail");
-		console.log(err);
-	}
+
+
+	var sql = mysql.format("SELECT * FROM items WHERE item_name = ? AND location = ?", [post.item_name, post.location]);
+
+	connection.query(sql, function(err, rows, fields) {
+	if(rows.length == 0){
+		console.log(post);
+		connection.query('INSERT INTO items SET ?', post, function(err, result){
+		if(!err){
+			res.send("success");
+			console.log("success");
+		 }
+		else{
+			res.send("fail");
+			console.log(err);
+		}
 	});
+	}
+	else{
+	console.log("ITEM ALREADY EXISTS");
+	
+}
 
 });
 
@@ -102,22 +113,22 @@ app.post('/register', function(req, res){
 		console.log("ROWS LENGTH IS: " + rows.length);
 
 		if(rows.length == 0){
-		connection.query('INSERT INTO users SET ?', post, function(err, result){
-			if(!err){
-				res.send("success");
-				console.log("success");
-			 }
-			else{
-				res.send("fail");
-				console.log(err);
-			}
+			connection.query('INSERT INTO users SET ?', post, function(err, result){
+				if(!err){
+					res.send("success");
+					console.log("success");
+				 }
+				else{
+					res.send("fail");
+					console.log(err);
+				}
 			});
 		}
 		else{
 			res.send("EMAIL ALREADY IN USE");
 			console.log("EMAIL ALREADY IN USE !!! " + post.email);
 		}
-
+}
 		
 	});
 });
