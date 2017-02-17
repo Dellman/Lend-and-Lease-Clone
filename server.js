@@ -91,7 +91,7 @@ app.post('/additem', function(req, res){
             });
         }
         else{
-            	console.log("ITEM ALREADY EXISTS" + post.item_name);
+            	console.log("ITEM ALREADY EXISTS: " + post.item_name);
 		res.send(new response_status(802, "Item already added to users items"));	
 
         }
@@ -152,7 +152,9 @@ app.get('/', function(req, res){
 
 /* *********************** SERVER INIT ******************************** */
 app.listen(3000, function () {
-    console.log('listening on port 3000');
+    console.log(`+----------------------+-------------+--------------+-----------------------------------------------+
+| Lend and Loan Server | Port : 3000 | Version: 0.1 | http://github.com/vuxnamannen/lendandloan.app |
++----------------------+-------------+--------------+-----------------------------------------------+`);
 })
 
 /* ******************* END OF SERVER INIT ********************************
