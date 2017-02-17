@@ -1,0 +1,16 @@
+<form novalidate>
+    <table>
+        <tr>
+            <td><label for="email">Email</label></td>
+            <td><input id="email" type="text" ng-model="user.email"></td>
+        </tr>
+        <tr>
+            <td><label for="password">Password</label></td>
+            <td><input id="password" type="password" ng-model="user.password"></td>
+        </tr>
+    </table>
+
+        <br>
+        <br>
+        <button ng-click="submit()">Log In</button>
+</form>
