@@ -1,0 +1,16 @@
+var response_status = function(code, message){
+}
+
+SUCCESS MESSAGES
+
+101 - "success at login"
+102 - "success at add item"
+103 - "success at register user"
+
+ERROR MESSAGES
+
+601 - "Wrong username or password"
+701 - "Failed to register user"
+702 - "User with that email already exists"
+801 - "Failed to add new item"
+802 - "Item already added to users items"
