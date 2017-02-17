@@ -1,0 +1,24 @@
+<form novalidate>
+    <label for="itemName">Item Name</label>
+    <input type="text" name="itemName" id="itemName" value="Fill in the item Name" ng-model="item.name">
+    <br>
+    <br>
+    <label for="itemCategory">Category</label>
+    <select id="itemCategory" ng-model="prop.value" ng-options="x for x in prop.values">
+    </select>
+    <br>
+    <br>
+    <label for="itemDesc">Item Desc</label>
+    <textarea rows="4" cols="50"name="itemDesc" id="itemDesc" value="Fill in the item Desc" ng-model="item.desc"></textarea>
+    <br>
+    <br>
+    <label for="expDate">Expiry Date</label>
+    <input type="date" name="expDate" id="ExpDate" value="Fill in the Exp Date" ng-model="item.expDate">
+    <br>
+    <br>
+
+
+    <br>
+    <br>
+    <button ng-click="submit()">Submit</button>
+</form>
