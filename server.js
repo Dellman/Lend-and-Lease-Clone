@@ -13,6 +13,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+var logged_in_user;
+
 var response_status = function(code, message){
 	this.code = code;
 	this.message = message;
@@ -37,6 +39,28 @@ app.get('/items', function(req,res){
     })
 })
 
+
+app.get('/profile', function(req,res){
+    console.log("personal profile accessed");
+    var sql = mysql.format("SELECT * FROM users WHERE email = ?", [logged_in_user]);
+    connection.query(sql, function(err, rows, fields) {
+        if(!err && rows.length == 1){
+            res.status(status).send(rows[0]);
+            console.log("success with query in view profile");
+	    console.log(logged_in_user);
+        }else if(sql == null){
+		res.send("wrong LOGGED IN USER" + logged_in_user);
+		console.log(logged_in_user);
+        }
+        else{
+            console.log(logged_in_user);
+        }
+
+    });
+
+
+})
+
 app.post('/login', function(req, res){
     console.log("login_page accessed");
     var post = {
@@ -48,8 +72,10 @@ app.post('/login', function(req, res){
     console.log(sql);
     connection.query(sql, function(err, rows, fields) {
         if(!err && rows.length == 1){
-            res.send(new response_status(101, "success"));
+            res.send(new response_status(101, "success at login"));
             console.log("success with query in login");
+	    logged_in_user = post.email;
+	    console.log(logged_in_user);
         }else if(sql == null){
             res.send(new response_status(601, "Wrong username or password"));
             console.log(err);
@@ -81,7 +107,7 @@ app.post('/additem', function(req, res){
             console.log(post);
             connection.query('INSERT INTO items SET ?', post, function(err, result){
                 if(!err){
-                    res.send(new response_status(101, "success"));
+                    res.send(new response_status(102, "success at add item"));
                     console.log("success");
                 }
                 else{
@@ -120,8 +146,8 @@ app.post('/register', function(req, res){
         if(rows.length == 0){
             connection.query('INSERT INTO users SET ?', post, function(err, result){
                 if(!err){
-                    res.send(new response_status(101, "success"));
-                    console.log("user registered successfully");
+                    res.send(new response_status(103, "success"));
+                    console.log("user: " + post.email + " successfully registered");
                 }
                 else{
                     res.send(new response_status(701, "Failed to register user"));
