@@ -45,7 +45,7 @@ app.get('/profile', function(req,res){
     var sql = mysql.format("SELECT * FROM users WHERE email = ?", [logged_in_user]);
     connection.query(sql, function(err, rows, fields) {
         if(!err && rows.length == 1){
-            res.status(status).send(rows[0]);
+            res.send(rows[0]);
             console.log("success with query in view profile");
 	    console.log(logged_in_user);
         }else if(sql == null){
@@ -76,12 +76,14 @@ app.post('/login', function(req, res){
             console.log("success with query in login");
 	    logged_in_user = post.email;
 	    console.log(logged_in_user);
-        }else if(sql == null){
+        }else if(rows.length == 0){
             res.send(new response_status(601, "Wrong username or password"));
             console.log(err);
         }
         else{
-            console.log("MULTIPLE ENTRIES OF SAME USER WITH SAME PASSWORD");
+		console.log("MYSQL ERROR: " + err);
+		console.log(rows.length);	
+            	console.log("Something wrong at login" + post.email + "PASSWORD: " + post.password);
         }
 
     });
