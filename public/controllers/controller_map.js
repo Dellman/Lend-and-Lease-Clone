@@ -25,6 +25,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
             url : "http://198.211.126.133:3000/items"
         }).then(function mySucces(response) {
             $scope.items = response.data;
+            console.log($scope.items)
         }, function myError(response) {
             alert("Error");
         });

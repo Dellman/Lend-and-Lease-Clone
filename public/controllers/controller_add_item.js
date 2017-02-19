@@ -49,7 +49,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                     "category": $scope.prop.value,
                     "expiration_date": date3,
                     "submission_date": date4,
-                    "location": $scope.vm.getCenter()
+                    "location": $scope.vm.map.getCenter()
                 }
             }).then(function mySucces(response) {
                 if (response.data.code == 101) {
