@@ -1,24 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html lang="en" ng-app="myApp">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-    <script src="app.js"></script>
-    <script src="controllers/controller_add_item.js"></script>
-    <script src="controllers/controller_items_list.js"></script>
-    <script src="controllers/controller_add_user.js"></script>
-    &lt;!&ndash;<link rel="stylesheet" type="text/css" href="stylesheets/styles.css">&ndash;&gt;
-</head>
-<body>
-<a href="#!/addItem">Add Item</a>
-<a href="#!/itemsList">List Items</a>
-<a href="#!/registerUser">Register a User</a>
-<div ng-view></div>
-</body>
-</html>-->
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp">
 <head>
@@ -32,9 +11,9 @@
     <script src="controllers/controller_add_user.js"></script>
     <script src="controllers/controller_login.js"></script>
     <script src="controllers/controller_profile.js"></script>
-    <!--<script src="js/ng-maps.js"></script>
-    <script src="http://maps.google.com/maps/api/js&key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c"></script>-->
-    <!--<link rel="stylesheet" type="text/css" href="stylesheets/styles.css">-->
+    <script src="controllers/controller_map.js"></script>
+    <script src="js/ng-maps.js"></script>
+
     <!-- Bootstrap -->
     <link href="theme/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -45,15 +24,6 @@
     <!-- Custom Theme Style -->
     <link href="theme/build/css/custom.min.css" rel="stylesheet">
 </head>
-<!--<body>
-<a href="#!/view1">view 1</a>
-<a href="#!/view2">view 2</a>
-<a href="#!/addItem">Add Item</a>
-<a href="#!/itemsList">List Items</a>
-<a href="#!/registerUser">Register a User</a>
-<div ng-view></div>
-</body>-->
-
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -91,9 +61,11 @@
                                     <li><a href="#!/itemsList">List Items</a></li>
                                     <li><a href="#!/login">Login</a></li>
                                     <li><a href="#!/profile">Profile</a></li>
+                                    <li><a href="#!/registerUser">Register</a></li>
+                                    <li><a href="#!/map">Map</a></li>
                                 </ul>
-
-                            <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
+                            </li>
+                            <!--<li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="general_elements.html">General Elements</a></li>
                                     <li><a href="media_gallery.html">Media Gallery</a></li>
@@ -126,7 +98,7 @@
                                     <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
                                     <li><a href="fixed_footer.html">Fixed Footer</a></li>
                                 </ul>
-                            </li>
+                            </li>-->
                         </ul>
                     </div>
 
@@ -191,8 +163,8 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Plain Page</h3>
-                        <div ng-view></div>
+                        <h3>Lend and Lease</h3>
+
                     </div>
 
                     <div class="title_right">
@@ -208,7 +180,7 @@
                 </div>
 
                 <div class="clearfix"></div>
-
+                <div style="width:100%;" ng-view></div>
 
             </div>
         </div>

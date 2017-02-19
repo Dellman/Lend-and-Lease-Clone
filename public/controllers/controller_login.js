@@ -13,6 +13,8 @@ angular.module('myApp.login', ['ngRoute'])
 
     .controller('controller_login', ['$scope', '$http', function ($scope, $http) {
 
+        $scope.user = {};
+
         $scope.submit = function () {
             $http({
                 method: "POST",

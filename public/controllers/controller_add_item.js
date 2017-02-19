@@ -11,7 +11,12 @@ angular.module('myApp.add_item', ['ngRoute'])
         });
     }])
 
-    .controller('controller_add_item', ['$scope', '$http', function ($scope, $http) {
+    .controller('controller_add_item', ['$scope', '$http', 'NgMap', function ($scope, $http, NgMap) {
+
+        $scope.vm = {};
+        NgMap.getMap().then(function(map) {
+            $scope.vm.map = map;
+        });
 
         $scope.prop = {
             "type": "select",
@@ -44,7 +49,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                     "category": $scope.prop.value,
                     "expiration_date": date3,
                     "submission_date": date4,
-                    "location": "8374839,8437839"
+                    "location": $scope.vm.getCenter()
                 }
             }).then(function mySucces(response) {
                 if (response.data.code == 101) {
@@ -54,6 +59,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                     alert("ERROR: " + response.data.code + "MESSAGE: " + response.data.message);
                 }
             }, function myError(response) {
+
                 alert("Error, response is: " + response.data);
             });
 
