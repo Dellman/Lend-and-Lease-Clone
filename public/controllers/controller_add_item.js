@@ -1,7 +1,6 @@
 /**
  * Created by Basel on 2/15/2017.
  */
-
 angular.module('myApp.add_item', ['ngRoute'])
 
     .config(['$routeProvider', function ($routeProvider) {

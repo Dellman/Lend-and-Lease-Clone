@@ -11,7 +11,7 @@ angular.module('myApp.login', ['ngRoute'])
         });
     }])
 
-    .controller('controller_login', ['$scope', '$http', function ($scope, $http) {
+    .controller('controller_login', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
         $scope.user = {};
 
@@ -29,6 +29,9 @@ angular.module('myApp.login', ['ngRoute'])
             }).then(function mySucces(response) {
                 if (response.data.code == 101) {
                     alert("Success, response is: " + response.data.message);
+                    document.getElementById("account1").innerHTML = $scope.user.email;
+                    document.getElementById("account2").innerHTML = $scope.user.email;
+                    $location.path('/')
                 }
                 else {
                     alert("ERROR: " + response.data.code + "MESSAGE: " + response.data.message);

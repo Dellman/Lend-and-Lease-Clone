@@ -16,6 +16,7 @@ angular.module('myApp.items_list', ['ngRoute'])
             method : "GET",
             url : "http://198.211.126.133:3000/items"
         }).then(function mySucces(response) {
+            console.log(response.data)
             $scope.items = response.data;
         }, function myError(response) {
             alert("Error");
