@@ -1,9 +1,9 @@
 <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
     <ng-map style="height: 530px"
-            center=current-position" zoom="10"
+            center="current-position" zoom="10"
             default-style="false"
             geo-fallback-center="[60, 20]"
     >
-        <marker ng-repeat="item in items" position="{{item.location}}"></marker>
+        <marker ng-repeat="item in vm.positions1" position="{{item.pos}}"></marker>
     </ng-map>
 </div>

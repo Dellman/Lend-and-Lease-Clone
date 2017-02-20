@@ -20,12 +20,37 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
         });
 
 
+
+
+
+
+
+        $scope.vm.positions1 =[
+            {pos:[59.11, 17.21],name:1}, {pos:[59.22, 17.60],name:2},
+            {pos:[59.33, 17.99],name:3}, {pos:[59.44, 17.88],name:4},
+            {pos:[59.55, 17.77],name:5}, {pos:[59.66, 17.66],name:6}];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         $http({
             method : "GET",
             url : "http://198.211.126.133:3000/items"
         }).then(function mySucces(response) {
             $scope.items = response.data;
-            console.log($scope.items)
+            console.log($scope.items);
         }, function myError(response) {
             alert("Error");
         });

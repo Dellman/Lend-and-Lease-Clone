@@ -15,6 +15,7 @@ angular.module('myApp.add_item', ['ngRoute'])
         $scope.vm = {};
         NgMap.getMap().then(function(map) {
             $scope.vm.map = map;
+            //setupListener($scope.map, 'click');
         });
 
         $scope.prop = {
@@ -23,6 +24,35 @@ angular.module('myApp.add_item', ['ngRoute'])
             "value": "Books",
             "values": ['Books', 'Tools', 'Games', 'Others']
         };
+
+
+
+
+/*
+
+        function setupListener(map, name) {
+            google.maps.event.addListener(map, name, function() {
+                alert("I love you!" + map.get)
+            });
+        }
+
+
+*/
+
+    function generateLocation(){
+
+        var locE = 17.4 + Math.random() * 0.4 //17.4 to 17.8
+        var locN = 59.6 + Math.random() * 0.4 //59.6 to 60
+        return {pos:[40.11, -75.21],name:1}
+        //{lat: 59.6, lng: 17.4}//"(" + locN + ", " + locE + ")";
+    }
+
+
+
+
+
+
+
 
         $scope.submit = function () {
             /*
@@ -48,7 +78,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                     "category": $scope.prop.value,
                     "expiration_date": date3,
                     "submission_date": date4,
-                    "location": $scope.vm.map.getCenter()
+                    "location": generateLocation()
                 }
             }).then(function mySucces(response) {
                 if (response.data.code == 101) {
