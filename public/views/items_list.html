@@ -1,24 +1,16 @@
-<!--<div>
-    <ul>
-        <li  ng-repeat="item in items">
-            <a><span>ID: {{item.id}}</span><span>{{item.item_name}}</span></a>
-        </li>
-    </ul>
-</div>-->
-
 <div>
     <table style="width:100%">
         <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Expiration Date</th>
+            <th style="height:30px">Name</th>
+            <th style="height:30px">Category</th>
+            <th style="height:30px">Description</th>
+            <th style="height:30px">Expiration Date</th>
         </tr>
-        <tr ng-repeat="item in items">
-            <td>{{item.item_name}}</td>
-            <td>{{item.category}}</td>
-            <td>{{item.description}}</td>
-            <td>{{item.expiration_date}}</td>
+        <tr ng-repeat="item in items" style="border-bottom: 1px solid black">
+            <td style="height:30px">{{item.item_name}}</td>
+            <td style="height:30px">{{item.category}}</td>
+            <td style="height:30px">{{item.description}}</td>
+            <td style="height:30px">{{item.expiration_date}}</td>
         </tr>
     </table>
 </div>
