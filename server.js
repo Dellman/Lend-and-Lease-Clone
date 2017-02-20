@@ -103,9 +103,9 @@ app.post('/additem', function(req, res){
 
 
     var sql = mysql.format("SELECT * FROM items WHERE item_name = ? AND location = ?", [post.item_name, post.location]);
-
+	console.log(sql);
     connection.query(sql, function(err, rows, fields) {
-        if(rows.length == 0){
+        if(rows == null || rows.length == 0){
             console.log(post);
             connection.query('INSERT INTO items SET ?', post, function(err, result){
                 if(!err){
