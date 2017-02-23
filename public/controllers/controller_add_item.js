@@ -25,19 +25,63 @@ angular.module('myApp.add_item', ['ngRoute'])
             "values": ['Books', 'Tools', 'Games', 'Others']
         };
 
-
-
-
 /*
-
         function setupListener(map, name) {
             google.maps.event.addListener(map, name, function() {
                 alert("I love you!" + map.get)
             });
         }
-
-
 */
+
+        $scope.getCurLoc = function() {
+          // console.log("test");
+          var latlongInput = document.getElementById('itemLoc');
+          var posLat;
+          var posLng;
+          var cordsPos;
+          var namePos;
+          // Try HTML5 geolocation.
+          // var map = new google.maps.Map(document.getElementById('map'), {
+          //   center: {lat: -34.397, lng: 150.644},
+          //   zoom: 6
+          // });
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+              var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+                  // console.log(JSON.stringify(pos));
+                  // locationInput.value = JSON.stringify(pos);
+                  posLat = pos.lat;
+                  posLng = pos.lng
+                  cordsPos = posLat + ", " + posLng;
+                  latlongInput.value = cordsPos;
+                  // map.setCenter(pos);
+
+                  var geocoder = new google.maps.Geocoder;
+
+                  // var input = document.getElementById('latlng').value;
+                  var latlngStr = latlongInput.value.split(',', 2);
+                  var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+                  geocoder.geocode({'location': latlng}, function(results, status) {
+                    if (status === 'OK') {
+                      if (results[1]) {
+
+                        namePos = (results[1].formatted_address);
+                        latlongInput.value = namePos;
+                        console.log((results[1].formatted_address));
+                      } else {
+                        window.alert('No results found');
+                      }
+                    } else {
+                      window.alert('Geocoder failed due to: ' + status);
+                    }
+                  });
+              });
+            }
+        }
+
 
     function generateLocation(){
 
@@ -46,13 +90,6 @@ angular.module('myApp.add_item', ['ngRoute'])
         return {pos:[40.11, -75.21],name:1}
         //{lat: 59.6, lng: 17.4}//"(" + locN + ", " + locE + ")";
     }
-
-
-
-
-
-
-
 
         $scope.submit = function () {
             /*
@@ -93,7 +130,4 @@ angular.module('myApp.add_item', ['ngRoute'])
             });
 
         };
-
     }]);
-
-
