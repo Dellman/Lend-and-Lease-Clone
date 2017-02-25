@@ -35,12 +35,12 @@ angular.module('myApp.add_item', ['ngRoute'])
         }
 */
 
-      var latlongInput = document.getElementById('itemLoc');
+      // Global variables
+      var locationInput = document.getElementById('itemLoc');
       var posLat;
       var posLng;
       var cordsPos;
       var namePos;
-      // var itemMap = document.getElementById("addItemMap");
       var itemMarkers = [];
 
       function addMarker(location){
@@ -48,26 +48,18 @@ angular.module('myApp.add_item', ['ngRoute'])
           position: location,
           map: $scope.map
         });
-
-
       // Remove old marker(s) and add one and then zoom in
-      // (remove still in progress)
-      // if (itemMarkers.length == 0) {
-        // removeMarkers($scope.map);
-        // itemMarkers.splice(0, 1);
+        console.log(itemMarkers.length);
+        removeMarkers($scope.map);
         itemMarkers.push(marker);
         putOnMap($scope.map);
+        $scope.map.setCenter(location);
         $scope.map.setZoom(18);
-        console.log(itemMarkers.length);
-      // }
-      // else{
-      //   removeMarkers($scope.map);
-      //   console.log("Remove: " + itemMarkers.length);
-      // }
     }
 
     function putOnMap(map){
       for (var i = 0; i < itemMarkers.length; i++) {
+        console.log(itemMarkers.length);
         itemMarkers[i].setAnimation(google.maps.Animation.DROP);
         itemMarkers[i].setMap(map);
       }
@@ -86,6 +78,8 @@ angular.module('myApp.add_item', ['ngRoute'])
       // Get User Location
       $scope.getCurLoc = function() {
         // Try HTML5 geolocation.
+        // Google geocoder
+        var geocoder = new google.maps.Geocoder;
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -96,15 +90,13 @@ angular.module('myApp.add_item', ['ngRoute'])
                 posLng = pos.lng
                 cordsPos = posLat + ", " + posLng;
 
-                var geocoder = new google.maps.Geocoder;
-
                 var latlngStr = cordsPos.split(',', 2);
                 var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
                 geocoder.geocode({'location': latlng}, function(results, status) {
                   if (status === 'OK') {
                     if (results[1]) {
                       namePos = (results[1].formatted_address);
-                      latlongInput.value = namePos;
+                      locationInput.value = namePos;
                       addMarker(pos);
                     } else {
                       window.alert('No results found');
@@ -115,6 +107,22 @@ angular.module('myApp.add_item', ['ngRoute'])
                 });
             });
           }
+      }
+
+      $scope.checkLoc = function(){
+        // Google geocoder
+        var geocoder = new google.maps.Geocoder;
+       geocoder.geocode({'address': locationInput.value}, function(results, status) {
+         if (status === 'OK') {
+           $scope.map.setCenter(results[0].geometry.location);
+           posLat = results[0].geometry.location.lat();
+           posLng = results[0].geometry.location.lng();
+           cordsPos = posLat + ", " + posLng;
+         } else {
+           alert('Geocode was not successful for the following reason: ' + status);
+         }
+         addMarker(results[0].geometry.location);
+       });
       }
 
     function generateLocation(){
@@ -149,7 +157,8 @@ angular.module('myApp.add_item', ['ngRoute'])
                     "category": $scope.prop.value,
                     "expiration_date": date3,
                     "submission_date": date4,
-                    "location": generateLocation()
+                    // "location": generateLocation()
+                    "location": cordsPos
                 }
             }).then(function mySucces(response) {
                 if (response.data.code == 101) {

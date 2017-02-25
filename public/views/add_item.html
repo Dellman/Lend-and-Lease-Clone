@@ -18,7 +18,8 @@
     <br>
     <label for="itemLoc">Item Location</label>
     <input type="text" name="itemLoc" id="itemLoc" value="Pickup Location" ng-model="item.location">
-    <button ng-click="getCurLoc();">Use Current Location</button>
+    <button ng-click="checkLoc();">Check Input Location</button>
+    <button ng-click="getCurLoc();">Use Precise Current Location</button>
     <br>
     <br>
     <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
