@@ -1,5 +1,4 @@
-<!--
-<form novalidate>
+<!--<form novalidate>
     <label for="itemName">Item Name</label>
     <input type="text" name="itemName" id="itemName" value="Fill in the item Name" ng-model="item.name">
     <br>
@@ -141,10 +140,19 @@
                     <div class="form-group">
                         <div class="col-md-1 col-sm-1"></div>
                         <div class="col-md-10 col-sm-10 col-xs-12">
-                            <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
-                                <ng-map style="height: 400px; width:100%"
-                                        center=current-position" zoom="10"
+                            <br>
+                            <br>
+                            <label for="itemLoc">Item Location</label>
+                            <input type="text" name="itemLoc" id="itemLoc" value="Pickup Location" ng-model="item.location">
+                            <button ng-click="checkLoc();">Check Input Location</button>
+                            <button ng-click="getCurLoc();">Use Precise Current Location</button>
+                            <br>
+                            <br>
+                            <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
+                                <ng-map style="height: 400px; width:700px"
+                                        center="current-position" zoom="10"
                                         default-style="false"
+                                        zoom-to-include-markers="true"
                                         geo-fallback-center="[60, 20]"
                                         geo-callback="vm.callbackFunc('you')"
                                 >
