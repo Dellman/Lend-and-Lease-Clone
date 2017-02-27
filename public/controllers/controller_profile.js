@@ -10,11 +10,11 @@ angular.module('myApp.profile', ['ngRoute'])
         });
     }])
 
-    .controller('controller_profile', ['$scope', '$http', function($scope, $http) {
+    .controller('controller_profile', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
         $scope.user = {};
         $http({
             method : "GET",
-            url : "http://198.211.126.133:3000/profile"
+            url : $rootScope.serverIP + "/profile"
         }).then(function mySucces(response) {
             console.log(response.data);
             $scope.user.fname = response.data.first_name;

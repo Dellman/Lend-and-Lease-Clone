@@ -11,7 +11,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
         });
     }])
 
-    .controller('controller_map', ['$scope', '$http', 'NgMap', function ($scope, $http, NgMap) {
+    .controller('controller_map', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
 
         $scope.vm = {};
         $scope.vm.message = 'You can not hide. :)';
@@ -47,12 +47,12 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
 
         $http({
             method : "GET",
-            url : "http://198.211.126.133:3000/items"
+            url : $rootScope.serverIP + "/items"
         }).then(function mySucces(response) {
             $scope.items = response.data;
             console.log($scope.items);
         }, function myError(response) {
-            alert("Error");
+            //alert("Error");
         });
 
 

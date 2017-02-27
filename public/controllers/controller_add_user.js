@@ -11,7 +11,7 @@ angular.module('myApp.add_user', ['ngRoute'])
         });
     }])
 
-    .controller('controller_add_user', ['$scope', '$http', function ($scope, $http) {
+    .controller('controller_add_user', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
 
         $scope.submit = function () {
 
@@ -20,7 +20,7 @@ angular.module('myApp.add_user', ['ngRoute'])
 
             $http({
                 method: "POST",
-                url: "http://198.211.126.133:3000/register",
+                url: $rootScope.serverIP + "/register",
                 headers: {
                     'Content-Type': "application/json"
                 },

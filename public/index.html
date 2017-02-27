@@ -20,9 +20,13 @@
     <link href="theme/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="theme/nprogress/nprogress.css" rel="stylesheet">
-
+    <!-- Animate.css -->
+    <link href="theme/animate.css/animate.min.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="theme/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="theme/build/css/custom.min.css" rel="stylesheet">
+    <link href="stylesheets/styles.css" rel="stylesheet">
 </head>
 <body class="nav-md">
 <div class="container body">
@@ -41,8 +45,8 @@
                         <img src="theme/images/img.jpg" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
-                        <span>Welcome,</span>
-                        <h2 id="account1">John Doe</h2>
+                        <span>Welcome!</span>
+                        <h2 style="display:none" id="account1">John Doe</h2>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -59,9 +63,9 @@
                                 <ul class="nav child_menu">
                                     <li><a href="#!/addItem">Add Item</a></li>
                                     <li><a href="#!/itemsList">List Items</a></li>
-                                    <li><a href="#!/login">Login</a></li>
+                                    <!--<li><a href="#!/login">Login</a></li>-->
                                     <li><a href="#!/profile">Profile</a></li>
-                                    <li><a href="#!/registerUser">Register</a></li>
+                                    <!--<li><a href="#!/registerUser">Register</a></li>-->
                                     <li><a href="#!/map">Map</a></li>
                                 </ul>
                             </li>
@@ -108,6 +112,8 @@
 
                 <!-- /menu footer buttons -->
                 <div class="sidebar-footer hidden-small">
+                    <a id="logout" style="width:100%;display:none"><i class="fa fa-sign-out"></i> Log Out</span></a>
+                    <!--
                     <a data-toggle="tooltip" data-placement="top" title="Settings">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                     </a>
@@ -119,7 +125,7 @@
                     </a>
                     <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                    </a>
+                    </a>-->
                 </div>
                 <!-- /menu footer buttons -->
             </div>
@@ -134,21 +140,79 @@
                     </div>
 
                     <ul class="nav navbar-nav navbar-right">
+
                         <li class="">
-                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="theme/images/img.jpg" alt=""><span id="account2">John Doe</span>
+                            <a href="#!/login" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <img width="29px" src="user_images/login.png" alt=""><span id="account2">LogIn</span>
+<!--
                                 <span class=" fa fa-angle-down"></span>
+-->
                             </a>
-                            <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;"> Profile</a></li>
+
+                        </li>
+
+                        <li style="display:none" role="presentation" class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="badge bg-green">6</span>
+                            </a>
+                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                                 <li>
-                                    <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
                                     </a>
                                 </li>
-                                <li><a href="javascript:;">Help</a></li>
-                                <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="text-center">
+                                        <a>
+                                            <strong>See All Alerts</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
                             </ul>
                         </li>
 
@@ -167,7 +231,7 @@
 
                     </div>
 
-                    <div class="title_right">
+                    <div class="title_right" id="search_bar">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Search for...">
@@ -205,7 +269,9 @@
 <script src="theme/fastclick/lib/fastclick.js"></script>
 <!-- NProgress -->
 <script src="theme/nprogress/nprogress.js"></script>
-
+<!-- bootstrap-daterangepicker -->
+<script src="theme/moment/min/moment.min.js"></script>
+<script src="theme/bootstrap-daterangepicker/daterangepicker.js"></script>
 <!-- Custom Theme Scripts -->
 <script src="theme/build/js/custom.min.js"></script>
 </body>

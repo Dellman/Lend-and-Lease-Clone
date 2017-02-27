@@ -1,16 +1,104 @@
-<form novalidate>
-    <table>
-        <tr>
-            <td><label for="email">Email</label></td>
-            <td><input id="email" type="text" ng-model="user.email"></td>
-        </tr>
-        <tr>
-            <td><label for="password">Password</label></td>
-            <td><input id="password" type="password" ng-model="user.password"></td>
-        </tr>
-    </table>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <br/>
+                <div class="login">
+                    <div class="login_wrapper">
+                        <section id="s-signin" class="login_content">
+                            <form data-parsley-validate class="form-horizontal form-label-left">
+                                <h1>Login</h1>
+                                <div>
+                                    <input type="text" class="form-control" placeholder="Email" required=""
+                                           ng-model="user.email"/>
+                                </div>
+                                <div>
+                                    <input type="password" class="form-control" placeholder="Password" required=""
+                                           ng-model="user.password"/>
+                                </div>
+                                <a class="btn btn-default submit" ng-click="login()">Sign in</a>
+                                <div class="clearfix"></div>
 
-        <br>
-        <br>
-        <button ng-click="submit()">Log In</button>
-</form>
+                                <div class="separator">
+                                    <p class="change_link">New to our site?
+                                        <a ng-href="javascript:;" ng-click="f()"> Create Account </a>
+                                    </p>
+                                </div>
+
+                            </form>
+                        </section>
+                        <section id="s-signup" class="login_content">
+                            <form data-parsley-validate class="form-horizontal form-label-left">
+                                <h1>Sign up</h1>
+                                <div>
+                                    <input type="text" class="form-control" placeholder="First Name"
+                                           ng-model="user.fname" required=""/>
+                                </div>
+                                <div>
+                                    <input type="text" class="form-control" placeholder="Last Name"
+                                           ng-model="user.lname" required=""/>
+                                </div>
+                                <div>
+
+                                    <span class="left" style="padding-right:5px; padding-top: 6px;">Date of Birth</span>
+                                    <fieldset>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <div class="xdisplay_inputx form-group has-feedback">
+                                                    <input style="padding-left: 50px" type="text"
+                                                           class="form-control has-feedback-left"
+                                                           id="single_cal4" placeholder="DoB"
+                                                           aria-describedby="inputSuccess2Status4"
+                                                           ng-model="user.dob">
+                                                    <span class="fa fa-calendar-o form-control-feedback left"></span>
+                                                    <span id="inputSuccess2Status4" class="sr-only">(success)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+
+                                </div>
+                                <div>
+                                    <input type="email" class="form-control" placeholder="Email" ng-model="user.email"
+                                           required=""/>
+                                </div>
+                                <div>
+                                    <input type="text" class="form-control" placeholder="Phone Number"
+                                           ng-model="user.phone" required=""/>
+                                </div>
+                                <div>
+                                    <input type="password" class="form-control" placeholder="Password"
+                                           ng-model="user.password" required=""/>
+                                </div>
+
+                                <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
+                                    <ng-map style="height: 400px; width:100%"
+                                            center=current-position" zoom="10"
+                                            default-style="false"
+                                            geo-fallback-center="[60, 20]"
+                                            geo-callback="vm.callbackFunc('you')"
+                                    >
+                                    </ng-map>
+                                </div>
+                                <div>
+                                    <a class="btn btn-default submit" href="javascript:;"
+                                       ng-click="signup()">Submit</a>
+                                </div>
+
+                                <div class="clearfix"></div>
+
+                                <div class="separator">
+                                    <p class="change_link">Already a member ?
+                                        <a ng-href="javascript:;" ng-click="f2()"> Sign in </a>
+                                    </p>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

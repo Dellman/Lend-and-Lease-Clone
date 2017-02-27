@@ -11,10 +11,10 @@ angular.module('myApp.items_list', ['ngRoute'])
         });
     }])
 
-    .controller('controller_items_list', ['$scope', '$http', function($scope, $http) {
+    .controller('controller_items_list', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
         $http({
             method : "GET",
-            url : "http://198.211.126.133:3000/items"
+            url : $rootScope.serverIP + "/items"
         }).then(function mySucces(response) {
             console.log(response.data)
             $scope.items = response.data;
