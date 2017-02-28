@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 require('./config/passport')(passport);
+require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -38,8 +39,6 @@ function isLoggedIn(req, res, next){
         return next();
 
       res.redirect('/');
-
-
 }
 
 var response_status = function(code, message){
@@ -49,16 +48,14 @@ var response_status = function(code, message){
 
 /* ***************** SQL SECTION *********************
  ****************************************************** */
-/*var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
+var connection = mysql.createConnection({
+    host : '198.211.126.133',
+    user : 'admin',
     password : 'password',
     database : 'lendandloan'
 });
 
-connection.connect(); */
-
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+connection.connect();
 
 /* ******************END OF WEB APP SECTION ***************************
  ********************************************************************* */

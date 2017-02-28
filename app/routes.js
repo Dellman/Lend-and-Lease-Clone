@@ -36,7 +36,7 @@ module.exports = function(app, passport) {
       });
 
 
-  })
+  });
 /* GAMLA LOGIN HANDLERN */
 /*  app.post('/login', function(req, res){
       console.log("login_page accessed");
@@ -148,7 +148,7 @@ module.exports = function(app, passport) {
    ********************************************************************* */
   app.get('/', function(req, res){
 
-      res.sendFile(public/index.html);
+      res.sendFile('index.html', { root: __dirname + '/../public/'});
 
   });
 
