@@ -9,10 +9,9 @@ var connection = mysql.createConnection({
 				  host     : 'localhost',
 				  user     : 'root',
 				  password : 'password',
-          database : 'lendandloan'
 				});
 
-connection.query('USE vidyawxx_build2');
+connection.query('USE lendandloan');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
