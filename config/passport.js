@@ -24,8 +24,7 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-/* KAN VARA ATT DET VAR USER.ID INNAN */
-    done(null, users.id);
+    done(null, user.id);
     });
 
     // used to deserialize the user
@@ -73,8 +72,8 @@ module.exports = function(passport) {
 				connection.query(insertQuery,function(err,rows){
 				newUserMysql.id = rows.insertId;
 
-				return done(null, newUserMysql);
-				});
+				return done(null, newUserMysql);			
+	});
             }
 		});
     }));
@@ -87,11 +86,13 @@ module.exports = function(passport) {
 
     passport.use('local-login', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
-        passwordField : 'password',
+        email : 'email',
+        password : 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) { // callback with email and password from our form
+	console.log(email);
+	console.log(password);
 
          connection.query("SELECT * FROM `users` WHERE `email` = '" + email + "'",function(err,rows){
 			if (err)
