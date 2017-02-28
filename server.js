@@ -10,8 +10,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-
-
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
@@ -49,15 +47,16 @@ var response_status = function(code, message){
 
 /* ***************** SQL SECTION *********************
  ****************************************************** */
-var connection = mysql.createConnection({
+/*var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
     password : 'password',
     database : 'lendandloan'
 });
 
-connection.connect();
+connection.connect(); */
 
+require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 /* ******************END OF WEB APP SECTION ***************************
  ********************************************************************* */
