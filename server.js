@@ -42,9 +42,6 @@ function isLoggedIn(req, res, next){
 
 }
 
-
-
-
 var response_status = function(code, message){
 	this.code = code;
 	this.message = message;

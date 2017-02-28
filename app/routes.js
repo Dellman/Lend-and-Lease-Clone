@@ -37,8 +37,8 @@ module.exports = function(app, passport) {
 
 
   })
-
-  app.post('/login', function(req, res){
+/* GAMLA LOGIN HANDLERN */
+/*  app.post('/login', function(req, res){
       console.log("login_page accessed");
       var post = {
           email: req.body.email,
@@ -65,7 +65,7 @@ module.exports = function(app, passport) {
 
       });
 
-  });
+  }); */
 
   app.post('/additem', function(req, res){
       console.log("additem_page accessed");
@@ -154,12 +154,16 @@ module.exports = function(app, passport) {
 
 
       // process the signup form
-      app.post('/signup', passport.authenticate('local-signup', {
-          successRedirect : '/profile', // redirect to the secure profile section
-          failureRedirect : '/signup', // redirect back to the signup page if there is an error
-          failureFlash : true // allow flash messages
-      }));
+app.post('/signup', passport.authenticate('local-signup', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+}));
 
-
+app.post('/login', passport.authenticate('local-login', {
+    successRedirect : '/profile', // redirect to the secure profile section
+    failureRedirect : '/login', // redirect back to the signup page if there is an error
+    failureFlash : true // allow flash messages
+}));
 
 }
