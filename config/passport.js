@@ -24,7 +24,8 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-		done(null, user.id);
+/* KAN VARA ATT DET VAR USER.ID INNAN */
+    done(null, users.id);
     });
 
     // used to deserialize the user
