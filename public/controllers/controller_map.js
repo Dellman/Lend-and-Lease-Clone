@@ -11,50 +11,70 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
         });
     }])
 
-    .controller('controller_map', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
+    .controller('controller_map', ['$scope', '$http', 'NgMap', function ($scope, $http, NgMap) {
 
-        $scope.vm = {};
-        $scope.vm.message = 'You can not hide. :)';
+      $scope.vm = {};
         NgMap.getMap().then(function(map) {
-            $scope.vm.map = map;
+         $scope.vm.map = map;
         });
 
+        // $scope.vm.clicked = function() {
+        //  alert('Clicked a link inside infoWindow');
+        // };
 
+        // Convert cords to readable format
+        function geocodeCords(positionObject){
+          var geocoder = new google.maps.Geocoder;
+          var namePos;
+          var posLat = positionObject.position.lat();
+          var posLng = positionObject.position.lng();
+          cordsPos = posLat + ", " + posLng;
 
+          var latlngStr = cordsPos.split(',', 2);
+          var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+          geocoder.geocode({'location': latlng}, function(results, status) {
+            if (status === 'OK') {
+              if (results[1]) {
+                namePos = (results[1].formatted_address);
+                // console.log(this);
+                this.name = namePos;
+                console.log("before:" + this.name);
+              } else {
+                window.alert('No results found');
+              }
+            } else {
+              window.alert('Geocoder failed due to: ' + status);
+            }
+          });
+        }
 
+        $scope.vm.markers = [
+         {id:'foo', name: 'FOO SHOP', category:'Book', subCategory:'Horror', address: '', position:[59.93, 17.92]},
+         {id:'bar', name: 'BAR SHOP', category:'Game', subCategory:'Horror', address: '',  position:[59.89, 17.9]}
+        ];
+        // $scope.vm.marker = $scope.vm.markers[0];
 
+        $scope.vm.showDetail = function(e, marker) {
+          $scope.vm.marker = marker;
+          geocodeCords(this);
+          //  console.log(this.id);
+          console.log("after:" + this.name);
+          $scope.vm.map.showInfoWindow('IW', marker.id);
+        };
 
-
-        $scope.vm.positions1 =[
-            {pos:[59.11, 17.21],name:1}, {pos:[59.22, 17.60],name:2},
-            {pos:[59.33, 17.99],name:3}, {pos:[59.44, 17.88],name:4},
-            {pos:[59.55, 17.77],name:5}, {pos:[59.66, 17.66],name:6}];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // $scope.vm.hideDetail = function() {
+        //  $scope.vm.map.hideInfoWindow('foo-iw');
+        // };
 
         $http({
             method : "GET",
-            url : $rootScope.serverIP + "/items"
+            url : "http://198.211.126.133:3000/items"
         }).then(function mySucces(response) {
             $scope.items = response.data;
-            console.log($scope.items);
+            // console.log($scope.items);
         }, function myError(response) {
-            //alert("Error");
+            alert("Error");
         });
 
 
     }]);
-

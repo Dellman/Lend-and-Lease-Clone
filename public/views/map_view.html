@@ -2,8 +2,24 @@
     <ng-map style="height: 530px"
             center="current-position" zoom="10"
             default-style="false"
-            geo-fallback-center="[60, 20]"
+            geo-fallback-center="[59, 19]"
     >
-        <marker ng-repeat="item in vm.positions1" position="{{item.pos}}"></marker>
+        <!-- <marker ng-repeat="item in vm.positions1" position="{{item.pos}}"></marker> -->
+        <marker id='{{marker.id}}' position="{{marker.position}}"
+        ng-repeat="marker in vm.markers"
+        on-click="vm.showDetail(marker)">
+      </marker>
+
+        <info-window id="IW">
+          <div ng-non-bindable="">
+            Name: {{vm.marker.name}}<br/>
+            Category: {{vm.marker.category}}<br/>
+            Sub Category: {{vm.marker.subCategory}}<br/>
+            Description: {{vm.marker.description}} <br/>
+            Location: {{vm.marker.id}}
+            <!-- Location: {{anchor.getPosition()}}<br/> -->
+        </div>
+      </info-window>
     </ng-map>
+
 </div>
