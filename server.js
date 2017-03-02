@@ -9,6 +9,7 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var cors = require("cors");
 
 require('./config/passport')(passport);
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
@@ -34,13 +35,16 @@ var logged_in_user;
 
 
 function isLoggedIn(req, res, next){
-
       if (req.isAuthenticated())
         return next();
 
       res.redirect('/');
 }
 
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
 var response_status = function(code, message){
 	this.code = code;
 	this.message = message;

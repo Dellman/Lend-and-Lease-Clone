@@ -1,21 +1,17 @@
 module.exports = function(app, passport) {
 
-
   app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
   });
 
-
-
-  app.get('/items', function(req,res){
+  app.get('http://localhost:3000/itemsList', function(req,res){
       console.log("items_page accessed");
       connection.query('SELECT * FROM items', function(error, result, fields){
           res.send(result);
           console.log("connected");
       })
   })
-
 
   app.get('/profile', function(req,res){
       console.log("personal profile accessed");
@@ -34,8 +30,6 @@ module.exports = function(app, passport) {
           }
 
       });
-
-
   });
 /* GAMLA LOGIN HANDLERN */
 /*  app.post('/login', function(req, res){
@@ -68,36 +62,35 @@ module.exports = function(app, passport) {
   }); */
 
   app.post('/additem', function(req, res){
-      console.log("additem_page accessed");
-      var post = {
-          item_name: req.body.item_name,
-          description: req.body.description,
-          category: req.body.category,
-          submission_date: req.body.submission_date,
-          expiration_date: req.body.expiration_date,
-          location: req.body.location
-      };
+        console.log("additem_page accessed");
+        var post = {
+            item_name: req.body.item_name,
+            description: req.body.description,
+            category: req.body.category,
+            submission_date: req.body.submission_date,
+            expiration_date: req.body.expiration_date,
+            location: req.body.location
+          };
 
-
-      var sql = mysql.format("SELECT * FROM items WHERE item_name = ? AND location = ?", [post.item_name, post.location]);
-  	console.log(sql);
-      connection.query(sql, function(err, rows, fields) {
-          if(rows == null || rows.length == 0){
-              console.log(post);
-              connection.query('INSERT INTO items SET ?', post, function(err, result){
-                  if(!err){
-                      res.send(new response_status(102, "success at add item"));
-                      console.log("success");
+        var sql = mysql.format("SELECT * FROM items WHERE item_name = ? AND location = ?", [post.item_name, post.location]);
+  	    console.log(sql);
+        connection.query(sql, function(err, rows, fields) {
+            if(rows == null || rows.length == 0){
+                console.log(post);
+                connection.query('INSERT INTO items SET ?', post, function(err, result){
+                if(!err){
+                        res.send(new response_status(102, "success at add item"));
+                        console.log("success");
                   }
-                  else{
+                else{
                       res.send(new response_status(801, "Failed to add new item"));
                       console.log(err);
                   }
               });
           }
           else{
-              	console.log("ITEM ALREADY EXISTS: " + post.item_name);
-  		res.send(new response_status(802, "Item already added to users items"));
+              	  console.log("ITEM ALREADY EXISTS: " + post.item_name);
+  		            res.send(new response_status(802, "Item already added to users items"));
 
           }
 
@@ -154,16 +147,16 @@ module.exports = function(app, passport) {
 
 
       // process the signup form
-app.post('/signup', passport.authenticate('local-signup', {
+  app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/profile', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
-}));
+  }));
 
-app.post('/login', passport.authenticate('local-login', {
+  app.post('/login', passport.authenticate('local-login', {
     successRedirect : '/profile', // redirect to the secure profile section
     failureRedirect : '/', // redirect back to the homepage if there is an error
     failureFlash : true // allow flash messages
-}));
+  }));
 
 }
