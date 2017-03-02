@@ -1,35 +1,3 @@
-<!--<form novalidate>
-    <label for="itemName">Item Name</label>
-    <input type="text" name="itemName" id="itemName" value="Fill in the item Name" ng-model="item.name">
-    <br>
-    <br>
-    <label for="itemCategory">Category</label>
-    <select id="itemCategory" ng-model="prop.value" ng-options="x for x in prop.values">
-    </select>
-    <br>
-    <br>
-    <label for="itemDesc">Item Desc</label>
-    <textarea rows="4" cols="50"name="itemDesc" id="itemDesc" value="Fill in the item Desc" ng-model="item.desc"></textarea>
-    <br>
-    <br>
-    <label for="expDate">Expiry Date</label>
-    <input type="date" name="expDate" id="ExpDate" value="Fill in the Exp Date" ng-model="item.expDate">
-    <br>
-    <br>
-    <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
-        <ng-map style="height: 400px; width:700px"
-                center=current-position" zoom="10"
-                default-style="false"
-                geo-fallback-center="[60, 20]"
-                geo-callback="vm.callbackFunc('you')"
-        >
-        </ng-map>
-    </div>
-
-    <br>
-    <br>
-    <button ng-click="submit()">Submit</button>
-</form>-->
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
@@ -121,21 +89,27 @@
                         </div>
                     </div>
 
-<!--                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div id="gender" class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-default" data-toggle-class="btn-primary"
-                                       data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="gender" value="male"> &nbsp; Male &nbsp;
-                                </label>
-                                <label class="btn btn-primary" data-toggle-class="btn-primary"
-                                       data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="gender" value="female"> Female
-                                </label>
-                            </div>
-                        </div>
-                    </div>-->
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Type a location</label>
+
+
+                    </div>
+
+                    <!--                    <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                                    <label class="btn btn-default" data-toggle-class="btn-primary"
+                                                           data-toggle-passive-class="btn-default">
+                                                        <input type="radio" name="gender" value="male"> &nbsp; Male &nbsp;
+                                                    </label>
+                                                    <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                           data-toggle-passive-class="btn-default">
+                                                        <input type="radio" name="gender" value="female"> Female
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>-->
 
                     <div class="form-group">
                         <div class="col-md-1 col-sm-1"></div>
@@ -143,12 +117,13 @@
                             <br>
                             <br>
                             <label for="itemLoc">Item Location</label>
-                            <input type="text" name="itemLoc" id="itemLoc" value="Pickup Location" ng-model="item.location">
-                            <button ng-click="checkLoc();">Check Input Location</button>
-                            <button ng-click="getCurLoc();">Use Precise Current Location</button>
+                            <input type="text" name="itemLoc" id="itemLoc" value="Pickup Location"
+                                   ng-model="item.location">
+                            <button type="button" ng-click="checkLoc();">Check Input Location</button>
+                            <button type="button" ng-click="getCurLoc();">Use Precise Current Location</button>
                             <br>
                             <br>
-                            <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
+                            <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
                                 <ng-map style="height: 400px; width:700px"
                                         center="current-position" zoom="10"
                                         default-style="false"
