@@ -1,4 +1,15 @@
 // app/routes.js
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+    host: '198.211.126.133',
+    user: 'admin',
+    password: 'password',
+    database: 'lendandloan'
+});
+
+connection.connect();
+
 module.exports = function(app, passport) {
 
 	// =====================================
@@ -20,10 +31,10 @@ module.exports = function(app, passport) {
 */
 	// process the login form
 	app.post('/login', passport.authenticate('local-login', {
-	successRedirect : '/', // redirect to the secure profile section
-	failureRedirect : '/login', // redirect back to the signup page if there is an error
-	failureFlash : true // allow flash messages
-}));
+			successRedirect : '/profile', // redirect to the secure profile section
+			failureRedirect : '/login', // redirect back to the signup page if there is an error
+			failureFlash : false // allow flash messages
+		}));
 
 	// =====================================
 	// SIGNUP ==============================
@@ -46,11 +57,26 @@ module.exports = function(app, passport) {
 	// =====================================
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
-	app.get('/profile', isLoggedIn, function(req, res) {
-		res.render('profile.ejs', {
-			user : req.user // get the user out of session and pass to template
+		app.get('/profile', isLoggedIn, function(req, res) {
+    /* WE GET THE PACKET OF THE ROW IN THE TABLE WHERE THE USER IN THE SESSION IS STORED */
+			console.log("REQUEST USER " + req.user);
+			/*res.render('profile.ejs', {
+				user : req.user // get the user out of session and pass to template
+			});*/
+
+			var profileQuery = "SELECT * FROM users WHERE user_id = '" + req.user + "'";
+
+		 	connection.query(profileQuery, function (err, result) {
+				if(!err){
+					console.log(result);
+					res.send(result);
+				}
+				else{
+					console.log(err);
+					console.log(result);
+				}
+			});
 		});
-	});
 
 	// =====================================
 	// LOGOUT ==============================

@@ -39,24 +39,30 @@ module.exports = function (passport) {
     // required for persistent login sessions
     // passport needs ability to serialize and unserialize users out of session
 
+
     // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
+      console.log(user);
+        console.log(user.user_id);
+        done(null, user.user_id);
     });
 
-    // used to deserialize the user
-    passport.deserializeUser(function (id, done) {
-
-        connection.query("select * from users where id = " + id, function (err, rows) {
+    // used to deserialize the user WE HAVE TO FIGURE OUT HOW WE IMPLEMENT THIS PROPEPERLY http://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize
+  /*  passport.deserializeUser(function (id, done) {
+      console.log("HELLO FROM deserializeUser");
+        connection.query("select * from users where user_id = " + id, function (err, rows) {
             done(err, rows[0]);
         });
+    }); */
 
-        /*User.findById(id, function(err, user) {
-         done(err, user);
-         });
-         */
+    /*passport.deserializeUser(function(user_id, done) {
+      user.findById(user_id, function(err, user) {
+          done(err, user);
+        });
+    });*/
+    passport.deserializeUser(function(user, done) {
+        done(null, user);
     });
-
     // =========================================================================
     // LOCAL SIGNUP ============================================================
     // =========================================================================
@@ -70,6 +76,7 @@ module.exports = function (passport) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function (req, email, password, done) {
+          console.log(req);
             // asynchronous
             // User.findOne wont fire unless data is sent back
             process.nextTick(function () {
@@ -86,10 +93,27 @@ module.exports = function (passport) {
                         var newUserMysql = new Object();
                         newUserMysql.email = email;
                         newUserMysql.password = generateHash(password);
+                        newUserMysql.first_name = req.body.first_name;
+                        newUserMysql.last_name = req.body.last_name;
+                        newUserMysql.address = req.body.address;
+                        newUserMysql.date_of_birth = req.body.date_of_birth;
+                        newUserMysql.phone = req.body.phone;
 
-                        var insertQuery = "INSERT INTO users ( email, password ) values ('" + newUserMysql.email + "','" + newUserMysql.password + "')";
+                        var insertArray = [
+                          newUserMysql.email,
+                          newUserMysql.password,
+                          newUserMysql.first_name,
+                          newUserMysql.last_name,
+                          newUserMysql.phone,
+                          newUserMysql.date_of_birth,
+                          newUserMysql.address
+                        ]
+
+//                        var insertQuery = "INSERT INTO users ( email, password, first_name, last_name, phone, dob, address ) values ('" + newUserMysql.email + "','" + newUserMysql.password + "')";
+                        var insertQuery = "INSERT INTO users ( email, password, first_name, last_name, phone, dob, address ) values ( ? )";
                         console.log(insertQuery);
-                        connection.query(insertQuery, function (err, rows) {
+                        console.log(insertArray);
+                        connection.query(insertQuery, [insertArray], function (err, rows) {
                             if (err) {
                                 console.log("Insertion failed");
                             }
@@ -126,7 +150,7 @@ module.exports = function (passport) {
 		console.log(queryString);
 
             connection.query(queryString, function (err, rows) {
-		console.log(err);
+              console.log(rows[0].password);
                 if (err)
                     return done(err);
                 if (!rows.length) {
@@ -142,6 +166,8 @@ module.exports = function (passport) {
             });
 
         })
-    )
+    );
+
+
 
 };
