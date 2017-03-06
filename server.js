@@ -55,9 +55,7 @@ require('./config/passport')(passport); // pass passport for configuration
 // set up our express application
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser()); // get information from html forms
-app.use(bodyParser.urlencoded({
-	extended: true
-}));
+
 app.use(cookieParser()); // read cookies (needed for auth)
 
 app.set('view engine', 'ejs'); // set up ejs for templating
