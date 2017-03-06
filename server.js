@@ -1,75 +1,78 @@
-var express = require('express');
-var mysql = require('mysql');
-var path = require('path');
-var bodyParser = require('body-parser');
-var app = express();
-var passport = require('passport');
-var flash = require('connect-flash');
-var morgan = require('morgan');
+// server.js
+
+// set up ======================================================================
+// get all the tools we need
+var express  = require('express');
+var session  = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
-var cors = require("cors");
+var morgan = require('morgan');
+var path = require('path');
+var mongoose = require('mongoose');
+var mysql      = require('mysql');
 
-require('./config/passport')(passport);
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+var app      = express();
+// var port     = process.env.PORT || 8080;
+var port = 3000;
+var passport = require('passport');
+var flash    = require('connect-flash');
+var bodyParser = require('body-parser');
 
-app.use(morgan('dev'));
-app.use(cookieParser());
-app.set('view engine', 'ejs');
-app.use(session({ secret: 'adebisi'}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
+var connection = mysql.createConnection({
+  host     : '198.211.126.133',
+  user     : 'admin',
+  password : 'password',
+  database : 'lendandloan'
+});
 
+connection.connect();
+
+
+/*
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+*/
+/*
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, content-type, www-authenticate");
+  next();
+});*/
+
+
+// configuration ===============================================================
+// connect to our database
+
+require('./config/passport')(passport); // pass passport for configuration
+
+
+
+// set up our express application
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-var logged_in_user;
-
-
-function isLoggedIn(req, res, next){
-      if (req.isAuthenticated())
-        return next();
-
-      res.redirect('/');
-}
-
-app.use(cors({
-    origin: true,
-    credentials: true
+app.use(bodyParser()); // get information from html forms
+app.use(bodyParser.urlencoded({
+	extended: true
 }));
-var response_status = function(code, message){
-	this.code = code;
-	this.message = message;
-}
+app.use(cookieParser()); // read cookies (needed for auth)
 
-/* ***************** SQL SECTION *********************
- ****************************************************** */
-var connection = mysql.createConnection({
-    host : '198.211.126.133',
-    user : 'admin',
-    password : 'password',
-    database : 'lendandloan'
-});
+app.set('view engine', 'ejs'); // set up ejs for templating
+// set up our express application
+app.use(morgan('dev')); // log every request to the console
 
-connection.connect();
+// required for passport
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
-/* ******************END OF WEB APP SECTION ***************************
- ********************************************************************* */
+// routes ======================================================================
+require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
-/* *********************** SERVER INIT ******************************** */
-app.listen(3000, function () {
-    console.log(`+----------------------+-------------+--------------+-----------------------------------------------+
-| Lend and Loan Server | Port : 3000 | Version: 0.1 | http://github.com/vuxnamannen/lendandloan.app |
-+----------------------+-------------+--------------+-----------------------------------------------+`);
-})
-
-/* ******************* END OF SERVER INIT ********************************
- ************************************************************************ */
+// launch ======================================================================
+app.listen(port);
+console.log('The magic happens on port ' + port);
