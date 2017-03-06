@@ -120,7 +120,14 @@ module.exports = function (passport) {
 
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            connection.query("SELECT * FROM users WHERE email = '" + email + "'", function (err, rows) {
+		console.log(email);
+
+		var queryString = "SELECT * FROM users WHERE email = '" + email + "'";
+
+		console.log(queryString);
+
+            connection.query(queryString, function (err, rows) {
+		console.log(err);
                 if (err)
                     return done(err);
                 if (!rows.length) {
