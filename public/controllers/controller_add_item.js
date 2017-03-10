@@ -201,32 +201,20 @@ angular.module('myApp.add_item', ['ngRoute'])
        });
       }
 
-    function generateLocation(){
-
-        var locE = 17.4 + Math.random() * 0.4 //17.4 to 17.8
-        var locN = 59.6 + Math.random() * 0.4 //59.6 to 60
-        return {pos:[40.11, -75.21],name:1}
-        //{lat: 59.6, lng: 17.4}//"(" + locN + ", " + locE + ")";
-    }
-
 
         $scope.submit = function () {
-/*            alert("Name: " + $scope.item.name +
+            console.log(
+/*                "Name: " + $scope.item.name +
                 ", desc: " + $scope.item.desc +
                 ", cat: " + $scope.mainCategories.value +
                 ", subCat: " + $scope.subCategories.value +
                 ", start date: " + $("#reportrange_right").data('daterangepicker').startDate.format('YYYY-MM-DD') +
                 ", end date: " + $("#reportrange_right").data('daterangepicker').endDate.format('YYYY-MM-DD') +
-                ", submission date: " + new Date());*/
-            /*
-             To use the temporary server POST request, we need 2 things:
-             1- Add the content-type: application/json header to the request
-             2- Send in the body, the data as JSON object
-             Also, the JSON file has to contain an array called items that has objects with name, desc, category keys
-             */
-            // var date1 = $scope.item.expDate;
-            var date2 = new Date();
-            // var date3 = date1.getFullYear() + '-' + date1.getMonth() + '-' + date1.getDate();
+                ", submission date: " + new Date()*/
+                "Location: " + cordsPos
+            );
+
+ /*           var date2 = new Date();
             var date4 = date2.getFullYear() + '-' + date2.getMonth() + '-' + date2.getDate();
 
             $http({
@@ -242,7 +230,6 @@ angular.module('myApp.add_item', ['ngRoute'])
                     "start_date": $("#reportrange_right").data('daterangepicker').startDate.format('YYYY-MM-DD'),
                     "end_date": $("#reportrange_right").data('daterangepicker').endDate.format('YYYY-MM-DD'),
                     "submission_date": date4,
-                    // "location": generateLocation()
                     "location": cordsPos
                 }
             }).then(function mySucces(response) {
@@ -255,7 +242,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             }, function myError(response) {
 
                 alert("Error, response is: " + response.data);
-            });
+            });*/
 
         };
 
