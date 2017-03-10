@@ -89,53 +89,35 @@ angular.module('myApp.add_item', ['ngRoute'])
         }
         //----------------------------------
 
-
         $scope.vm = {};
-        NgMap.getMap().then(function(map) {
+        NgMap.getMap({id:'addItemMap'}).then(function(map) {
             $scope.vm.map = map;
             //setupListener($scope.map, 'click');
         });
 
-/*        $scope.prop = {
-            "type": "select",
-            "name": "Service",
-            "value": "Books",
-            "values": ['Books', 'Tools', 'Games', 'Others']
-        };*/
+    // Global variables
+    var locationInput = document.getElementById('itemLoc');
+    var posLat;
+    var posLng;
+    var cordsPos;
+    var namePos;
+    var itemMarkers = [];
 
-/*
-        function setupListener(map, name) {
-            google.maps.event.addListener(map, name, function() {
-                alert("I love you!" + map.get)
-            });
-        }
-*/
-
-      // Global variables
-      var locationInput = document.getElementById('itemLoc');
-      var posLat;
-      var posLng;
-      var cordsPos;
-      var namePos;
-      var itemMarkers = [];
-
-      function addMarker(location){
-        var marker = new google.maps.Marker({
-          position: location,
-          map: $scope.map
-        });
-      // Remove old marker(s) and add one and then zoom in
-        console.log(itemMarkers.length);
-        removeMarkers($scope.map);
-        itemMarkers.push(marker);
-        putOnMap($scope.map);
-        $scope.map.setCenter(location);
-        $scope.map.setZoom(18);
+    function addMarker(location){
+      var marker = new google.maps.Marker({
+        position: location,
+        map: $scope.map
+      });
+    // Remove old marker(s) and add one and then zoom in
+      removeMarkers($scope.map);
+      itemMarkers.push(marker);
+      putOnMap($scope.map);
+      $scope.map.setCenter(location);
+      $scope.map.setZoom(18);
     }
 
     function putOnMap(map){
       for (var i = 0; i < itemMarkers.length; i++) {
-        console.log(itemMarkers.length);
         itemMarkers[i].setAnimation(google.maps.Animation.DROP);
         itemMarkers[i].setMap(map);
       }
@@ -150,44 +132,46 @@ angular.module('myApp.add_item', ['ngRoute'])
       itemMarkers.length = 0;
     }
 
-
-      // Get User Location
-      $scope.getCurLoc = function() {
-        // Try HTML5 geolocation.
-        // Google geocoder
+      // Convert cords to readable format
+      function geocodeCords(positionObject){
         var geocoder = new google.maps.Geocoder;
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-                posLat = pos.lat;
-                posLng = pos.lng
-                cordsPos = posLat + ", " + posLng;
-
-                var latlngStr = cordsPos.split(',', 2);
-                var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-                geocoder.geocode({'location': latlng}, function(results, status) {
-                  if (status === 'OK') {
-                    if (results[1]) {
-                      namePos = (results[1].formatted_address);
-                      locationInput.value = namePos;
-                      addMarker(pos);
-                    } else {
-                      window.alert('No results found');
-                    }
-                  } else {
-                    window.alert('Geocoder failed due to: ' + status);
-                  }
-                });
-            });
+        posLat = positionObject.lat;
+        posLng = positionObject.lng;
+        cordsPos = posLat + ", " + posLng;
+        var latlngStr = cordsPos.split(',', 2);
+        var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+        geocoder.geocode({'location': latlng}, function(results, status) {
+          if (status === 'OK') {
+            if (results[1]) {
+              namePos = (results[1].formatted_address);
+              locationInput.value = namePos;
+              addMarker(positionObject);
+            } else {
+              window.alert('No results found');
+            }
+          } else {
+            window.alert('Geocoder failed due to: ' + status);
           }
+        });
       }
+
+    // Get User Location
+    $scope.getCurLoc = function() {
+      // Try HTML5 geolocation.
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          geocodeCords(pos);
+        });
+      }
+    }
 
       $scope.checkLoc = function(){
         // Google geocoder
-        var geocoder = new google.maps.Geocoder;
+        // var geocoder = new google.maps.Geocoder;
        geocoder.geocode({'address': locationInput.value}, function(results, status) {
          if (status === 'OK') {
            $scope.map.setCenter(results[0].geometry.location);
@@ -200,7 +184,6 @@ angular.module('myApp.add_item', ['ngRoute'])
          addMarker(results[0].geometry.location);
        });
       }
-
 
         $scope.submit = function () {
             console.log(

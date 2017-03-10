@@ -1,22 +1,22 @@
 <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
-    <ng-map style="height: 530px"
+    <ng-map id="mapViewMap" style="height: 530px"
             center="current-position" zoom="10"
             default-style="false"
             geo-fallback-center="[59, 19]"
     >
         <!-- <marker ng-repeat="item in vm.positions1" position="{{item.pos}}"></marker> -->
         <marker id='{{marker.id}}' position="{{marker.position}}"
-        ng-repeat="marker in vm.markers"
-        on-click="vm.showDetail(marker)">
-      </marker>
+          ng-repeat="marker in vm.mapMarkers"
+          on-click="vm.showDetail(marker)">
+        </marker>
 
-        <info-window id="IW">
+        <info-window id="mapPageIW">
           <div ng-non-bindable="">
             Name: {{vm.marker.name}}<br/>
             Category: {{vm.marker.category}}<br/>
             Sub Category: {{vm.marker.subCategory}}<br/>
             Description: {{vm.marker.description}} <br/>
-            Location: {{vm.marker.id}}
+            Location: {{vm.marker.address}}
             <!-- Location: {{anchor.getPosition()}}<br/> -->
         </div>
       </info-window>

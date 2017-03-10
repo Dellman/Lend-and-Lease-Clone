@@ -64,7 +64,7 @@ angular.module('myApp.login', ['ngRoute'])
                 method: "POST",
                 url: $rootScope.serverIP + "/login",
                 headers: {
-                    'Content-Type': "application/json"
+                'Content-Type' : 'application/json'
                 },
                 data: {
                     "email": $scope.user.email,
@@ -93,7 +93,8 @@ angular.module('myApp.login', ['ngRoute'])
                 method: "POST",
                 url: $rootScope.serverIP + "/register",
                 headers: {
-                    'Content-Type': "application/json"
+                    'Content-Type': "application/json",
+                    'WWW-Authenticate': ""
                 },
                 data: {
                     "last_name": $scope.user.lname,

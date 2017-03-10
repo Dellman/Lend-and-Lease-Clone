@@ -61,7 +61,6 @@
                         </div>
                     </div>
 
-
                     <div class="form-group">
 
                         <label for="item-description" class="control-label col-md-3 col-sm-3 col-xs-12">Message (20
@@ -90,6 +89,8 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Type a location</label>
+                    </div>
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Type the item location</label>
                         <div class="col-md-6">
                             <div class="input-group">
@@ -121,13 +122,14 @@
                             <br>
                             <br>
                             <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
-                                <ng-map style="height: 400px; width:700px"
+                                <ng-map id="addItemMap" style="height: 400px; width:700px"
                                         center="current-position" zoom="10"
                                         default-style="false"
                                         zoom-to-include-markers="true"
                                         geo-fallback-center="[60, 20]"
                                         geo-callback="vm.callbackFunc('you')"
                                 >
+                                  <!-- <marker position={{marker.pos}}></marker> -->
                                 </ng-map>
                             </div>
                         </div>

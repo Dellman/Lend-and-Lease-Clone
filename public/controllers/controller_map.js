@@ -14,13 +14,9 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
     .controller('controller_map', ['$scope', '$http', 'NgMap', function ($scope, $http, NgMap) {
 
       $scope.vm = {};
-        NgMap.getMap().then(function(map) {
+        NgMap.getMap({id: 'mapViewMap'}).then(function(map) {
          $scope.vm.map = map;
         });
-
-        // $scope.vm.clicked = function() {
-        //  alert('Clicked a link inside infoWindow');
-        // };
 
         // Convert cords to readable format
         function geocodeCords(positionObject){
@@ -37,8 +33,8 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
               if (results[1]) {
                 namePos = (results[1].formatted_address);
                 // console.log(this);
-                this.name = namePos;
-                console.log("before:" + this.name);
+                this.address = namePos;
+                // console.log("before:" + this.name);
               } else {
                 window.alert('No results found');
               }
@@ -48,18 +44,22 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
           });
         }
 
-        $scope.vm.markers = [
+        $scope.vm.mapMarkers = [
          {id:'foo', name: 'FOO SHOP', category:'Book', subCategory:'Horror', address: '', position:[59.93, 17.92]},
          {id:'bar', name: 'BAR SHOP', category:'Game', subCategory:'Horror', address: '',  position:[59.89, 17.9]}
         ];
-        // $scope.vm.marker = $scope.vm.markers[0];
+        // $scope.vm.marker = $scope.vm.mapMarkers[0];
+
+        // console.log(itemMarkers);
 
         $scope.vm.showDetail = function(e, marker) {
           $scope.vm.marker = marker;
+          // console.log(marker.id);
+          // console.log(this);
           geocodeCords(this);
           //  console.log(this.id);
-          console.log("after:" + this.name);
-          $scope.vm.map.showInfoWindow('IW', marker.id);
+          // console.log("after:" + this.name);
+          $scope.vm.map.showInfoWindow('mapPageIW', marker.id);
         };
 
         // $scope.vm.hideDetail = function() {
