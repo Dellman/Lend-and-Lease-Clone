@@ -40,11 +40,6 @@ module.exports = function(app, passport) {
     // SIGNUP ==============================
     // =====================================
     // show the signup form
-	/*app.get('/signup', function(req, res) {
-		// render the page and pass in any flash data if it exists
-		res.render('signup.ejs', { message: req.flash('signupMessage') });
-	});*/
-
 	// process the signup form
 	app.post('/register', passport.authenticate('local-signup', {
 		successRedirect : '/', // redirect to the secure profile section
@@ -58,13 +53,8 @@ module.exports = function(app, passport) {
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 		app.get('/profile', isLoggedIn, function(req, res) {
-    /* WE GET THE PACKET OF THE ROW IN THE TABLE WHERE THE USER IN THE SESSION IS STORED
 
-		TODO: IMPLEMENT SESSIONS FOR MULTIPLE USERS */
 			console.log("REQUEST USER " + req.user);
-			/*res.render('profile.ejs', {
-				user : req.user // get the user out of session and pass to template
-			});*/
 
 			var profileQuery = "SELECT * FROM users WHERE user_id = '" + req.user + "'";
 
@@ -87,10 +77,6 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.redirect('/');
 	});
-
-	 // render the page and pass in any flash data if it exists
-	 res.render('signup.ejs', { message: req.flash('signupMessage') });
-	 });*/
 
     // process the signup form
     app.post('/register', passport.authenticate('local-signup', {
@@ -130,15 +116,18 @@ module.exports = function(app, passport) {
     // =====================================
     // LOGOUT ==============================
     // =====================================
-    app.get('/logout', function(req, res) {
+ 
+app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
     });
 
-app.get('/addItem', function(err, result){
-  console.log(req.user);
+app.get('/addItem', function(req, res) {
+	res.send(req.user);
+	console.log(req.user);
 
 });
+
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
@@ -149,4 +138,6 @@ function isLoggedIn(req, res, next) {
 
     // if they aren't redirect them to the home page
     res.redirect('/');
+}
+
 }
