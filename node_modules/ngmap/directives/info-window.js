@@ -2,7 +2,7 @@
  * @ngdoc directive
  * @name info-window
  * @param Attr2MapOptions {service}
- *   convert html attribute to Gogole map api options
+ *   convert html attribute to Google map api options
  * @param $compile {service} $compile service
  * @description
  *  Defines infoWindow and provides compile method
@@ -154,14 +154,15 @@
           var marker = typeof p1 == 'string' ? p2 : p3;
           if (typeof marker == 'string') {
             //Check if markers if defined to avoid odd 'undefined' errors
-            if (typeof mapController.map.markers != "undefined"
-                && typeof mapController.map.markers[marker] != "undefined") {
-              marker = mapController.map.markers[marker];
+            if (
+              typeof mapController.map.markers != "undefined"
+              && typeof mapController.map.markers[marker] != "undefined") {
+                marker = mapController.map.markers[marker];
             } else if (
-                //additionally check if that marker is a custom marker
-            typeof mapController.map.customMarkers
-            && typeof mapController.map.customMarkers[marker] != "undefined") {
-              marker = mapController.map.customMarkers[marker];
+              //additionally check if that marker is a custom marker
+              typeof mapController.map.customMarkers !== "undefined"
+              && typeof mapController.map.customMarkers[marker] !== "undefined") {
+                marker = mapController.map.customMarkers[marker];
             } else {
               //Better error output if marker with that id is not defined
               throw new Error("Cant open info window for id " + marker + ". Marker or CustomMarker is not defined")

@@ -2,7 +2,7 @@
  * @ngdoc directive
  * @name map-data
  * @param Attr2MapOptions {service}
- *   convert html attribute to Gogole map api options
+ *   convert html attribute to Google map api options
  * @description
  *   set map data
  *   Requires:  map directive
@@ -26,13 +26,14 @@
       restrict: 'E',
       require: ['?^map','?^ngMap'],
 
-      link: function(scope, element, attrs) {
+      link: function(scope, element, attrs, mapController) {
+        mapController = mapController[0] || mapController[1];
         var filtered = parser.filter(attrs);
         var options = parser.getOptions(filtered, {scope: scope});
         var events = parser.getEvents(scope, filtered, events);
 
         console.log('map-data options', options);
-        NgMap.getMap().then(function(map) {
+        NgMap.getMap(mapController.map.id).then(function(map) {
           //options
           for (var key in options) {
             var val = options[key];
