@@ -12,7 +12,6 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
     }])
 
     .controller('controller_map', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
-
         $http({
             method: "GET",
             url: $rootScope.serverIP + "/items",
@@ -25,7 +24,6 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
         }, function myError(response) {
             console.log("Error");
         });
-
 
         NgMap.getMap({id: 'mapViewMap'}).then(function (map) {
             $scope.map = map;
