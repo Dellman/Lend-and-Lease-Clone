@@ -12,7 +12,7 @@ angular.module('myApp.add_item', ['ngRoute'])
 
     .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
 
-        $("#search_bar").hide();
+        var categories = ['Books', 'Electronics', 'Games', 'Tools'];
 
         //Date Picker
         var start = moment();//.subtract(29, 'days');
@@ -60,7 +60,6 @@ angular.module('myApp.add_item', ['ngRoute'])
         }).then(function mySucces(response) {
             var allcats = response.data;
 
-            var categories = ['Books', 'Electronics', 'Games', 'Tools'];
             for (var j = 0; j < allcats.length; j++) {
                 $scope.subCategories.values[categories[j]] = [];
                 $scope.subCategories.values[categories[j]].push('Choose One')
@@ -242,9 +241,11 @@ angular.module('myApp.add_item', ['ngRoute'])
                 data.author =  $scope.book.author;
                 data.ISBN = $scope.book.isbn;
                 data.book_category_id = $scope.subCategories.value;
-                data.date_published = date4;
+                data.date_published = $scope.book.year;
             }
+
             console.log(data)
+
             $http({
                 method: "POST",
                 url: $rootScope.serverIP + "/additem",
