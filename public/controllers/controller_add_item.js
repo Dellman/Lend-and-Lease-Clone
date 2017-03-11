@@ -53,7 +53,8 @@ angular.module('myApp.add_item', ['ngRoute'])
                 'Content-Type': "application/json"
             }
         }).then(function mySucces(response) {
-            console.log(response)
+          console.log(response);
+            console.log(response.data)
            /* if (response.data.code == 101) {
                 alert("Success, response is: " + response.data.message);
             }

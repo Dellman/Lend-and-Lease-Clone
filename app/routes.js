@@ -131,46 +131,41 @@ app.get('/subCategories', isLoggedIn, function(req, res) {
   connection.query(book_categories, function (err, result){
       if(!err){
         subCategories.push(result);
-        console.log(result);
-      }
-      else{
-        console.log(err);
-        console.log(result);
-      }
-  });
-  connection.query(electronic_categories, function (err, result){
-      if(!err){
-        subCategories.push(result);
-        console.log(result);
-      }
-      else{
-        console.log(err);
-        console.log(result);
-      }
-  });
-  connection.query(game_categories, function (err, result){
-      if(!err){
-        subCategories.push(result);
-        console.log(result);
-      }
-      else{
-        console.log(err);
-        console.log(result);
-      }
-  });
-  connection.query(tool_categories, function (err, result){
-      if(!err){
-        subCategories.push(result);
-        console.log(result);
-      }
-      else{
-        console.log(err);
-        console.log(result);
-      }
-  });
 
-  res.send(subCategories);
+            connection.query(electronic_categories, function (err, result){
+                if(!err){
+                  subCategories.push(result);
 
+                          connection.query(game_categories, function (err, result){
+                              if(!err){
+                                subCategories.push(result);
+
+                                        connection.query(tool_categories, function (err, result){
+                                            if(!err){
+                                              subCategories.push(result);
+                                              console.log(subCategories);
+                                              res.send(subCategories);
+
+                                            }
+                                            else{
+                                              console.log(err);
+                                            }
+                                        });
+                              }
+                              else{
+                                console.log(err);
+                              }
+                          });
+                }
+                else{
+                  console.log(err);
+                }
+            });
+      }
+      else{
+        console.log(err);
+      }
+  });
 });
 
 
