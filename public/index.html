@@ -5,6 +5,7 @@
     <title>Lend and Lease</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script src="https://googlemaps.github.io/js-marker-clusterer/src/markerclusterer.js"></script>
     <script src="app.js"></script>
     <script src="controllers/controller_add_item.js"></script>
     <script src="controllers/controller_items_list.js"></script>
@@ -214,10 +215,10 @@
                     <div class="title_right" id="search_bar">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search for...">
-                                <span class="input-group-btn">
+                                <input ng-model="userSearch" type="text" class="form-control" placeholder="Search for...">
+                                <!-- <span class="input-group-btn">
                       <button class="btn btn-default" type="button">Go!</button>
-                    </span>
+                    </span> -->
                             </div>
                         </div>
                     </div>

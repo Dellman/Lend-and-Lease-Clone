@@ -13,25 +13,24 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
 
     .controller('controller_map', ['$scope', '$http', 'NgMap', function ($scope, $http, NgMap) {
 
-      $scope.vm = {};
         NgMap.getMap({id: 'mapViewMap'}).then(function(map) {
-         $scope.vm.map = map;
+         $scope.map = map;
         });
 
         // Convert cords to readable format
-        function geocodeCords(positionObject){
+        function geocodeCords(item){
           var geocoder = new google.maps.Geocoder;
           var namePos;
-          var posLat = positionObject.position.lat();
-          var posLng = positionObject.position.lng();
+          var posLat = item.position.lat();
+          var posLng = item.position.lng();
 
           var latlng = {lat: parseFloat(posLat), lng: parseFloat(posLng)};
           geocoder.geocode({'location': latlng}, function(results, status) {
             if (status === 'OK') {
               if (results[1]) {
                 namePos = (results[1].formatted_address);
-                // console.log(this);
-                this.address = namePos;
+                item.id = namePos;
+                console.log(item);
               } else {
                 window.alert('No results found');
               }
@@ -41,16 +40,16 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
           });
         }
         // Store all markers
-        $scope.vm.mapMarkers = [
+        $scope.mapMarkers = [
          {id:'foo', name: 'FOO SHOP', category:'Book', subCategory:'Horror', position:[59.93, 17.92], address: ''},
          {id:'bar', name: 'BAR SHOP', category:'Game', subCategory:'Horror',  position:[59.89, 17.9], address: ''}
         ];
-        var markersArray = $scope.vm.mapMarkers;
+        var markersArray = $scope.mapMarkers;
 
-        $scope.vm.showDetail = function(e, marker) {
-          $scope.vm.marker = marker;
-          // geocodeCords(this);
-          $scope.vm.map.showInfoWindow('mapPageIW', marker.id);
+        $scope.showDetail = function(e, marker) {
+          $scope.marker = marker;
+          geocodeCords(this);
+          $scope.map.showInfoWindow('mapPageIW', marker.id);
         };
 
         $http({
@@ -58,7 +57,6 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
             url : "http://198.211.126.133:3000/items"
         }).then(function mySucces(response) {
             $scope.items = response.data;
-            // console.log($scope.items);
         }, function myError(response) {
             alert("Error");
         });
