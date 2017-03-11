@@ -90,7 +90,7 @@
 
                     <div id="booksDiv" ng-show="categoriesViews.Books">
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-name">Author <span
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-author">Author <span
                                     class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-name">ISBN <span
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-ISBN">ISBN <span
                                     class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -108,7 +108,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-name">Date Published
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-dob">Date Published
                                 <span
                                         class="required">*</span>
                             </label>
@@ -151,6 +151,40 @@
                                         ng-options="x for x in ouOptions.values"
                                         ng-model="ouOptions.value">
                                 </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="gamesDiv" ng-show="categoriesViews.Games">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gs">Game Studio <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="gs" required="required"
+                                       class="form-control col-md-7 col-xs-12" ng-model="games.studio">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gp">Platform <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="gp" required="required"
+                                       class="form-control col-md-7 col-xs-12" ng-model="games.platform">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="games-year">Date Released
+                                <span
+                                        class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="games-year" required="required"
+                                       class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
 

@@ -207,18 +207,6 @@ angular.module('myApp.add_item', ['ngRoute'])
         }
 
         $scope.submit = function () {
-            console.log(
-                /*                "Name: " + $scope.item.name +
-                 ", desc: " + $scope.item.desc +
-                 ", cat: " + $scope.mainCategories.value +
-                 ", subCat: " + $scope.subCategories.value +
-                 ", start date: " + $("#reportrange_right").data('daterangepicker').startDate.format('YYYY-MM-DD') +
-                 ", end date: " + $("#reportrange_right").data('daterangepicker').endDate.format('YYYY-MM-DD') +
-                 ", submission date: " + new Date()*/
-                // "Location: " + cordsPos
-            );
-            console.log(cordsPos);
-            console.log(locationInput.value);
 
             var date2 = new Date();
             var date4 = date2.getFullYear() + '-' + date2.getMonth() + '-' + date2.getDate();
@@ -240,8 +228,18 @@ angular.module('myApp.add_item', ['ngRoute'])
             }
             else if ($scope.mainCategories.value == "Electronics"){
                 data.battery = $scope.batteryOptions.value;
+                data.electronics_id = $scope.subCategories.value;
                 data.brand = $scope.elec.brand;
                 data.outside_use = $scope.ouOptions.value;
+            }
+            else if($scope.mainCategories.value == "Games"){
+                data.gamestudio = $scope.games.studio;
+                data.date_released = $scope.games.year;
+                data.platform = $scope.games.platform;
+                data.game_category_id = $scope.subCategories.value;
+            }
+            else if ($scope.mainCategories.value == "Tools"){
+                data.tool_category_id = $scope.subCategories.value;
             }
 
             console.log(data)
