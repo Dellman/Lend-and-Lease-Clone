@@ -18,19 +18,19 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
         });
 
         // Convert cords to readable format
-        function geocodeCords(item){
+        function geocodeCords(positionObject){
           var geocoder = new google.maps.Geocoder;
           var namePos;
-          var posLat = item.position.lat();
-          var posLng = item.position.lng();
+          var posLat = positionObject.position.lat();
+          var posLng = positionObject.position.lng();
 
           var latlng = {lat: parseFloat(posLat), lng: parseFloat(posLng)};
           geocoder.geocode({'location': latlng}, function(results, status) {
             if (status === 'OK') {
               if (results[1]) {
                 namePos = (results[1].formatted_address);
-                item.id = namePos;
-                console.log(item);
+                // console.log(this);
+                this.address = namePos;
               } else {
                 window.alert('No results found');
               }
@@ -40,15 +40,14 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
           });
         }
         // Store all markers
-        $scope.mapMarkers = [
+        $scope.itemMarkers = [
          {id:'foo', name: 'FOO SHOP', category:'Book', subCategory:'Horror', position:[59.93, 17.92], address: ''},
          {id:'bar', name: 'BAR SHOP', category:'Game', subCategory:'Horror',  position:[59.89, 17.9], address: ''}
         ];
-        var markersArray = $scope.mapMarkers;
 
         $scope.showDetail = function(e, marker) {
           $scope.marker = marker;
-          geocodeCords(this);
+          // geocodeCords(this);
           $scope.map.showInfoWindow('mapPageIW', marker.id);
         };
 
@@ -57,6 +56,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
             url : "http://198.211.126.133:3000/items"
         }).then(function mySucces(response) {
             $scope.items = response.data;
+            // console.log($scope.items);
         }, function myError(response) {
             alert("Error");
         });

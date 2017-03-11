@@ -1,5 +1,3 @@
-<!-- <input type="text" placeholder="Search" ng-model="userSearch"> -->
-
 <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
     <ng-map id="mapViewMap" style="height: 530px"
             center="current-position" zoom="10"
@@ -7,18 +5,17 @@
             geo-fallback-center="[59, 19]"
     >
         <marker id='{{marker.id}}' position="{{marker.position}}"
-          ng-repeat="marker in mapMarkers | filter: userSearch"
+          ng-repeat="marker in itemMarkers | filter: userSearch"
           on-click="showDetail(marker)"
         ></marker>
 
         <info-window id="mapPageIW">
-          <div ng-non-bindable="">
-            Name: {{marker.name}}<br/>
-            Category: {{marker.category}}<br/>
-            Sub Category: {{marker.subCategory}}<br/>
-            Description: {{marker.description}} <br/>
+          <div ng-non-bindable>
+            <h5>Name: {{marker.name}}</h5>
+            <h6>Category: {{marker.category}}</h6>
+            <h6>Sub Category: {{marker.subCategory}}</h6>
+            <p>Description: {{marker.description}}</p>
             Location: {{marker.address}}
-            <!-- Location: {{anchor.getPosition()}}<br/> -->
         </div>
       </info-window>
     </ng-map>
