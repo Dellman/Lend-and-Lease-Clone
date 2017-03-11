@@ -122,9 +122,54 @@ app.get('/logout', function(req, res) {
         res.redirect('/');
     });
 
-app.get('/addItem', function(req, res) {
-	res.send(req.user);
-	console.log("addItem user " + req.user);
+app.get('/subCategories', isLoggedIn, function(req, res) {
+  var subCategories = [];
+  var book_categories = "SELECT book_category_name FROM book_categories";
+  var electronic_categories = "SELECT electronic_category_name FROM electronic_categories";
+  var game_categories = "SELECT game_category_name FROM game_categories";
+  var tool_categories = "SElECT tool_category_name FROM tool_categories";
+  connection.query(book_categories, function (err, result){
+      if(!err){
+        subCategories.push(result);
+        console.log(result);
+      }
+      else{
+        console.log(err);
+        console.log(result);
+      }
+  });
+  connection.query(electronic_categories, function (err, result){
+      if(!err){
+        subCategories.push(result);
+        console.log(result);
+      }
+      else{
+        console.log(err);
+        console.log(result);
+      }
+  });
+  connection.query(game_categories, function (err, result){
+      if(!err){
+        subCategories.push(result);
+        console.log(result);
+      }
+      else{
+        console.log(err);
+        console.log(result);
+      }
+  });
+  connection.query(tool_categories, function (err, result){
+      if(!err){
+        subCategories.push(result);
+        console.log(result);
+      }
+      else{
+        console.log(err);
+        console.log(result);
+      }
+  });
+
+  res.send(subCategories);
 
 });
 
