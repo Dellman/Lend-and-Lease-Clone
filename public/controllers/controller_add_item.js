@@ -14,6 +14,27 @@ angular.module('myApp.add_item', ['ngRoute'])
 
         var categories = ['Books', 'Electronics', 'Games', 'Tools'];
 
+        $scope.mainCategories = {
+            "type": "select",
+            "name": "Service",
+            "value": "Choose One",
+            "values": ["Choose One"]
+        };
+
+        $scope.subCategories = {
+            "type": "select",
+            "name": "Service",
+            "value": "Choose One",
+            "values": {}
+        };
+
+        $scope.categoriesViews = {};
+
+        categories.forEach(function (item, index) {
+            $scope.mainCategories.values.push(item);
+            $scope.categoriesViews.item = false;
+        });
+
         //Date Picker
         var start = moment();//.subtract(29, 'days');
         var end = moment().add(29, 'days');
@@ -36,21 +57,7 @@ angular.module('myApp.add_item', ['ngRoute'])
         }, cb);
         cb(start, end);
         //------------------------------------
-        //Other Categories
-        $scope.mainCategories = {
-            "type": "select",
-            "name": "Service",
-            "value": "Choose One",
-            "values": ["Choose One", "Books", "Tools", "Games", "Electronics"]
-        };
 
-        //Get a List of the Subcategories
-        $scope.subCategories = {
-            "type": "select",
-            "name": "Service",
-            "value": "Choose One",
-            "values": {}
-        };
         $http({
             method: "GET",
             url: $rootScope.serverIP + "/subCategories",
@@ -59,33 +66,19 @@ angular.module('myApp.add_item', ['ngRoute'])
             }
         }).then(function mySucces(response) {
             var allcats = response.data;
-
             for (var j = 0; j < allcats.length; j++) {
                 $scope.subCategories.values[categories[j]] = [];
                 $scope.subCategories.values[categories[j]].push('Choose One')
                 for (var i = 0; i < allcats[j].length; i++) {
                     $scope.subCategories.values[categories[j]].push(allcats[j][i][Object.keys(allcats[j][i])[0]]);
                 }
-
             }
 
-            /* if (response.data.code == 101) {
-             alert("Success, response is: " + response.data.message);
-             }
-             else {
-             alert("ERROR: " + response.data.code + "MESSAGE: " + response.data.message);
-             }*/
         }, function myError(response) {
 
             alert("Error, response is: " + response.data);
         });
 
-        $scope.categoriesViews = {
-            'Books': false,
-            'Tools': false,
-            'Games': false,
-            'Electronics': false
-        };
         function resetCategories() {
             for (var prop in $scope.categoriesViews) {
                 if ($scope.categoriesViews.hasOwnProperty(prop)) {
@@ -95,25 +88,9 @@ angular.module('myApp.add_item', ['ngRoute'])
         }
 
         $scope.valueChanged = function (cat) {
+            resetCategories();
+            $scope.categoriesViews[cat] = true;
 
-            switch (cat) {
-                case 'Books':
-                    resetCategories();
-                    $scope.categoriesViews.Books = true;
-                    break;
-                case 'Tools':
-                    resetCategories();
-                    $scope.categoriesViews.Tools = true;
-                    break;
-                case 'Games':
-                    resetCategories();
-                    $scope.categoriesViews.Games = true;
-                    break;
-                case 'Electronics':
-                    resetCategories();
-                    $scope.categoriesViews.Electronics = true;
-                    break;
-            }
         }
         //----------------------------------
 
@@ -214,16 +191,6 @@ angular.module('myApp.add_item', ['ngRoute'])
         }
 
         $scope.submit = function () {
-            console.log(
-                /*                "Name: " + $scope.item.name +
-                 ", desc: " + $scope.item.desc +
-                 ", cat: " + $scope.mainCategories.value +
-                 ", subCat: " + $scope.subCategories.value +
-                 ", start date: " + $("#reportrange_right").data('daterangepicker').startDate.format('YYYY-MM-DD') +
-                 ", end date: " + $("#reportrange_right").data('daterangepicker').endDate.format('YYYY-MM-DD') +
-                 ", submission date: " + new Date()*/
-                "Location: " + cordsPos
-            );
 
             var date2 = new Date();
             var date4 = date2.getFullYear() + '-' + date2.getMonth() + '-' + date2.getDate();
@@ -237,8 +204,8 @@ angular.module('myApp.add_item', ['ngRoute'])
                 "submission_date": date4,
                 "location": cordsPos
             }
-            if ($scope.mainCategories.value == "Books"){
-                data.author =  $scope.book.author;
+            if ($scope.mainCategories.value == "Books") {
+                data.author = $scope.book.author;
                 data.ISBN = $scope.book.isbn;
                 data.book_category_id = $scope.subCategories.value;
                 data.date_published = $scope.book.year;
