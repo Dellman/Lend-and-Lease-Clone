@@ -16,13 +16,15 @@ angular.module('myApp.profile', ['ngRoute'])
             method : "GET",
             url : $rootScope.serverIP + "/profile"
         }).then(function mySucces(response) {
-            console.log(response.data);
-            $scope.user.fname = response.data.first_name;
-            $scope.user.lname = response.data.last_name;
-            $scope.user.address = response.data.address;
-            $scope.user.dob = response.data.date_of_birth;
-            $scope.user.email = response.data.email;
-            $scope.user.phone = response.data.phone;
+            console.log(response.data[0]);
+            var date = new Date (response.data[0].dob);
+
+            $scope.user.fname = response.data[0].first_name;
+            $scope.user.lname = response.data[0].last_name;
+            $scope.user.address = response.data[0].address;
+            $scope.user.dob = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+            $scope.user.email = response.data[0].email;
+            $scope.user.phone = response.data[0].phone;
 
         }, function myError(response) {
             alert("Error");
