@@ -58,7 +58,9 @@ module.exports = function(app, passport) {
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 		app.get('/profile', isLoggedIn, function(req, res) {
-    /* WE GET THE PACKET OF THE ROW IN THE TABLE WHERE THE USER IN THE SESSION IS STORED */
+    /* WE GET THE PACKET OF THE ROW IN THE TABLE WHERE THE USER IN THE SESSION IS STORED
+
+		TODO: IMPLEMENT SESSIONS FOR MULTIPLE USERS */
 			console.log("REQUEST USER " + req.user);
 			/*res.render('profile.ejs', {
 				user : req.user // get the user out of session and pass to template
@@ -86,6 +88,11 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 };
+
+app.get('/addItem', function(err, result){
+  console.log(req.user);
+
+});
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
