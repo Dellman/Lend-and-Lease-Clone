@@ -13,7 +13,7 @@ angular.module('myApp', [
 ]).
 config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix('!');
-    $routeProvider.otherwise({redirectTo: '/addItem'});
+    $routeProvider.otherwise({redirectTo: '/map'});
 }]).
 run(function ($rootScope) {
     $rootScope.serverIP = 'http://localhost:3000';

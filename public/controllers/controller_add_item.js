@@ -228,7 +228,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             }
             else if ($scope.mainCategories.value == "Electronics"){
                 data.battery = $scope.batteryOptions.value;
-                data.electronics_id = $scope.subCategories.value;
+                data.electronics_category_id = $scope.subCategories.value;
                 data.brand = $scope.elec.brand;
                 data.outside_use = $scope.ouOptions.value;
             }
