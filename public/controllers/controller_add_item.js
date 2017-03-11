@@ -225,6 +225,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                  ", submission date: " + new Date()*/
                 // "Location: " + cordsPos
             );
+            console.log(cordsPos);
             console.log(locationInput.value);
 
             var date2 = new Date();

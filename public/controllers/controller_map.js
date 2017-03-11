@@ -55,23 +55,25 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
         }
 
         // Store all markers
-        $scope.itemMarkers = [
-            {
-                id: 'foo',
-                name: 'FOO SHOP',
-                category: 'Book',
-                subCategory: 'Horror',
-                position: [59.93, 17.92],
-                address: ''
-            },
-            {id: 'bar', name: 'BAR SHOP', category: 'Game', subCategory: 'Horror', position: [59.89, 17.9], address: ''}
-        ];
+        // $scope.itemMarkers = [
+        //     {
+        //         id: 'foo',
+        //         name: 'FOO SHOP',
+        //         category: 'Book',
+        //         subCategory: 'Horror',
+        //         position: [59.93, 17.92],
+        //         address: ''
+        //     },
+        //     {id: 'bar', name: 'BAR SHOP', category: 'Game', subCategory: 'Horror', position: [59.89, 17.9], address: ''}
+        // ];
+
+        // console.log($scope.itemMarkers);
+
+        console.log($scope.items);
 
         $scope.showDetail = function (e, marker) {
             $scope.marker = marker;
             // geocodeCords(this);
             $scope.map.showInfoWindow('mapPageIW', marker.id);
         };
-
-
     }]);

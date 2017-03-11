@@ -5,17 +5,17 @@
             geo-fallback-center="[59, 19]"
     >
         <marker id='{{marker.id}}' position="{{marker.position}}"
-          ng-repeat="marker in itemMarkers | filter: userSearch"
+          ng-repeat="marker in items | filter: userSearch"
           on-click="showDetail(marker)"
         ></marker>
 
         <info-window id="mapPageIW">
           <div ng-non-bindable>
-            <h5>Name: {{marker.name}}</h5>
+            <h5>Name: {{marker.item_name}}</h5>
             <h6>Category: {{marker.category}}</h6>
             <h6>Sub Category: {{marker.subCategory}}</h6>
             <p>Description: {{marker.description}}</p>
-            Location: {{marker.address}}
+            <p>Location: {{marker.location}}</p>
         </div>
       </info-window>
     </ng-map>
