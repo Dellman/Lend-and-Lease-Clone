@@ -166,6 +166,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             var geocoder = new google.maps.Geocoder;
             posLat = positionObject.lat;
             posLng = positionObject.lng;
+            console.log(positionObject);
             cordsPos = posLat + ", " + posLng;
             var latlngStr = cordsPos.split(',', 2);
             var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
@@ -223,8 +224,9 @@ angular.module('myApp.add_item', ['ngRoute'])
                  ", start date: " + $("#reportrange_right").data('daterangepicker').startDate.format('YYYY-MM-DD') +
                  ", end date: " + $("#reportrange_right").data('daterangepicker').endDate.format('YYYY-MM-DD') +
                  ", submission date: " + new Date()*/
-                "Location: " + cordsPos
+                // "Location: " + cordsPos
             );
+            console.log(locationInput.value);
 
             var date2 = new Date();
             var date4 = date2.getFullYear() + '-' + date2.getMonth() + '-' + date2.getDate();
