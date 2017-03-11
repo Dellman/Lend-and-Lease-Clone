@@ -42,9 +42,14 @@ module.exports = function (passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
-        console.log(user);
-        console.log(user.user_id);
-        done(null, user.user_id);
+        console.log("serialize User: " + JSON.stringify(user));
+        console.log("serialize user id " + user.id);
+        if(user.user_id == null){
+            done(null, user.id);
+          }
+          else{
+            done(null, user.user_id);
+          }
     });
 
     // used to deserialize the user WE HAVE TO FIGURE OUT HOW WE IMPLEMENT THIS PROPEPERLY http://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize
@@ -76,7 +81,7 @@ module.exports = function (passport) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function (req, email, password, done) {
-            console.log(req);
+            console.log("local-signup req: " + req);
             // asynchronous
             // User.findOne wont fire unless data is sent back
             process.nextTick(function () {
@@ -111,8 +116,6 @@ module.exports = function (passport) {
 
 //                        var insertQuery = "INSERT INTO users ( email, password, first_name, last_name, phone, dob, address ) values ('" + newUserMysql.email + "','" + newUserMysql.password + "')";
                         var insertQuery = "INSERT INTO users ( email, password, first_name, last_name, phone, dob, address ) values ( ? )";
-                        console.log(insertQuery);
-                        console.log(insertArray);
                         connection.query(insertQuery, [insertArray], function (err, rows) {
                             if (err) {
                                 console.log("Insertion failed");
@@ -143,14 +146,14 @@ module.exports = function (passport) {
 
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            console.log(email);
+            console.log("local-login email print : " + email);
 
             var queryString = "SELECT * FROM users WHERE email = '" + email + "'";
 
-            console.log(queryString);
+            console.log("local-login query string : " + queryString);
 
             connection.query(queryString, function (err, rows) {
-                console.log(rows[0].password);
+                console.log("rows0 password print :" + rows[0].password);
                 if (err)
                     return done(err);
                 if (!rows.length) {
