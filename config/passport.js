@@ -42,24 +42,24 @@ module.exports = function (passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
-      console.log(user);
+        console.log(user);
         console.log(user.user_id);
         done(null, user.user_id);
     });
 
     // used to deserialize the user WE HAVE TO FIGURE OUT HOW WE IMPLEMENT THIS PROPEPERLY http://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize
-  /*  passport.deserializeUser(function (id, done) {
-      console.log("HELLO FROM deserializeUser");
-        connection.query("select * from users where user_id = " + id, function (err, rows) {
-            done(err, rows[0]);
-        });
-    }); */
+    /*  passport.deserializeUser(function (id, done) {
+     console.log("HELLO FROM deserializeUser");
+     connection.query("select * from users where user_id = " + id, function (err, rows) {
+     done(err, rows[0]);
+     });
+     }); */
 
     /*passport.deserializeUser(function(user_id, done) {
-      user.findById(user_id, function(err, user) {
-          done(err, user);
-        });
-    });*/
+     user.findById(user_id, function(err, user) {
+     done(err, user);
+     });
+     });*/
     passport.deserializeUser(function(user, done) {
         done(null, user);
     });
@@ -76,7 +76,7 @@ module.exports = function (passport) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function (req, email, password, done) {
-          console.log(req);
+            console.log(req);
             // asynchronous
             // User.findOne wont fire unless data is sent back
             process.nextTick(function () {
@@ -100,13 +100,13 @@ module.exports = function (passport) {
                         newUserMysql.phone = req.body.phone;
 
                         var insertArray = [
-                          newUserMysql.email,
-                          newUserMysql.password,
-                          newUserMysql.first_name,
-                          newUserMysql.last_name,
-                          newUserMysql.phone,
-                          newUserMysql.date_of_birth,
-                          newUserMysql.address
+                            newUserMysql.email,
+                            newUserMysql.password,
+                            newUserMysql.first_name,
+                            newUserMysql.last_name,
+                            newUserMysql.phone,
+                            newUserMysql.date_of_birth,
+                            newUserMysql.address
                         ]
 
 //                        var insertQuery = "INSERT INTO users ( email, password, first_name, last_name, phone, dob, address ) values ('" + newUserMysql.email + "','" + newUserMysql.password + "')";
@@ -140,23 +140,17 @@ module.exports = function (passport) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function (req, email, password, done) { // callback with email and password from our form
-        // by default, local strategy uses username and password, we will override with email
-        email : 'email',
-        password : 'password',
-        passReqToCallBack : true // allows us to pass back the entire request to the callback
-    },
-    function(req, email, password, done) { // callback with email and password from our form
 
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-		console.log(email);
+            console.log(email);
 
-		var queryString = "SELECT * FROM users WHERE email = '" + email + "'";
+            var queryString = "SELECT * FROM users WHERE email = '" + email + "'";
 
-		console.log(queryString);
+            console.log(queryString);
 
             connection.query(queryString, function (err, rows) {
-              console.log(rows[0].password);
+                console.log(rows[0].password);
                 if (err)
                     return done(err);
                 if (!rows.length) {

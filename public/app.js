@@ -16,5 +16,5 @@ config(['$locationProvider', '$routeProvider', function ($locationProvider, $rou
     $routeProvider.otherwise({redirectTo: '/map'});
 }]).
 run(function ($rootScope) {
-    $rootScope.serverIP = 'http://198.211.126.133:3000';
+    $rootScope.serverIP = 'http://localhost:3000';
 });
