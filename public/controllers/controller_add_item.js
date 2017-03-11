@@ -125,7 +125,7 @@ angular.module('myApp.add_item', ['ngRoute'])
         });
 
         // Global variables
-        var locationInput = document.getElementById('itemLoc');
+        var locationInput = document.getElementById('locationInputText');
         var posLat;
         var posLng;
         var cordsPos;
@@ -200,7 +200,7 @@ angular.module('myApp.add_item', ['ngRoute'])
 
         $scope.checkLoc = function () {
             // Google geocoder
-            // var geocoder = new google.maps.Geocoder;
+            var geocoder = new google.maps.Geocoder;
             geocoder.geocode({'address': locationInput.value}, function (results, status) {
                 if (status === 'OK') {
                     $scope.map.setCenter(results[0].geometry.location);
