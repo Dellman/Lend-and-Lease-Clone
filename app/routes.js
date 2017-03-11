@@ -116,7 +116,7 @@ module.exports = function(app, passport) {
     // =====================================
     // LOGOUT ==============================
     // =====================================
- 
+
 app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
@@ -124,7 +124,7 @@ app.get('/logout', function(req, res) {
 
 app.get('/addItem', function(req, res) {
 	res.send(req.user);
-	console.log(req.user);
+	console.log("addItem user " + req.user);
 
 });
 
