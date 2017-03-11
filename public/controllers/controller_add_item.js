@@ -20,6 +20,18 @@ angular.module('myApp.add_item', ['ngRoute'])
             "value": "Choose One",
             "values": ["Choose One"]
         };
+        $scope.batteryOptions = {
+            "type": "select",
+            "name": "Service",
+            "value": "Choose One",
+            "values": ["Choose One", "No Battery", "Rechargeable Battery", "AA", "AAA", "9V"]
+        };
+        $scope.ouOptions = {
+            "type": "select",
+            "name": "Service",
+            "value": "Choose One",
+            "values": ["Choose One", "Yes", "No"]
+        };
 
         $scope.subCategories = {
             "type": "select",
@@ -35,9 +47,6 @@ angular.module('myApp.add_item', ['ngRoute'])
             $scope.categoriesViews[item] = false;
         });
 
-        console.log("main Cats: ")
-        console.log($scope.mainCategories)
-        console.log($scope.subCategories)
 
         //Date Picker
         var start = moment();//.subtract(29, 'days');
@@ -214,6 +223,11 @@ angular.module('myApp.add_item', ['ngRoute'])
                 data.ISBN = $scope.book.isbn;
                 data.book_category_id = $scope.subCategories.value;
                 data.date_published = $scope.book.year;
+            }
+            else if ($scope.mainCategories.value == "Electronics"){
+                data.battery = $scope.batteryOptions.value;
+                data.brand = $scope.elec.brand;
+                data.outside_use = $scope.ouOptions.value;
             }
 
             console.log(data)

@@ -108,16 +108,51 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-name">Date Published <span
-                                    class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-name">Date Published
+                                <span
+                                        class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="book-dob" required="required" class="form-control col-md-7 col-xs-12" ng-model="book.year">
+                                <input type="text" id="book-dob" required="required"
+                                       class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
 
                     </div>
-                    <div>
+                    <div id="electronicsDiv" ng-show="categoriesViews.Electronics">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-batt">Battery <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                <select id="elec-batt" class="form-control"
+                                        ng-options="x for x in batteryOptions.values"
+                                        ng-model="batteryOptions.value">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-brand">Brand <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="elec-brand" required="required"
+                                       class="form-control col-md-7 col-xs-12" ng-model="elec.brand">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-ou">Outside Use <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                <select id="elec-ou" class="form-control"
+                                        ng-options="x for x in ouOptions.values"
+                                        ng-model="ouOptions.value">
+                                </select>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -126,7 +161,8 @@
                         <div class="input-group">
                             <input type="text" id="locationInputText" class="form-control">
                             <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" ng-click="checkLoc();">Check Location!</button>
+                                    <button class="btn btn-default" type="button"
+                                            ng-click="checkLoc();">Check Location!</button>
                                 </span>
                         </div>
 
@@ -139,43 +175,54 @@
                     </div>
 
 
-            <div class="form-group">
-                <div class="col-md-1 col-sm-1"></div>
-                <div class="col-md-10 col-sm-10 col-xs-12">
-                    <!-- <br>
-                    <br> -->
-                    <!-- <label for="itemLoc">Item Location</label>
-                    <input type="text" name="itemLoc" id="itemLoc" value="Pickup Location"
-                           ng-model="item.location">
-                    <button type="button" ng-click="checkLoc();">Check Input Location</button>
-                    <button type="button" ng-click="getCurLoc();">Use Precise Current Location</button> -->
-                    <!-- <br>
-                    <br> -->
-                    <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
-                        <ng-map id="addItemMap" style="height: 400px; width:700px"
-                                center="current-position" zoom="10"
-                                default-style="false"
-                                zoom-to-include-markers="true"
-                                geo-fallback-center="[60, 20]"
-                                geo-callback="vm.callbackFunc('you')"
-                        >
-                            <!-- <marker position={{marker.pos}}></marker> -->
-                        </ng-map>
+                    <div class="form-group">
+                        <div class="col-md-1 col-sm-1"></div>
+                        <div class="col-md-10 col-sm-10 col-xs-12">
+                            <!-- <br>
+
+                                                    <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-batt">Battery <span
+                                            class="required">*</span>
+                                    </label>
+                                    <select class="form-control" id="elec-batt" ng-options="x for x in batteryOptions.values"
+                                            ng-model="batteryOptions.value">
+                                    </select>
+                                </div>
+
+
+                            <br> -->
+                            <!-- <label for="itemLoc">Item Location</label>
+                            <input type="text" name="itemLoc" id="itemLoc" value="Pickup Location"
+                                   ng-model="item.location">
+                            <button type="button" ng-click="checkLoc();">Check Input Location</button>
+                            <button type="button" ng-click="getCurLoc();">Use Precise Current Location</button> -->
+                            <!-- <br>
+                            <br> -->
+                            <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
+                                <ng-map id="addItemMap" style="height: 400px; width:700px"
+                                        center="current-position" zoom="10"
+                                        default-style="false"
+                                        zoom-to-include-markers="true"
+                                        geo-fallback-center="[60, 20]"
+                                        geo-callback="vm.callbackFunc('you')"
+                                >
+                                    <!-- <marker position={{marker.pos}}></marker> -->
+                                </ng-map>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="ln_solid"></div>
-            <div class="form-group">
-                <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                    <!--<button class="btn btn-primary" type="button">Cancel</button>-->
-                    <button class="btn btn-primary" type="reset">Reset</button>
-                    <button type="submit" class="btn btn-success" ng-click="submit()">Submit</button>
-                </div>
-            </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
+                            <!--<button class="btn btn-primary" type="button">Cancel</button>-->
+                            <button class="btn btn-primary" type="reset">Reset</button>
+                            <button type="submit" class="btn btn-success" ng-click="submit()">Submit</button>
+                        </div>
+                    </div>
 
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>
