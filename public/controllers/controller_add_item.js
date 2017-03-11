@@ -43,6 +43,32 @@ angular.module('myApp.add_item', ['ngRoute'])
             "value": "Choose One",
             "values": [ "Choose One", "Books", "Tools", "Games", "Electronics"]
         };
+
+
+        //Get a List of the Subcategories
+        $http({
+            method: "GET",
+            url: $rootScope.serverIP + "/subCategories",
+            headers: {
+                'Content-Type': "application/json"
+            }
+        }).then(function mySucces(response) {
+            console.log(response)
+           /* if (response.data.code == 101) {
+                alert("Success, response is: " + response.data.message);
+            }
+            else {
+                alert("ERROR: " + response.data.code + "MESSAGE: " + response.data.message);
+            }*/
+        }, function myError(response) {
+
+            alert("Error, response is: " + response.data);
+        });
+
+
+
+
+
         $scope.subCategories = {
             "type": "select",
             "name": "Service",
@@ -197,7 +223,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                 "Location: " + cordsPos
             );
 
- /*           var date2 = new Date();
+            var date2 = new Date();
             var date4 = date2.getFullYear() + '-' + date2.getMonth() + '-' + date2.getDate();
 
             $http({
@@ -225,7 +251,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             }, function myError(response) {
 
                 alert("Error, response is: " + response.data);
-            });*/
+            });
 
         };
 
