@@ -32,8 +32,12 @@ angular.module('myApp.add_item', ['ngRoute'])
 
         categories.forEach(function (item, index) {
             $scope.mainCategories.values.push(item);
-            $scope.categoriesViews.item = false;
+            $scope.categoriesViews[item] = false;
         });
+
+        console.log("main Cats: ")
+        console.log($scope.mainCategories)
+        console.log($scope.subCategories)
 
         //Date Picker
         var start = moment();//.subtract(29, 'days');
@@ -90,6 +94,7 @@ angular.module('myApp.add_item', ['ngRoute'])
         $scope.valueChanged = function (cat) {
             resetCategories();
             $scope.categoriesViews[cat] = true;
+            $scope.subCategories.value = "Choose One"
 
         }
         //----------------------------------
