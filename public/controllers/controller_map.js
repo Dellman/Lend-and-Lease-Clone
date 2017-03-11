@@ -24,17 +24,14 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
           var namePos;
           var posLat = positionObject.position.lat();
           var posLng = positionObject.position.lng();
-          cordsPos = posLat + ", " + posLng;
 
-          var latlngStr = cordsPos.split(',', 2);
-          var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+          var latlng = {lat: parseFloat(posLat), lng: parseFloat(posLng)};
           geocoder.geocode({'location': latlng}, function(results, status) {
             if (status === 'OK') {
               if (results[1]) {
                 namePos = (results[1].formatted_address);
                 // console.log(this);
                 this.address = namePos;
-                // console.log("before:" + this.name);
               } else {
                 window.alert('No results found');
               }
@@ -43,28 +40,18 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
             }
           });
         }
-
+        // Store all markers
         $scope.vm.mapMarkers = [
-         {id:'foo', name: 'FOO SHOP', category:'Book', subCategory:'Horror', address: '', position:[59.93, 17.92]},
-         {id:'bar', name: 'BAR SHOP', category:'Game', subCategory:'Horror', address: '',  position:[59.89, 17.9]}
+         {id:'foo', name: 'FOO SHOP', category:'Book', subCategory:'Horror', position:[59.93, 17.92], address: ''},
+         {id:'bar', name: 'BAR SHOP', category:'Game', subCategory:'Horror',  position:[59.89, 17.9], address: ''}
         ];
-        // $scope.vm.marker = $scope.vm.mapMarkers[0];
-
-        // console.log(itemMarkers);
+        var markersArray = $scope.vm.mapMarkers;
 
         $scope.vm.showDetail = function(e, marker) {
           $scope.vm.marker = marker;
-          // console.log(marker.id);
-          // console.log(this);
-          geocodeCords(this);
-          //  console.log(this.id);
-          // console.log("after:" + this.name);
+          // geocodeCords(this);
           $scope.vm.map.showInfoWindow('mapPageIW', marker.id);
         };
-
-        // $scope.vm.hideDetail = function() {
-        //  $scope.vm.map.hideInfoWindow('foo-iw');
-        // };
 
         $http({
             method : "GET",
@@ -75,6 +62,4 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
         }, function myError(response) {
             alert("Error");
         });
-
-
     }]);

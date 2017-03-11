@@ -1,3 +1,12 @@
+<!-- <form action="">
+  <label><input type="checkbox" class="filterOptions" ng-model="categoryOptions.Book" checked="true" value="Book" >Books</label>
+  <label><input type="checkbox" class="filterOptions" ng-model="categoryOptions.Tool" checked="true" value="Tool">Tools</label>
+  <label><input type="checkbox" class="filterOptions" ng-model="categoryOptions.Game" checked="true" value="Game">Games</label>
+  <label><input type="checkbox" class="filterOptions" ng-model="categoryOptions.Electronic" checked="true" value="Electronic">Electronics</label>
+</form> -->
+
+<input type="text" placeholder="Search" ng-model="userSearch">
+
 <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
     <ng-map id="mapViewMap" style="height: 530px"
             center="current-position" zoom="10"
@@ -5,10 +14,14 @@
             geo-fallback-center="[59, 19]"
     >
         <!-- <marker ng-repeat="item in vm.positions1" position="{{item.pos}}"></marker> -->
-        <marker id='{{marker.id}}' position="{{marker.position}}"
-          ng-repeat="marker in vm.mapMarkers"
+        <!-- <marker id='{{marker.id}}' position="{{marker.position}}"
+          ng-repeat="marker in vm.mapMarkers | byCategory: 'categoryOptions'"
           on-click="vm.showDetail(marker)">
-        </marker>
+        </marker> -->
+        <marker id='{{marker.id}}' position="{{marker.position}}"
+          ng-repeat="marker in vm.mapMarkers | filter: userSearch"
+          on-click="vm.showDetail(marker)"
+        ></marker>
 
         <info-window id="mapPageIW">
           <div ng-non-bindable="">

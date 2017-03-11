@@ -19,30 +19,30 @@ var flash    = require('connect-flash');
 var bodyParser = require('body-parser');
 
 var connection = mysql.createConnection({
-    host     : '198.211.126.133',
-    user     : 'admin',
-    password : 'password',
-    database : 'lendandloan'
+  host     : '198.211.126.133',
+  user     : 'admin',
+  password : 'password',
+  database : 'lendandloan'
 });
 
 connection.connect();
 
 
 /*
- app.use(function(req, res, next) {
- res.header("Access-Control-Allow-Origin", "*");
- res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
- next();
- });
- */
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+*/
 /*
- app.use(function(req, res, next) {
- res.setHeader("Access-Control-Allow-Origin", "*");
- res.setHeader("Access-Control-Allow-Credentials", "true");
- res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
- res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, content-type, www-authenticate");
- next();
- });*/
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, content-type, www-authenticate");
+  next();
+});*/
 
 
 // configuration ===============================================================
