@@ -9,21 +9,6 @@ angular.module('myApp.add_item', ['ngRoute'])
             controller: 'controller_add_item'
         });
     }])
-    .directive('file', function () {
-        return {
-            scope: {
-                file: '='
-            },
-            link: function (scope, el, attrs) {
-                el.bind('change', function (event) {
-                    var file = event.target.files[0];
-                    scope.file = file ? file : undefined;
-                    scope.$apply();
-                });
-            }
-        };
-    })
-
     .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
 
         var categories = ['Books', 'Electronics', 'Games', 'Tools'];
@@ -129,6 +114,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             $scope.map = map;
             //setupListener($scope.map, 'click');
         });
+        //console.log($scope.map);
 
         // Global variables
         var locationInput = document.getElementById('locationInputText');
@@ -257,40 +243,6 @@ angular.module('myApp.add_item', ['ngRoute'])
                 data.tool_category_id = $scope.subCategories.value;
             }
 
-            console.log(data);
-            //console.log($scope.item.image);
-
-            console.log($scope.file)
-
-            // $http({
-            //     method: 'POST',
-            //     url: $rootScope.serverIP + "/upload",
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data'
-            //     },
-            //     data: {
-            //         upload: $scope.file
-            //     },
-            //     transformRequest: function (data, headersGetter) {
-            //         var formData = new FormData();
-            //         angular.forEach(data, function (value, key) {
-            //             formData.append(key, value);
-            //         });
-            //
-            //         var headers = headersGetter();
-            //         delete headers['Content-Type'];
-            //
-            //         return formData;
-            //     }
-            // })
-            //     .success(function (data) {
-            //
-            //     })
-            //     .error(function (data, status) {
-            //
-            //     });
-
-
              $http({
              method: "POST",
              url: $rootScope.serverIP + "/additem",
@@ -313,6 +265,37 @@ angular.module('myApp.add_item', ['ngRoute'])
              }).then(function (response) {
              console.log("Success")
              console.log(response)
+             $http({
+                 method: 'POST',
+                 url: $rootScope.serverIP + "/upload",
+                 headers: {
+                     'Content-Type': undefined
+                 },
+                 data: {
+                     upload: $scope.file
+                 },
+                 transformRequest: function (data, headersGetter) {
+                     var formData = new FormData();
+                     angular.forEach(data, function (value, key) {
+                         formData.append(key, value);
+                     });
+
+                     var headers = headersGetter();
+                     delete headers['Content-Type'];
+
+                     return formData;
+                 }
+             })
+                 .success(function (data) {
+
+                 })
+                 .error(function (data, status) {
+
+                 });
+
+
+
+
              }, function myError (response) {
              console.log("ErRor")
              console.log(response)
@@ -329,6 +312,10 @@ angular.module('myApp.add_item', ['ngRoute'])
 
              alert("Error, response is: " + response.data);
              });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5471183e049ed582c555e88abfc5bd771e783852
         };
 
     }]);

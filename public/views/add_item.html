@@ -88,7 +88,7 @@
 
                     <div id="booksDiv" ng-show="categoriesViews.Books">
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-author"></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-author">Author</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" id="book-author"
                                        class="form-control col-md-7 col-xs-12" ng-model="book.author">
@@ -207,6 +207,23 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload Image</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input type="file" class="filestyle" file="file">
+<!--                            <input
+                                    type="file"
+                                    ngf-select
+                                    ng-model="file"
+                                    name="file"
+                                    ngf-pattern="'image/*'"
+                                    accept="image/*"
+                                    ngf-max-size="20MB"
+                            />
+                            <input
+                            type="file"
+                            fileread="vm.uploadme"
+                            name="file"/>
+                            Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file || '/thumb.jpg'"/>
+                            <i ng-show="up.upload_form.file.$error.required">*required</i><br>
+                            <i ng-show="up.upload_form.file.$error.maxSize">File too large
+                                {{up.file.size / 1000000|number:1}}MB: max 20M</i>-->
                         </div>
 
                     </div>
