@@ -13,6 +13,7 @@ angular.module('myApp.add_item', ['ngRoute'])
     .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
 
         var categories = ['Books', 'Electronics', 'Games', 'Tools'];
+        $scope.item = {}
 
         $scope.mainCategories = {
             "type": "select",
@@ -46,6 +47,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             $scope.mainCategories.values.push(item);
             $scope.categoriesViews[item] = false;
         });
+        $scope.mainCategories.values.push('Others');
 
 
         //Date Picker
@@ -78,13 +80,13 @@ angular.module('myApp.add_item', ['ngRoute'])
                 'Content-Type': "application/json"
             }
         }).then(function mySucces(response) {
-            var allcats = response.data;
-            console.log(allcats);
-            for (var j = 0; j < allcats.length; j++) {
+            var allCats = response.data;
+            console.log(allCats);
+            for (var j = 0; j < allCats.length; j++) {
                 $scope.subCategories.values[categories[j]] = [];
                 $scope.subCategories.values[categories[j]].push('Choose One')
-                for (var i = 0; i < allcats[j].length; i++) {
-                    $scope.subCategories.values[categories[j]].push(allcats[j][i][Object.keys(allcats[j][i])[0]]);
+                for (var i = 0; i < allCats[j].length; i++) {
+                    $scope.subCategories.values[categories[j]].push(allCats[j][i][Object.keys(allCats[j][i])[0]]);
                 }
             }
 
@@ -114,7 +116,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             $scope.vm.map = map;
             //setupListener($scope.map, 'click');
         });
-
+        console.log($scope.map);
         // Global variables
         var locationInput = document.getElementById('locationInputText');
         var posLat;
@@ -140,6 +142,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             for (var i = 0; i < itemMarkers.length; i++) {
                 itemMarkers[i].setAnimation(google.maps.Animation.DROP);
                 itemMarkers[i].setMap(map);
+                console.log(itemMarkers[i]);
             }
         }
 
@@ -155,13 +158,16 @@ angular.module('myApp.add_item', ['ngRoute'])
         // Convert cords to readable format
         function geocodeCords(positionObject) {
             var geocoder = new google.maps.Geocoder;
+            // console.log(positionObject);
             posLat = positionObject.lat;
             posLng = positionObject.lng;
-            console.log(positionObject);
+            // console.log(positionObject);
             cordsPos = posLat + ", " + posLng;
-            var latlngStr = cordsPos.split(',', 2);
-            var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-            geocoder.geocode({'location': latlng}, function (results, status) {
+            // var latlngStr = cordsPos.split(',', 2);
+            // var latlng = {lat: parseFloat(posLat), lng: parseFloat(posLng)};
+            // console.log(latlng);
+            // cordsPos = positionObject;
+            geocoder.geocode({'location': positionObject}, function (results, status) {
                 if (status === 'OK') {
                     if (results[1]) {
                         namePos = (results[1].formatted_address);
@@ -198,7 +204,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                     $scope.map.setCenter(results[0].geometry.location);
                     posLat = results[0].geometry.location.lat();
                     posLng = results[0].geometry.location.lng();
-                    cordsPos = posLat + ", " + posLng;
+                    // cordsPos = posLat + ", " + posLng;
                 } else {
                     alert('Geocode was not successful for the following reason: ' + status);
                 }
@@ -212,9 +218,9 @@ angular.module('myApp.add_item', ['ngRoute'])
             var date4 = date2.getFullYear() + '-' + date2.getMonth() + '-' + date2.getDate();
 
             var data = {
-                "item_name": $scope.item.name,
-                "description": $scope.item.desc,
-                "category": $scope.mainCategories.value,
+                "item_name": (($scope.item.name != null)? $scope.item.name: "Empty"),//$scope.item.name,
+                "description": (($scope.item.desc != null)? $scope.item.desc: "Empty"),
+                "category": (($scope.mainCategories.value != null)? $scope.mainCategories.value: "Empty"),
                 "start_date": $("#reportrange_right").data('daterangepicker').startDate.format('YYYY-MM-DD'),
                 "end_date": $("#reportrange_right").data('daterangepicker').endDate.format('YYYY-MM-DD'),
                 "submission_date": date4,
@@ -242,9 +248,11 @@ angular.module('myApp.add_item', ['ngRoute'])
                 data.tool_category_id = $scope.subCategories.value;
             }
 
-            console.log(data)
+           console.log(data)
+            console.log($scope.item.image);
 
-            $http({
+
+  /*          $http({
                 method: "POST",
                 url: $rootScope.serverIP + "/additem",
                 headers: {
@@ -252,6 +260,31 @@ angular.module('myApp.add_item', ['ngRoute'])
                 },
                 data: data
             }).then(function mySucces(response) {
+                console.log($scope.item.image);
+
+                $http({
+                    method: "POST",
+                    url: $rootScope.serverIP + "/upload",
+                    headers: {
+
+                    },
+                    data: {
+                        file: $scope.item.image
+                    }
+                }).then(function (response) {
+                    console.log("Success")
+                    console.log(response)
+                }, function myError (response) {
+                    console.log("ErRor")
+                    console.log(response)
+                })
+
+
+
+
+
+
+
                 if (response.data.code == 101) {
                     alert("Success, response is: " + response.data.message);
                 }
@@ -262,7 +295,7 @@ angular.module('myApp.add_item', ['ngRoute'])
 
                 alert("Error, response is: " + response.data);
             });
-
+*/
         };
 
     }]);
