@@ -48,7 +48,6 @@ angular.module('myApp.add_item', ['ngRoute'])
         });
         $scope.mainCategories.values.push('Others');
 
-
         //Date Picker
         var start = moment();//.subtract(29, 'days');
         var end = moment().add(29, 'days');
@@ -293,14 +292,10 @@ angular.module('myApp.add_item', ['ngRoute'])
 
                  });
 
-
-
-
              }, function myError (response) {
              console.log("ErRor")
              console.log(response)
              })
-
 
              if (response.data.code == 101) {
              alert("Success, response is: " + response.data.message);

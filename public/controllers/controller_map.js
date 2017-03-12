@@ -20,13 +20,10 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
             }
         }).then(function mySucces(response) {
             $scope.items = response.data;
-            console.log($scope.items);
-            
+
             NgMap.getMap({id: 'mapViewMap'}).then(function (map) {
                 $scope.map = map;
             }).then(function(){
-
-              console.log($scope.items);
 
               var itemMarkers = [];
               var searchBar = document.getElementById("userSearch");
@@ -40,6 +37,15 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 addMarker($scope.items[i]);
               }
 
+              // If two markers have the same location, move it slightly
+              // function editLoc(markerLoc){
+              //   for (var i = 0; i < $scope.items.length; i++) {
+              //     if ($scope.items[i].location.lat === $scope.items[i+1].location.lat && $scope.items[i].location.lng === $scope.items[i+1].location.lng) {
+              //
+              //     }
+              //   }
+              // }
+
               function addMarker(item) {
                 var marker = new google.maps.Marker({
                     position: {lat: item.location.lat, lng: item.location.lng},
@@ -49,6 +55,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                     subCategory: item.sub_category,
                     description: item.description,
                 });
+                // Popup window
                 var infowindow = new google.maps.InfoWindow({
                   content: "<h5>" + marker.name + "</h5>" +
                   "<h6>" + marker.category.toUpperCase() + "</h6>" +
@@ -79,11 +86,14 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                     itemMarkers[i].category.toUpperCase().includes(searchBar.value.toUpperCase())) {
                       itemMarkers[i].clickable = true;
                       itemMarkers[i].visible = true;
+                      console.log(itemMarkers[i].name + ": " + itemMarkers[i].visible);
                   }
                   else{
                     itemMarkers[i].setVisible(false);
                     itemMarkers[i].clickable = false;
                     itemMarkers[i].visible = false;
+                    console.log(itemMarkers[i].name + ": " + itemMarkers[i].visible);
+
                   }
                 }
               }
