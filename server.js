@@ -32,12 +32,12 @@ connection.connect();
 
 
 
-
+/*
  app.use(function(req, res, next) {
      res.header("Access-Control-Allow-Origin", "*");
      // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
      next();
- });
+ }); */
 
 // configuration ===============================================================
 // connect to our database
@@ -49,7 +49,6 @@ require('./config/passport')(passport); // pass passport for configuration
 // set up our express application
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser()); // get information from html forms
-app.use(bodyParser({ keepExtensions: true, uploadDir: __dirname + '/public/images' }));
 app.use(cookieParser()); // read cookies (needed for auth)
 app.set('view engine', 'ejs'); // set up ejs for templating
 // set up our express application
