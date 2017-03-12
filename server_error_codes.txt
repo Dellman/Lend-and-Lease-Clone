@@ -6,10 +6,12 @@ SUCCESS MESSAGES
 101 - "success at login"
 102 - "success at add item"
 103 - "success at register user"
+104 - "Successfully logged out"
 
 ERROR MESSAGES
 
 601 - "Wrong username or password"
+602 - "Not logged in"
 701 - "Failed to register user"
 702 - "User with that email already exists"
 801 - "Failed to add new item"

@@ -92,7 +92,7 @@ module.exports = function (passport) {
                     if (err)
                         return done(err);
                     if (rows.length > 0) {
-                        return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                        return done(null, false, { message: 'That email already exists.' });
                     }
                     else {
                         var newUserMysql = new Object();

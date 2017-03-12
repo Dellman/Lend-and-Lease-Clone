@@ -1,4 +1,40 @@
 // app/routes.js
+'use strict';
+
+const nodemailer = require('nodemailer');
+
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'rikstavling2016@gmail.com',
+        pass: 'FTSF2016'
+    }
+});
+
+var email_mottagare = 'rikstavling2016@gmail.com';
+
+// setup email data with unicode symbols
+let mailOptions = {
+    from: '"Us at lend and LEASE!" <rikstavling2016@gmail.com>',
+    to: 'rikstavling2016@gmail.com',// sender address
+    subject: 'Hello ✔', // Subject line
+    text: 'Hello world ?', // plain text body
+    html: '<b>Hello world ?</b>' // html body
+};
+console.log(JSON.stringify(mailOptions));
+mailOptions.to = JSON.stringify(email_mottagare);
+console.log(JSON.stringify(mailOptions));
+
+
+// send mail with defined transport object
+/*transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        return console.log(error);
+    }
+    console.log('Message %s sent: %s', info.messageId, info.response);
+});*/
+
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
@@ -35,9 +71,9 @@ module.exports = function(app, passport) {
 	 });
 	 */
     // process the login form
-    app.post('/login', passport.authenticate('local-login', {
+    app.post('/login', alreadyLoggedIn, passport.authenticate('local-login', {
         successRedirect : '/successlogin', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureRedirect : '/', // redirect back to the signup page if there is an error
         failureFlash : false // allow flash messages
     }));
 
@@ -52,12 +88,16 @@ module.exports = function(app, passport) {
 	// process the signup form
 	app.post('/register', passport.authenticate('local-signup', {
 		successRedirect : '/successregister', // redirect to the secure profile section
-		failureRedirect : '/login', // redirect back to the signup page if there is an error
+		failureRedirect : '/failureregister', // redirect back to the signup page if there is an error
 		failureFlash : true // allow flash messages
 	}));
 
   app.get('/successregister', function(req, res){
     res.send(new response_object(101, "Success at register"));
+  });
+
+  app.get('/failureregister', function(req, res){
+    res.send(new response_object(604, "That email is taken"));
   });
 
 	// =====================================
@@ -86,10 +126,6 @@ module.exports = function(app, passport) {
 	// =====================================
 	// LOGOUT ==============================
 	// =====================================
-	app.get('/logout', function(req, res) {
-		req.logout();
-    res.send("Success on logout");
-	});
 
     // process the signup form
     app.post('/register', passport.authenticate('local-signup', {
@@ -194,6 +230,7 @@ app.post('/addItem', isLoggedIn, function(req, res){
   newItem.start_date = req.body.start_date;
   newItem.end_date = req.body.end_date;
   newItem.user_id = req.user;
+  newItem.category = req.body.category.toLowerCase();
 
   var insertItemArray = [
       newItem.item_name,
@@ -202,14 +239,16 @@ app.post('/addItem', isLoggedIn, function(req, res){
       newItem.sub_date,
       newItem.start_date,
       newItem.end_date,
-      newItem.user_id
+      newItem.user_id,
+      newItem.category
   ]
-  var insertItemQuery = "INSERT INTO items (item_name, description, location, sub_date, start_date, end_date, user_id) values ( ? )";
+  var insertItemQuery = "INSERT INTO items (item_name, description, location, sub_date, start_date, end_date, user_id, category) values ( ? )";
 
   console.log("InserItemArray : " + insertItemArray);
 
     switch(req.body.category) {
       case "Books":
+      /* ADDING A BOOK TO THE DATABASE */
           var insertBookQuery = "INSERT INTO books (book_id, author, ISBN, date_published, book_category_id) values ( ? )";
           var newBook = new Object();
           newBook.author = req.body.author;
@@ -262,10 +301,174 @@ app.post('/addItem', isLoggedIn, function(req, res){
               }
           });
           break;
+          /* ADD BOOK END */
+      case "Electronics":
+          /* ADD ELECTRONIC */
+          var insertElectronicQuery = "INSERT INTO electronics (battery, brand, outside_use, electronic_category_id, electronic_id) values ( ? )";
+          var newElectronic = new Object();
+          newElectronic.battery = req.body.battery;
+          newElectronic.brand = req.body.brand;
+          if(req.body.outside_use = "Yes")
+          {
+            newElectronic.outside_use = 1;
+          }
+          else{
+            newElectronic.outside_use = 0;
+          }
 
-      case "Orange":
+          connection.query("SELECT electronic_category_id FROM electronic_categories WHERE electronic_category_name = '" + req.body.electronic_category_id + "'", function( err, rows){
+              if(!err){
+                console.log("Get category ID query rwos ELECTRONICS: " + JSON.stringify(rows));
+                console.log("GET CATEROGYR QUERY ROWS ELECTRONIC_CATEGORY ID " + rows[0].electronic_category_id);
+                newElectronic.electronic_category_id = rows[0].electronic_category_id;
+                console.log("NEW ELECTRONIC CATEGORY_ID : " + newElectronic.electronic_category_id);
+              }
+              else{
+                console.log(err);
+              }
+          });
+
+          var insert_electronic_item_id;
+          connection.query(insertItemQuery, [insertItemArray], function (err, rows) {
+              if (err) {
+                  console.log("Insertion failed");
+              }
+              else{
+                insert_electronic_item_id = rows.insertId;
+                console.log(rows.insertId);
+                console.log(JSON.stringify(rows));
+                newElectronic.electronic_id = insert_electronic_item_id;
+
+                var insertElectronicArray = [
+                  newElectronic.battery,
+                  newElectronic.brand,
+                  newElectronic.outside_use,
+                  newElectronic.electronic_category_id,
+                  newElectronic.electronic_id
+                ]
+                  console.log("Insert Electronic array : " + insertElectronicArray);
+
+                  connection.query(insertElectronicQuery, [insertElectronicArray], function (err, rows) {
+                      if (err) {
+                        console.log(err);
+                      }
+                      else{
+                        insert_item_id = rows.insertId;
+                        console.log(JSON.stringify(rows));
+                        res.send(new response_object(101, "success"));
+                      }
+                  });
+              }
+          });
+          /* ADD ELECTRONIC END*/
           break;
-      case "Apple":
+      case "Games":
+          /* ADD GAME */
+          var insertGameQuery = "INSERT INTO games (gamestudio, platform, date_released, game_category_id, game_id) values ( ? )";
+          var newGame = new Object();
+          newGame.gamestudio = req.body.gamestudio;
+          newGame.platform = req.body.platform;
+          newGame.date_released = req.body.date_released;
+
+          connection.query("SELECT game_category_id FROM game_categories WHERE game_category_name = '" + req.body.game_category_id + "'", function( err, rows){
+              if(!err){
+                console.log("Get category ID query rwos GAME: " + JSON.stringify(rows));
+                console.log("GET CATEROGYR QUERY ROWS GAME_CATEGORY ID " + rows[0].game_category_id);
+                newGame.game_category_id = rows[0].game_category_id;
+                console.log("NEW GAME CATEGORY_ID : " + newGame.game_category_id);
+              }
+              else{
+                console.log(err);
+              }
+          });
+
+          var insert_game_item_id;
+          connection.query(insertItemQuery, [insertItemArray], function (err, rows) {
+              if (err) {
+                  console.log("Insertion failed");
+              }
+              else{
+                insert_game_item_id = rows.insertId;
+                console.log("ROWS INSERT ID I GAME: " + rows.insertId);
+                console.log(JSON.stringify(rows));
+                newGame.game_id = insert_game_item_id;
+
+                var insertGameArray = [
+                  newGame.gamestudio,
+                  newGame.platform,
+                  newGame.date_released,
+                  newGame.game_category_id,
+                  newGame.game_id
+                ]
+                  console.log("Insert Electronic array : " + insertGameArray);
+
+                  connection.query(insertGameQuery, [insertGameArray], function (err, rows) {
+                      if (err) {
+                        console.log(err);
+                      }
+                      else{
+                        insert_item_id = rows.insertId;
+                        console.log(JSON.stringify(rows));
+                        res.send(new response_object(101, "success"));
+                      }
+                  });
+              }
+          });
+          break;
+          /* ADD GAME END */
+      case "Tools":
+          /* ADD GAME */
+          var insertToolQuery = "INSERT INTO tools (, ,) values ( ? )";
+          var newTool = new Object();
+          newTool.gamestudio = req.body.gamestudio;
+          newTool.platform = req.body.platform;
+          newTool.date_released = req.body.date_released;
+
+          connection.query("SELECT tool_category_id FROM tool_categories WHERE tool_category_name = '" + req.body.tool_category_id + "'", function( err, rows){
+              if(!err){
+                console.log("Get category ID query rwos TOOL: " + JSON.stringify(rows));
+                console.log("GET CATEROGYR QUERY ROWS TOOL_CATEGORY ID " + rows[0].tool_category_id);
+                newTool.tool_category_id = rows[0].tool_category_id;
+                console.log("NEW GAME CATEGORY_ID : " + newTool.tool_category_id);
+              }
+              else{
+                console.log(err);
+              }
+          });
+
+          var insert_tool_item_id;
+          connection.query(insertItemQuery, [insertItemArray], function (err, rows) {
+              if (err) {
+                  console.log("Insertion failed");
+              }
+              else{
+                insert_tool_item_id = rows.insertId;
+                console.log("ROWS INSERT ID I GAME: " + rows.insertId);
+                console.log(JSON.stringify(rows));
+                newGame.game_id = insert_tool_item_id;
+
+                var insertToolArray = [
+                  newGame.gamestudio,
+                  newGame.platform,
+                  newGame.date_released,
+                  newGame.game_category_id,
+                  newGame.game_id
+                ]
+                  console.log("Insert Electronic array : " + insertToolArray);
+
+                  connection.query(insertToolQuery, [insertToolArray], function (err, rows) {
+                      if (err) {
+                        console.log(err);
+                      }
+                      else{
+                        insert_item_id = rows.insertId;
+                        console.log(JSON.stringify(rows));
+                        res.send(new response_object(101, "success"));
+                      }
+                  });
+              }
+          });
+
           break;
       default:
           console.log("Reached default");
@@ -287,13 +490,24 @@ app.get('/items', function(req, res){
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
-
     // if user is authenticated in the session, carry on
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()){
         return next();
-
+      }
+      else{
     // if they aren't redirect them to the home page
-    res.send(new response_object(602, "Not logged in"));
+        res.send(new response_object(602, "Not logged in"));
+  }
 }
+
+function alreadyLoggedIn(req, res, next){
+    if(req.isAuthenticated())
+    {
+        res.send(new response_object(605, "Already logged in"));
+    }
+    else{
+      return next();
+    }
+  }
 
 }
