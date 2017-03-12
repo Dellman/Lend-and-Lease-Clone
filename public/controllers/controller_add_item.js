@@ -116,7 +116,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             $scope.vm.map = map;
             //setupListener($scope.map, 'click');
         });
-        console.log($scope.map);
+        
         // Global variables
         var locationInput = document.getElementById('locationInputText');
         var posLat;
