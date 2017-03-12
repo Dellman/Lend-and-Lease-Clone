@@ -110,12 +110,12 @@ angular.module('myApp.add_item', ['ngRoute', 'ngFileUpload'])
         }
         //----------------------------------
 
-        $scope.vm = {};
         NgMap.getMap({id: 'addItemMap'}).then(function (map) {
-            $scope.vm.map = map;
+            $scope.map = map;
             //setupListener($scope.map, 'click');
         });
         //console.log($scope.map);
+
         // Global variables
         var locationInput = document.getElementById('locationInputText');
         var posLat;
@@ -157,15 +157,9 @@ angular.module('myApp.add_item', ['ngRoute', 'ngFileUpload'])
         // Convert cords to readable format
         function geocodeCords(positionObject) {
             var geocoder = new google.maps.Geocoder;
-            // console.log(positionObject);
             posLat = positionObject.lat;
             posLng = positionObject.lng;
-            // console.log(positionObject);
             cordsPos = posLat + ", " + posLng;
-            // var latlngStr = cordsPos.split(',', 2);
-            // var latlng = {lat: parseFloat(posLat), lng: parseFloat(posLng)};
-            // console.log(latlng);
-            // cordsPos = positionObject;
             geocoder.geocode({'location': positionObject}, function (results, status) {
                 if (status === 'OK') {
                     if (results[1]) {
