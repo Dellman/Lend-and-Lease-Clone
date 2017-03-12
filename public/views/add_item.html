@@ -20,7 +20,7 @@
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Category</label>
-                        <div class="col-md-3 col-sm-3 col-xs-6">
+                        <div class="col-md-3 col-sm-4 col-xs-6">
                             <select class="form-control" ng-options="x for x in mainCategories.values"
                                     ng-model="mainCategories.value" ng-change="valueChanged(mainCategories.value)">
                             </select>
@@ -77,11 +77,11 @@
                     <div class="form-group">
                         <label for="reportrange_right" class="control-label col-md-3 col-sm-3 col-xs-12">Select
                             range</label>
-                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="col-md-3 col-sm-4 col-xs-12">
                             <div id="reportrange_right" class="pull-left"
                                  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width:100%">
                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                <span style="width: 89%; display: inline-block; text-align: center">February 2, 2017 - February 19, 2017</span> <b class="caret"></b>
+                                <span style="width: 85%; display: inline-block; text-align: center">February 2, 2017 - February 19, 2017</span> <b class="caret"></b>
                             </div>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload Image</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="file" class="filestyle" ng-model="item.image">
+                            <input type="file" class="filestyle" file="file">
                         </div>
 
                     </div>
