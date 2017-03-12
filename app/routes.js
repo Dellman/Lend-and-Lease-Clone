@@ -2,6 +2,30 @@
 'use strict';
 
 const nodemailer = require('nodemailer');
+var util = require('util');
+
+/* Image functions */
+function imageForm(req, res) {
+      res.render('upload', {
+        title: 'Upload Images'
+      });
+
+};
+
+function uploadImage(req, res, next){
+  console.log('file info: ',req.files.image);
+  //split the url into an array and then get the last chunk and render it out in the send req.
+  var pathArray = req.files.image.path.split( '/' );
+
+  res.send(util.format(' Task Complete \n uploaded %s (%d Kb) to %s as %s'
+      , req.files.image.name
+      , req.files.image.size / 1024 | 0
+      , req.files.image.path
+      , req.body.title
+      , req.files.image
+      , '<img src="images/' + pathArray[(pathArray.length - 1)] + '">'
+  ));
+};
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
@@ -15,16 +39,16 @@ let transporter = nodemailer.createTransport({
 var email_mottagare = 'rikstavling2016@gmail.com';
 
 // setup email data with unicode symbols
-let mailOptions = {
+let registeredMail = {
     from: '"Us at lend and LEASE!" <rikstavling2016@gmail.com>',
     to: 'rikstavling2016@gmail.com',// sender address
-    subject: 'Hello ✔', // Subject line
-    text: 'Hello world ?', // plain text body
+    subject: 'Successfully Registered to Lend and Lease', // Subject line
+    text: 'You have successfully registered this email to lend and lease. Enjoy your stay!', // plain text body
     html: '<b>Hello world ?</b>' // html body
 };
-console.log(JSON.stringify(mailOptions));
-mailOptions.to = JSON.stringify(email_mottagare);
-console.log(JSON.stringify(mailOptions));
+console.log(JSON.stringify(registeredMail));
+registeredMail.to = JSON.stringify(email_mottagare);
+console.log(JSON.stringify(registeredMail));
 
 
 // send mail with defined transport object
@@ -94,6 +118,19 @@ module.exports = function(app, passport) {
 
   app.get('/successregister', function(req, res){
     res.send(new response_object(101, "Success at register"));
+    console.log(req.user);
+    connection.query("SELECT email FROM users WHERE user_id = '" + req.user + "'", function(err, result){
+      if(!err && result.length > 0){
+          console.log(" REGISTERED QUERY :" + result);
+          console.log(" LENGTH of registered QUERY : " + result.length);
+          registeredMail.to = JSON.stringify(result[0].email);
+          console.log(JSON.stringify(registeredMail));
+      }
+      else{
+          console.log(err);
+      }
+
+    });
   });
 
   app.get('/failureregister', function(req, res){
@@ -400,7 +437,7 @@ app.post('/addItem', isLoggedIn, function(req, res){
                   newGame.game_category_id,
                   newGame.game_id
                 ]
-                  console.log("Insert Electronic array : " + insertGameArray);
+                  console.log("Insert GAMEc array : " + insertGameArray);
 
                   connection.query(insertGameQuery, [insertGameArray], function (err, rows) {
                       if (err) {
@@ -418,11 +455,8 @@ app.post('/addItem', isLoggedIn, function(req, res){
           /* ADD GAME END */
       case "Tools":
           /* ADD GAME */
-          var insertToolQuery = "INSERT INTO tools (, ,) values ( ? )";
+          var insertToolQuery = "INSERT INTO tools (tool_category_id, tool_id) values ( ? )";
           var newTool = new Object();
-          newTool.gamestudio = req.body.gamestudio;
-          newTool.platform = req.body.platform;
-          newTool.date_released = req.body.date_released;
 
           connection.query("SELECT tool_category_id FROM tool_categories WHERE tool_category_name = '" + req.body.tool_category_id + "'", function( err, rows){
               if(!err){
@@ -445,14 +479,11 @@ app.post('/addItem', isLoggedIn, function(req, res){
                 insert_tool_item_id = rows.insertId;
                 console.log("ROWS INSERT ID I GAME: " + rows.insertId);
                 console.log(JSON.stringify(rows));
-                newGame.game_id = insert_tool_item_id;
+                newTool.tool_id = insert_tool_item_id;
 
                 var insertToolArray = [
-                  newGame.gamestudio,
-                  newGame.platform,
-                  newGame.date_released,
-                  newGame.game_category_id,
-                  newGame.game_id
+                  newTool.tool_category_id,
+                  newTool.tool_id
                 ]
                   console.log("Insert Electronic array : " + insertToolArray);
 
@@ -470,8 +501,43 @@ app.post('/addItem', isLoggedIn, function(req, res){
           });
 
           break;
+      case 'Others':
+      /* ADD GAME */
+      var insertOtherQuery = "INSERT INTO others (other_id) values ( ? )";
+      var newOther = new Object();
+
+      var insert_other_item_id;
+      connection.query(insertItemQuery, [insertItemArray], function (err, rows) {
+          if (err) {
+              console.log("Insertion failed");
+          }
+          else{
+            insert_other_item_id = rows.insertId;
+            console.log("ROWS INSERT ID I GAME: " + rows.insertId);
+            console.log(JSON.stringify(rows));
+            newOther.other_id = insert_other_item_id;
+
+            var insertOtherArray = [
+              newOther.other_id
+            ]
+              console.log("Insert Electronic array : " + insertToolArray);
+
+              connection.query(insertOtherQuery, [insertOtherArray], function (err, rows) {
+                  if (err) {
+                    console.log(err);
+                  }
+                  else{
+                    insert_item_id = rows.insertId;
+                    console.log(JSON.stringify(rows));
+                    res.send(new response_object(101, "success"));
+                  }
+              });
+          }
+      });
+      break;
+
       default:
-          console.log("Reached default");
+          console.log("The category " + req.body.category + " Didn't match any of the switches");
   }
 
 });
