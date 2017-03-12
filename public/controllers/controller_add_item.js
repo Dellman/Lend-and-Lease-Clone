@@ -312,10 +312,6 @@ angular.module('myApp.add_item', ['ngRoute'])
 
              alert("Error, response is: " + response.data);
              });
-<<<<<<< HEAD
-=======
-
->>>>>>> 5471183e049ed582c555e88abfc5bd771e783852
         };
 
     }]);
