@@ -46,6 +46,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             $scope.mainCategories.values.push(item);
             $scope.categoriesViews[item] = false;
         });
+        $scope.mainCategories.values.push('Others');
 
 
         //Date Picker
