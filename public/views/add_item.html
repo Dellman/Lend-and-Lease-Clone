@@ -11,11 +11,9 @@
                 <br/>
                 <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-name">Item Name <span
-                                class="required">*</span>
-                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-name">Item Name</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="item-name" required="required"
+                            <input type="text" id="item-name"
                                    class="form-control col-md-7 col-xs-12" ng-model="item.name">
                         </div>
                     </div>
@@ -67,7 +65,7 @@
                             (20
                             chars min, 100 max) </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        <textarea style="resize: vertical" id="item-description" required="required"
+                        <textarea style="resize: vertical" id="item-description"
                                   class="form-control "
                                   name="item-description" data-parsley-trigger="keyup" data-parsley-minlength="20"
                                   data-parsley-maxlength="100"
@@ -79,41 +77,34 @@
                     <div class="form-group">
                         <label for="reportrange_right" class="control-label col-md-3 col-sm-3 col-xs-12">Select
                             range</label>
-                        <div class="col-md-4">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
                             <div id="reportrange_right" class="pull-left"
-                                 style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                 style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width:100%">
                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                <span>February 2, 2017 - February 19, 2017</span> <b class="caret"></b>
+                                <span style="width: 89%; display: inline-block; text-align: center">February 2, 2017 - February 19, 2017</span> <b class="caret"></b>
                             </div>
                         </div>
                     </div>
 
                     <div id="booksDiv" ng-show="categoriesViews.Books">
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-author">Author <span
-                                    class="required">*</span>
-                            </label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-author"></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="book-author" required="required"
+                                <input type="text" id="book-author"
                                        class="form-control col-md-7 col-xs-12" ng-model="book.author">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-ISBN">ISBN <span
-                                    class="required">*</span>
-                            </label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-ISBN">ISBN</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="book-ISBN" required="required"
+                                <input type="text" id="book-ISBN"
                                        class="form-control col-md-7 col-xs-12" ng-model="book.isbn">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-dob">Date Published
-                                <span
-                                        class="required">*</span>
-                            </label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="book-dob">Date Published</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="book-dob" required="required"
+                                <input type="text" id="book-dob"
                                        class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
@@ -121,8 +112,7 @@
                     </div>
                     <div id="electronicsDiv" ng-show="categoriesViews.Electronics">
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-batt">Battery <span
-                                    class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-batt">Battery
                             </label>
                             <div class="col-md-3 col-sm-3 col-xs-6">
                                 <select id="elec-batt" class="form-control"
@@ -133,19 +123,16 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-brand">Brand <span
-                                    class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-brand">Brand
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="elec-brand" required="required"
+                                <input type="text" id="elec-brand"
                                        class="form-control col-md-7 col-xs-12" ng-model="elec.brand">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-ou">Outside Use <span
-                                    class="required">*</span>
-                            </label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-ou">Outside Use</label>
                             <div class="col-md-3 col-sm-3 col-xs-6">
                                 <select id="elec-ou" class="form-control"
                                         ng-options="x for x in ouOptions.values"
@@ -158,40 +145,30 @@
 
                     <div id="gamesDiv" ng-show="categoriesViews.Games">
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gs">Game Studio <span
-                                    class="required">*</span>
-                            </label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gs">Game Studio</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="gs" required="required"
-                                       class="form-control col-md-7 col-xs-12" ng-model="games.studio">
+                                <input type="text" id="gs" class="form-control col-md-7 col-xs-12" ng-model="games.studio">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gp">Platform <span
-                                    class="required">*</span>
-                            </label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gp">Platform</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="gp" required="required"
-                                       class="form-control col-md-7 col-xs-12" ng-model="games.platform">
+                                <input type="text" id="gp" class="form-control col-md-7 col-xs-12" ng-model="games.platform">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="games-year">Date Released
-                                <span
-                                        class="required">*</span>
-                            </label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="games-year">Date Released</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="games-year" required="required"
-                                       class="form-control col-md-7 col-xs-12" ng-model="games.year">
+                                <input type="text" id="games-year" class="form-control col-md-7 col-xs-12" ng-model="games.year">
                             </div>
                         </div>
 
                     </div>
 
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Type the item location</label>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="input-group">
                             <input type="text" id="locationInputText" class="form-control">
                             <span class="input-group-btn">
@@ -202,7 +179,7 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-md-5"></div>
+                        <div class="col-md-5 col-sm-4 col-xs-12"></div>
                         <div class="col-md-2" ng-click="getCurLoc();">
                             <a href="javascript:void(0);" class="btn btn-primary btn-block" role="button"> Or Use Current Location</a>
                         </div>
@@ -212,26 +189,6 @@
                     <div class="form-group">
                         <div class="col-md-1 col-sm-1"></div>
                         <div class="col-md-10 col-sm-10 col-xs-12">
-                            <!-- <br>
-
-                                                    <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="elec-batt">Battery <span
-                                            class="required">*</span>
-                                    </label>
-                                    <select class="form-control" id="elec-batt" ng-options="x for x in batteryOptions.values"
-                                            ng-model="batteryOptions.value">
-                                    </select>
-                                </div>
-
-
-                            <br> -->
-                            <!-- <label for="itemLoc">Item Location</label>
-                            <input type="text" name="itemLoc" id="itemLoc" value="Pickup Location"
-                                   ng-model="item.location">
-                            <button type="button" ng-click="checkLoc();">Check Input Location</button>
-                            <button type="button" ng-click="getCurLoc();">Use Precise Current Location</button> -->
-                            <!-- <br>
-                            <br> -->
                             <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
                                 <ng-map id="addItemMap" style="height: 400px; width:700px"
                                         center="current-position" zoom="10"
@@ -244,6 +201,14 @@
                                 </ng-map>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload Image</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="file" class="filestyle" ng-model="item.image">
+                        </div>
+
                     </div>
 
                     <div class="ln_solid"></div>
