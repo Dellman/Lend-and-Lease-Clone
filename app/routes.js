@@ -13,6 +13,7 @@ function imageForm(req, res) {
 };
 
 function uploadImage(req, res, next){
+    console.log("called")
   console.log('file info: ',req.files.image);
   //split the url into an array and then get the last chunk and render it out in the send req.
   var pathArray = req.files.image.path.split( '/' );
@@ -554,7 +555,7 @@ app.get('/items', function(req, res){
   });
 });
 
-app.post('/upload', uploadImage(req, res, next));
+app.post('/upload', uploadImage);
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {

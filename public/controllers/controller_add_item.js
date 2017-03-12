@@ -1,7 +1,7 @@
 /**
  * Created by Basel on 2/15/2017.
  */
-angular.module('myApp.add_item', ['ngRoute'])
+angular.module('myApp.add_item', ['ngRoute', 'ngFileUpload'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/addItem', {
@@ -9,22 +9,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             controller: 'controller_add_item'
         });
     }])
-    .directive('file', function () {
-        return {
-            scope: {
-                file: '='
-            },
-            link: function (scope, el, attrs) {
-                el.bind('change', function (event) {
-                    var file = event.target.files[0];
-                    scope.file = file ? file : undefined;
-                    scope.$apply();
-                });
-            }
-        };
-    })
-
-    .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
+    .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', 'Upload', function ($scope, $http, NgMap, $rootScope, Upload) {
 
         var categories = ['Books', 'Electronics', 'Games', 'Tools'];
         $scope.item = {}
@@ -130,7 +115,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             $scope.vm.map = map;
             //setupListener($scope.map, 'click');
         });
-        console.log($scope.map);
+        //console.log($scope.map);
         // Global variables
         var locationInput = document.getElementById('locationInputText');
         var posLat;
@@ -262,12 +247,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                 data.tool_category_id = $scope.subCategories.value;
             }
 
-            console.log(data)
-            //console.log($scope.item.image);
-
-            console.log($scope.file)
-
-            $http({
+            /*$http({
                 method: 'POST',
                 url: $rootScope.serverIP + "/upload",
                 headers: {
@@ -293,7 +273,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                 })
                 .error(function (data, status) {
 
-                });
+                });*/
 
 
             /*          $http({

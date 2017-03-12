@@ -4,6 +4,7 @@
 angular.module('myApp', [
     'ngRoute',
     'ngMap',
+    'ngFileUpload',
     'myApp.add_item',
     'myApp.items_list',
     'myApp.add_user',
