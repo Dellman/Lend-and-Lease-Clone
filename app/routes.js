@@ -90,7 +90,6 @@ module.exports = function(app, passport) {
                  res.json({error_code:1,err_desc:err});
                  return;
             }
-              console.log(req.file.path);
              res.json({error_code:0,err_desc:null});
         });
     });

@@ -1,7 +1,7 @@
 /**
  * Created by Basel on 2/15/2017.
  */
-angular.module('myApp.add_item', ['ngRoute', 'ngFileUpload'])
+angular.module('myApp.add_item', ['ngRoute'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/addItem', {
@@ -9,7 +9,7 @@ angular.module('myApp.add_item', ['ngRoute', 'ngFileUpload'])
             controller: 'controller_add_item'
         });
     }])
-    .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', 'Upload', function ($scope, $http, NgMap, $rootScope, Upload) {
+    .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
 
         var categories = ['Books', 'Electronics', 'Games', 'Tools'];
         $scope.item = {}
@@ -241,36 +241,10 @@ angular.module('myApp.add_item', ['ngRoute', 'ngFileUpload'])
                 data.tool_category_id = $scope.subCategories.value;
             }
 
-            /*$http({
-                method: 'POST',
-                url: $rootScope.serverIP + "/upload",
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-                data: {
-                    upload: $scope.file
-                },
-                transformRequest: function (data, headersGetter) {
-                    var formData = new FormData();
-                    angular.forEach(data, function (value, key) {
-                        formData.append(key, value);
-                    });
-
-                    var headers = headersGetter();
-                    delete headers['Content-Type'];
-
-                    return formData;
-                }
-            })
-                .success(function (data) {
-
-                })
-                .error(function (data, status) {
-
-                });*/
 
 
-            /*          $http({
+
+          $http({
              method: "POST",
              url: $rootScope.serverIP + "/additem",
              headers: {
@@ -292,6 +266,37 @@ angular.module('myApp.add_item', ['ngRoute', 'ngFileUpload'])
              }).then(function (response) {
              console.log("Success")
              console.log(response)
+             $http({
+                 method: 'POST',
+                 url: $rootScope.serverIP + "/upload",
+                 headers: {
+                     'Content-Type': undefined
+                 },
+                 data: {
+                     upload: $scope.file
+                 },
+                 transformRequest: function (data, headersGetter) {
+                     var formData = new FormData();
+                     angular.forEach(data, function (value, key) {
+                         formData.append(key, value);
+                     });
+
+                     var headers = headersGetter();
+                     delete headers['Content-Type'];
+
+                     return formData;
+                 }
+             })
+                 .success(function (data) {
+
+                 })
+                 .error(function (data, status) {
+
+                 });
+
+
+
+
              }, function myError (response) {
              console.log("ErRor")
              console.log(response)
@@ -308,7 +313,7 @@ angular.module('myApp.add_item', ['ngRoute', 'ngFileUpload'])
 
              alert("Error, response is: " + response.data);
              });
-             */
+
         };
 
     }]);
