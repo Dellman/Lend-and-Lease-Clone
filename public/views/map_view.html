@@ -1,23 +1,19 @@
+<div class="title_right" id="search_bar" ng-controller="controller_map">
+    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+        <div class="input-group">
+            <input ng-model="userSearch" id="userSearch" type="text" class="form-control" placeholder="Search for...">
+            <span class="input-group-btn">
+  <button class="btn btn-default" type="button" ng-click="markerFilter();">Search</button>
+</span>
+        </div>
+    </div>
+</div>
 <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
     <ng-map id="mapViewMap" style="height: 530px"
-            center="current-position" zoom="3"
+            center="current-position" zoom="7"
             default-style="false"
             geo-fallback-center="[59, 19]"
     >
-        <marker id='{{marker.id}}' position="{{marker.position}}"
-          ng-repeat="marker in items | filter: userSearch"
-          on-click="showDetail(marker)"
-        ></marker>
-
-        <info-window id="mapPageIW">
-          <div ng-non-bindable>
-            <h5>Name: {{marker.item_name}}</h5>
-            <h6>Category: {{marker.category}}</h6>
-            <h6>Sub Category: {{marker.subCategory}}</h6>
-            <p>Description: {{marker.description}}</p>
-            <p>Location: {{marker.location}}</p>
-        </div>
-      </info-window>
     </ng-map>
 
 </div>

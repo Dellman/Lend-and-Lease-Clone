@@ -554,7 +554,7 @@ app.get('/items', function(req, res){
   });
 });
 
-app.post('/upload', uploadImage(req, res, next));
+app.post('/upload', uploadImage);
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {

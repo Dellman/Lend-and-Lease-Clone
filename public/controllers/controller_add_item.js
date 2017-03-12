@@ -155,7 +155,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             for (var i = 0; i < itemMarkers.length; i++) {
                 itemMarkers[i].setAnimation(google.maps.Animation.DROP);
                 itemMarkers[i].setMap(map);
-                console.log(itemMarkers[i]);
+                // console.log(itemMarkers[i]);
             }
         }
 
@@ -174,6 +174,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             posLat = positionObject.lat;
             posLng = positionObject.lng;
             cordsPos = posLat + ", " + posLng;
+            // cordsPos = positionObject;
             geocoder.geocode({'location': positionObject}, function (results, status) {
                 if (status === 'OK') {
                     if (results[1]) {
@@ -211,7 +212,8 @@ angular.module('myApp.add_item', ['ngRoute'])
                     $scope.map.setCenter(results[0].geometry.location);
                     posLat = results[0].geometry.location.lat();
                     posLng = results[0].geometry.location.lng();
-                    // cordsPos = posLat + ", " + posLng;
+                    cordsPos = posLat + ", " + posLng;
+                    // cordsPos = positionObject;
                 } else {
                     alert('Geocode was not successful for the following reason: ' + status);
                 }
@@ -255,41 +257,41 @@ angular.module('myApp.add_item', ['ngRoute'])
                 data.tool_category_id = $scope.subCategories.value;
             }
 
-            console.log(data)
+            console.log(data);
             //console.log($scope.item.image);
 
             console.log($scope.file)
 
-            $http({
-                method: 'POST',
-                url: $rootScope.serverIP + "/upload",
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-                data: {
-                    upload: $scope.file
-                },
-                transformRequest: function (data, headersGetter) {
-                    var formData = new FormData();
-                    angular.forEach(data, function (value, key) {
-                        formData.append(key, value);
-                    });
+            // $http({
+            //     method: 'POST',
+            //     url: $rootScope.serverIP + "/upload",
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'
+            //     },
+            //     data: {
+            //         upload: $scope.file
+            //     },
+            //     transformRequest: function (data, headersGetter) {
+            //         var formData = new FormData();
+            //         angular.forEach(data, function (value, key) {
+            //             formData.append(key, value);
+            //         });
+            //
+            //         var headers = headersGetter();
+            //         delete headers['Content-Type'];
+            //
+            //         return formData;
+            //     }
+            // })
+            //     .success(function (data) {
+            //
+            //     })
+            //     .error(function (data, status) {
+            //
+            //     });
 
-                    var headers = headersGetter();
-                    delete headers['Content-Type'];
 
-                    return formData;
-                }
-            })
-                .success(function (data) {
-
-                })
-                .error(function (data, status) {
-
-                });
-
-
-            /*          $http({
+             $http({
              method: "POST",
              url: $rootScope.serverIP + "/additem",
              headers: {
@@ -327,7 +329,6 @@ angular.module('myApp.add_item', ['ngRoute'])
 
              alert("Error, response is: " + response.data);
              });
-             */
         };
 
     }]);

@@ -20,22 +20,16 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
             }
         }).then(function mySucces(response) {
             $scope.items = response.data;
+            console.log($scope.items);
+            
             NgMap.getMap({id: 'mapViewMap'}).then(function (map) {
                 $scope.map = map;
             }).then(function(){
+
+              console.log($scope.items);
+
               var itemMarkers = [];
-
-              function removeMarkers(map) {
-                  putOnMap(null);
-                  for (var i = 0; i < itemMarkers.length; i++) {
-                      itemMarkers[i].setMap(null);
-                  }
-                  itemMarkers = [];
-                  itemMarkers.length = 0;
-                  console.log("Called");
-              }
-
-              removeMarkers($scope.map);
+              var searchBar = document.getElementById("userSearch");
 
               for (var i = 0; i < $scope.items.length; i++) {
                 var latLngStr = $scope.items[i].location.split(',', 2);
@@ -52,10 +46,19 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                     map: $scope.map,
                     name: item.item_name,
                     category: item.category,
-                    // sub-category: item.sub_category,
+                    subCategory: item.sub_category,
                     description: item.description,
                 });
+                var infowindow = new google.maps.InfoWindow({
+                  content: "<h5>" + marker.name + "</h5>" +
+                  "<h6>" + marker.category.toUpperCase() + "</h6>" +
+                  // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
+                  "<p>" + marker.description + "</p>"
+                });
                 // console.log(itemMarkers);
+                marker.addListener('click', function(){
+                  infowindow.open($scope.map, marker);
+                });
                 itemMarkers.push(marker);
                 putOnMap($scope.map);
               }
@@ -65,6 +68,24 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                       itemMarkers[i].setMap(map);
                       // console.log(itemMarkers[i]);
                   }
+              }
+
+              $scope.markerFilter = function(){
+                // console.log(searchBar.value);
+                // console.log(itemMarkers[0].name.includes(searchBar.value));
+                for (var i = 0; i < itemMarkers.length; i++) {
+                  if (itemMarkers[i].name.toUpperCase().includes(searchBar.value.toUpperCase()) ||
+                    itemMarkers[i].description.toUpperCase().includes(searchBar.value.toUpperCase()) ||
+                    itemMarkers[i].category.toUpperCase().includes(searchBar.value.toUpperCase())) {
+                      itemMarkers[i].clickable = true;
+                      itemMarkers[i].visible = true;
+                  }
+                  else{
+                    itemMarkers[i].setVisible(false);
+                    itemMarkers[i].clickable = false;
+                    itemMarkers[i].visible = false;
+                  }
+                }
               }
 
               $scope.showDetail = function (e, marker) {
