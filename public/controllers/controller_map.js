@@ -20,42 +20,60 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
             }
         }).then(function mySucces(response) {
             $scope.items = response.data;
-            $scope.vm = {};
             NgMap.getMap({id: 'mapViewMap'}).then(function (map) {
-                $scope.vm.map = map;
-            });
-            console.log($scope.vm.map);
-            var itemMarkers = [];
+                $scope.map = map;
+            }).then(function(){
+              var itemMarkers = [];
 
-            for (var i = 0; i < $scope.items.length; i++) {
-              var latLngStr = $scope.items[i].location.split(',', 2);
-              var markerLatLng = new google.maps.LatLng();
-              markerLatLng.lat = latLngStr[0];
-              markerLatLng.lng = latLngStr[1];
-              $scope.items[i].location = markerLatLng;
-              addMarker($scope.items[i].location);
-            }
+              function removeMarkers(map) {
+                  putOnMap(null);
+                  for (var i = 0; i < itemMarkers.length; i++) {
+                      itemMarkers[i].setMap(null);
+                  }
+                  itemMarkers = [];
+                  itemMarkers.length = 0;
+                  console.log("Called");
+              }
 
-        $scope.showDetail = function (e, marker) {
-                $scope.marker = marker;
-                $scope.map.showInfoWindow('mapPageIW', marker.id);
-            };
+              removeMarkers($scope.map);
 
-            function addMarker(location) {
+              for (var i = 0; i < $scope.items.length; i++) {
+                var latLngStr = $scope.items[i].location.split(',', 2);
+                var markerLatLng = new google.maps.LatLng();
+                markerLatLng.lat = parseFloat(latLngStr[0].trim());
+                markerLatLng.lng = parseFloat(latLngStr[1].trim());
+                $scope.items[i].location = markerLatLng;
+                addMarker($scope.items[i]);
+              }
+
+              function addMarker(item) {
                 var marker = new google.maps.Marker({
-                    position: location,
-                    map: $scope.map
+                    position: {lat: item.location.lat, lng: item.location.lng},
+                    map: $scope.map,
+                    name: item.item_name,
+                    category: item.category,
+                    // sub-category: item.sub_category,
+                    description: item.description,
                 });
+                // console.log(itemMarkers);
                 itemMarkers.push(marker);
                 putOnMap($scope.map);
-            }
+              }
 
-            function putOnMap(map) {
-                for (var i = 0; i < itemMarkers.length; i++) {
-                    itemMarkers[i].setMap(map);
-                    // console.log(itemMarkers[i]);
-                }
-            }
+              function putOnMap(map) {
+                  for (var i = 0; i < itemMarkers.length; i++) {
+                      itemMarkers[i].setMap(map);
+                      // console.log(itemMarkers[i]);
+                  }
+              }
+
+              $scope.showDetail = function (e, marker) {
+                  $scope.marker = marker;
+                  $scope.map.showInfoWindow('mapPageIW', marker.id);
+                  console.log(this);
+              };
+
+            });
         }, function myError(response) {
             console.log("Error");
         });
