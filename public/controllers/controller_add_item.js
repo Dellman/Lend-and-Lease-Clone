@@ -9,6 +9,20 @@ angular.module('myApp.add_item', ['ngRoute'])
             controller: 'controller_add_item'
         });
     }])
+    .directive('file', function () {
+        return {
+            scope: {
+                file: '='
+            },
+            link: function (scope, el, attrs) {
+                el.bind('change', function (event) {
+                    var file = event.target.files[0];
+                    scope.file = file ? file : undefined;
+                    scope.$apply();
+                });
+            }
+        };
+    })
 
     .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
 
@@ -211,9 +225,9 @@ angular.module('myApp.add_item', ['ngRoute'])
             var date4 = date2.getFullYear() + '-' + date2.getMonth() + '-' + date2.getDate();
 
             var data = {
-                "item_name": (($scope.item.name != null)? $scope.item.name: "Empty"),//$scope.item.name,
-                "description": (($scope.item.desc != null)? $scope.item.desc: "Empty"),
-                "category": (($scope.mainCategories.value != null)? $scope.mainCategories.value: "Empty"),
+                "item_name": (($scope.item.name != null) ? $scope.item.name : "Empty"),//$scope.item.name,
+                "description": (($scope.item.desc != null) ? $scope.item.desc : "Empty"),
+                "category": (($scope.mainCategories.value != "Choose One") ? $scope.mainCategories.value : "Others"),
                 "start_date": $("#reportrange_right").data('daterangepicker').startDate.format('YYYY-MM-DD'),
                 "end_date": $("#reportrange_right").data('daterangepicker').endDate.format('YYYY-MM-DD'),
                 "submission_date": date4,
@@ -225,70 +239,95 @@ angular.module('myApp.add_item', ['ngRoute'])
                 data.book_category_id = $scope.subCategories.value;
                 data.date_published = $scope.book.year;
             }
-            else if ($scope.mainCategories.value == "Electronics"){
+            else if ($scope.mainCategories.value == "Electronics") {
                 data.battery = $scope.batteryOptions.value;
                 data.electronics_category_id = $scope.subCategories.value;
                 data.brand = $scope.elec.brand;
                 data.outside_use = $scope.ouOptions.value;
             }
-            else if($scope.mainCategories.value == "Games"){
+            else if ($scope.mainCategories.value == "Games") {
                 data.gamestudio = $scope.games.studio;
                 data.date_released = $scope.games.year;
                 data.platform = $scope.games.platform;
                 data.game_category_id = $scope.subCategories.value;
             }
-            else if ($scope.mainCategories.value == "Tools"){
+            else if ($scope.mainCategories.value == "Tools") {
                 data.tool_category_id = $scope.subCategories.value;
             }
 
-           console.log(data)
-            console.log($scope.item.image);
+            console.log(data)
+            //console.log($scope.item.image);
 
+            console.log($scope.file)
 
-  /*          $http({
-                method: "POST",
-                url: $rootScope.serverIP + "/additem",
+            $http({
+                method: 'POST',
+                url: $rootScope.serverIP + "/upload",
                 headers: {
-                    'Content-Type': "application/json"
+                    'Content-Type': 'multipart/form-data'
                 },
-                data: data
-            }).then(function mySucces(response) {
-                console.log($scope.item.image);
+                data: {
+                    upload: $scope.file
+                },
+                transformRequest: function (data, headersGetter) {
+                    var formData = new FormData();
+                    angular.forEach(data, function (value, key) {
+                        formData.append(key, value);
+                    });
 
-                $http({
-                    method: "POST",
-                    url: $rootScope.serverIP + "/upload",
-                    headers: {
+                    var headers = headersGetter();
+                    delete headers['Content-Type'];
 
-                    },
-                    data: {
-                        file: $scope.item.image
-                    }
-                }).then(function (response) {
-                    console.log("Success")
-                    console.log(response)
-                }, function myError (response) {
-                    console.log("ErRor")
-                    console.log(response)
+                    return formData;
+                }
+            })
+                .success(function (data) {
+
                 })
+                .error(function (data, status) {
+
+                });
 
 
+            /*          $http({
+             method: "POST",
+             url: $rootScope.serverIP + "/additem",
+             headers: {
+             'Content-Type': "application/json"
+             },
+             data: data
+             }).then(function mySucces(response) {
+             console.log($scope.item.image);
+
+             $http({
+             method: "POST",
+             url: $rootScope.serverIP + "/upload",
+             headers: {
+
+             },
+             data: {
+             file: $scope.item.image
+             }
+             }).then(function (response) {
+             console.log("Success")
+             console.log(response)
+             }, function myError (response) {
+             console.log("ErRor")
+             console.log(response)
+             })
 
 
+             if (response.data.code == 101) {
+             alert("Success, response is: " + response.data.message);
+             }
+             else {
+             alert("ERROR: " + response.data.code + "MESSAGE: " + response.data.message);
+             }
+             }, function myError(response) {
 
-
-
-                if (response.data.code == 101) {
-                    alert("Success, response is: " + response.data.message);
-                }
-                else {
-                    alert("ERROR: " + response.data.code + "MESSAGE: " + response.data.message);
-                }
-            }, function myError(response) {
-
-                alert("Error, response is: " + response.data);
-            });
-*/
+             alert("Error, response is: " + response.data);
+             });
+             */
         };
 
     }]);
