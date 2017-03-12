@@ -10,7 +10,7 @@ var multer = require('multer');
 
 var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
-        cb(null, '/home/kirk/Documents/lendandlease.app/public/images/');
+        cb(null, 'public/images/');
 
     },
     filename: function (req, file, cb) {
@@ -83,7 +83,7 @@ module.exports = function(app, passport) {
     });
 
     app.post('/upload', function(req, res) {
-      console.log("upload IMAGE" + JSON.stringify(req.body));
+      //console.log("upload IMAGE" + JSON.stringify(req.body));
         upload(req,res,function(err){
             if(err){
                   console.log(err);
