@@ -116,7 +116,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             $scope.vm.map = map;
             //setupListener($scope.map, 'click');
         });
-
+        console.log($scope.map);
         // Global variables
         var locationInput = document.getElementById('locationInputText');
         var posLat;
@@ -142,6 +142,7 @@ angular.module('myApp.add_item', ['ngRoute'])
             for (var i = 0; i < itemMarkers.length; i++) {
                 itemMarkers[i].setAnimation(google.maps.Animation.DROP);
                 itemMarkers[i].setMap(map);
+                console.log(itemMarkers[i]);
             }
         }
 
