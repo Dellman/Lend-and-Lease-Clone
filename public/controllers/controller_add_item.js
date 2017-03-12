@@ -78,13 +78,13 @@ angular.module('myApp.add_item', ['ngRoute'])
                 'Content-Type': "application/json"
             }
         }).then(function mySucces(response) {
-            var allcats = response.data;
-            console.log(allcats);
-            for (var j = 0; j < allcats.length; j++) {
+            var allCats = response.data;
+            console.log(allCats);
+            for (var j = 0; j < allCats.length; j++) {
                 $scope.subCategories.values[categories[j]] = [];
                 $scope.subCategories.values[categories[j]].push('Choose One')
-                for (var i = 0; i < allcats[j].length; i++) {
-                    $scope.subCategories.values[categories[j]].push(allcats[j][i][Object.keys(allcats[j][i])[0]]);
+                for (var i = 0; i < allCats[j].length; i++) {
+                    $scope.subCategories.values[categories[j]].push(allCats[j][i][Object.keys(allCats[j][i])[0]]);
                 }
             }
 
@@ -155,13 +155,16 @@ angular.module('myApp.add_item', ['ngRoute'])
         // Convert cords to readable format
         function geocodeCords(positionObject) {
             var geocoder = new google.maps.Geocoder;
+            // console.log(positionObject);
             posLat = positionObject.lat;
             posLng = positionObject.lng;
-            console.log(positionObject);
+            // console.log(positionObject);
             cordsPos = posLat + ", " + posLng;
-            var latlngStr = cordsPos.split(',', 2);
-            var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-            geocoder.geocode({'location': latlng}, function (results, status) {
+            // var latlngStr = cordsPos.split(',', 2);
+            // var latlng = {lat: parseFloat(posLat), lng: parseFloat(posLng)};
+            // console.log(latlng);
+            // cordsPos = positionObject;
+            geocoder.geocode({'location': positionObject}, function (results, status) {
                 if (status === 'OK') {
                     if (results[1]) {
                         namePos = (results[1].formatted_address);
@@ -198,7 +201,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                     $scope.map.setCenter(results[0].geometry.location);
                     posLat = results[0].geometry.location.lat();
                     posLng = results[0].geometry.location.lng();
-                    cordsPos = posLat + ", " + posLng;
+                    // cordsPos = posLat + ", " + posLng;
                 } else {
                     alert('Geocode was not successful for the following reason: ' + status);
                 }
