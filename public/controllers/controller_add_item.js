@@ -9,6 +9,20 @@ angular.module('myApp.add_item', ['ngRoute'])
             controller: 'controller_add_item'
         });
     }])
+.directive('file', function () {
+    return {
+        scope: {
+            file: '='
+        },
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+                var file = event.target.files[0];
+                scope.file = file ? file : undefined;
+                scope.$apply();
+            });
+        }
+    };
+})
     .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', function ($scope, $http, NgMap, $rootScope) {
 
         var categories = ['Books', 'Electronics', 'Games', 'Tools'];
@@ -242,71 +256,47 @@ angular.module('myApp.add_item', ['ngRoute'])
                 data.tool_category_id = $scope.subCategories.value;
             }
 
-             $http({
-             method: "POST",
-             url: $rootScope.serverIP + "/additem",
-             headers: {
-             'Content-Type': "application/json"
-             },
-             data: data
-             }).then(function mySucces(response) {
-             console.log($scope.item.image);
+            $http({
+                method: "POST",
+                url: $rootScope.serverIP + "/additem",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                data: data
+            }).then(function mySucces(response) {
 
-             $http({
-             method: "POST",
-             url: $rootScope.serverIP + "/upload",
-             headers: {
+                $http({
+                    method: 'POST',
+                    url: $rootScope.serverIP + "/upload",
+                    headers: {
+                        'Content-Type': undefined
+                    },
+                    data: {
+                        upload: $scope.file
+                    },
+                    transformRequest: function (data, headersGetter) {
+                        var formData = new FormData();
+                        angular.forEach(data, function (value, key) {
+                            formData.append(key, value);
+                        });
 
-             },
-             data: {
-             file: $scope.item.image
-             }
-             }).then(function (response) {
-             console.log("Success")
-             console.log(response)
-             $http({
-                 method: 'POST',
-                 url: $rootScope.serverIP + "/upload",
-                 headers: {
-                     'Content-Type': undefined
-                 },
-                 data: {
-                     upload: $scope.file
-                 },
-                 transformRequest: function (data, headersGetter) {
-                     var formData = new FormData();
-                     angular.forEach(data, function (value, key) {
-                         formData.append(key, value);
-                     });
+                        var headers = headersGetter();
+                        delete headers['Content-Type'];
 
-                     var headers = headersGetter();
-                     delete headers['Content-Type'];
+                        return formData;
+                    }
+                })
+                    .success(function (data) {
+                        console.log("Upload Successful")
+                    })
+                    .error(function (data, status) {
+                        console.log("Upload Failed!")
+                    });
 
-                     return formData;
-                 }
-             })
-                 .success(function (data) {
-
-                 })
-                 .error(function (data, status) {
-
-                 });
-
-             }, function myError (response) {
-             console.log("ErRor")
-             console.log(response)
-             })
-
-             if (response.data.code == 101) {
-             alert("Success, response is: " + response.data.message);
-             }
-             else {
-             alert("ERROR: " + response.data.code + "MESSAGE: " + response.data.message);
-             }
-             }, function myError(response) {
-
-             alert("Error, response is: " + response.data);
-             });
+            }, function myError(response) {
+                console.log("ErRor")
+                console.log(response)
+            });
         };
 
     }]);
