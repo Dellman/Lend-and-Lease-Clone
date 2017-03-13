@@ -65,7 +65,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                   "<h6>" + marker.category.toUpperCase() + "</h6>" +
                   // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
                   "<p>" + marker.description + "</p>" +
-                  "<div style='overflow:hidden'><img style='width: 225px; height:225px' src='localhost:3000/images/" + marker.image + "'/></div>"
+                  "<div style='overflow:hidden'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/></div>"
                 });
                 // console.log(itemMarkers);
                 marker.addListener('click', function(){
