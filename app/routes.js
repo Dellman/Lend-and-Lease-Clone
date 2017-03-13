@@ -750,7 +750,7 @@ module.exports = function (app, passport) {
       {
         connection.query("SELECT email FROM users WHERE user_id = ( ? )", [req.user], function(err, rows){
           if(!err){
-            console.log("ROWS EMAIL FROM LOGGED IN: " + JSON.stringify(rows[0]));
+            console.log(util.inspect(rows[0], false, null))
             res.send( {code: 101, email: rows[0]});
           }
           else{
