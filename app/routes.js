@@ -719,15 +719,36 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.post('/requestitem', function(req, res){
+    var getItemUserId = "SELECT user_id, item_name FROM items WHERE item_id = ( ? )";
+    var getItemUserEmail = "SELECT email FROM users WHERE user_id = ( ? )";
 
+    app.post('/requestitem', function(req, res){
+      if(isLoggedIn){
+
+        connection.query(getItemUserId, req.body.item_id, function(err, rows){
+          if(!err)
+          {
+
+          }
+          else{
+            console.log(err);
+          }
+
+
+        });
+
+
+      }
+      else{
+        res.send(new response_object(109, "Redirect to Login"));
+      }
 
     });
 
     app.get('/loggedin', function(req, res){
       if(isLoggedIn)
       {
-        res.send(new response_object(101, "User Logged In."));
+        res.send(new response_object(101, req.user));
       }
       else{
         res.send(new response_object(109, "Redirect to Login"));
