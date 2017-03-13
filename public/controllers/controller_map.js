@@ -14,6 +14,29 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
 
         $http({
             method: "GET",
+            url: $rootScope.serverIP + "/loggedin",
+            headers: {
+                'Content-Type': "application/json"
+            }
+        }).then(function success(response) {
+            console.log(response)
+            if (response.data.code == 109){
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(2) > a').style.display = 'none';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(3) > a').style.display = 'none';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(4) > a').style.display = 'none';
+            }
+            else{
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(2) > a').style.display = 'block';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(3) > a').style.display = 'block';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(4) > a').style.display = 'block';
+            }
+
+        }, function error(){
+            alert("Error!")
+        });
+
+        $http({
+            method: "GET",
             url: $rootScope.serverIP + "/items",
             headers: {
                 'Content-Type': "application/json"

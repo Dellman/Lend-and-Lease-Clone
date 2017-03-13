@@ -72,7 +72,7 @@
                                            ng-model="user.password" required=""/>
                                 </div>
 
-                                <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
+<!--                                <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyCIdwRu4ngSUOFiSPAgCvN09Gp7PUtUy9c">
                                     <ng-map style="height: 400px; width:100%"
                                             center=current-position" zoom="10"
                                             default-style="false"
@@ -80,7 +80,10 @@
                                             geo-callback="vm.callbackFunc('you')"
                                     >
                                     </ng-map>
-                                </div>
+                                </div>-->
+                                    <span class="left" style="padding-right:5px;">Profile Image</span>
+                                    <input type="file" class="filestyle" file="file" style="display: inline-block">
+
                                 <div>
                                     <a class="btn btn-default submit" href="javascript:;"
                                        ng-click="signup()">Submit</a>
