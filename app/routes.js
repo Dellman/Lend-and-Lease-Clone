@@ -748,7 +748,15 @@ module.exports = function (app, passport) {
     app.get('/loggedin', function(req, res){
       if(isLoggedIn)
       {
-        res.send(new response_object(101, req.user));
+        connection.query("SELECT email FROM users WHERE user_id = ( ? )", [req.user], function(err, rows){
+          if(!err){
+            console.log("ROWS EMAIL FROM LOGGED IN: " + JSON.stringify(rows[0]));
+            res.send( {code: 101, email: rows[0]});
+          }
+          else{
+            console.log(err);
+          }
+        });
       }
       else{
         res.send(new response_object(109, "Redirect to Login"));
