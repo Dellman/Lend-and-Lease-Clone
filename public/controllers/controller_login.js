@@ -185,7 +185,24 @@ angular.module('myApp.login', ['ngRoute'])
                         .success(function (data) {
                             console.log("Upload Successful");
 
-                            $scope.login($scope.user.email, $scope.user.password)
+                            $http({
+                                method: "GET",
+                                url: $rootScope.serverIP + "/logout",
+                                headers: {
+                                    'Content-Type': "application/json",
+                                    'WWW-Authenticate': ""
+                                },
+                                data: {
+
+                                }
+                            }).then(function mySucces(response) {
+                                alert("LoGged Out")
+                                $scope.login($scope.user.email, $scope.user.password)
+
+                            }, function myError(){
+                                console.log("Cant Log out")
+                            })
+
                             $window.location.href = '/#!/map';
 
                         })
