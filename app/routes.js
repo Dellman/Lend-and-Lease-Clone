@@ -261,6 +261,7 @@ module.exports = function(app, passport) {
                   }
             });
           }else{
+            console.log(req.user);
             connection.query(insertPPQuery, [storeFile, req.user], function(err, rows){
                   if(!err){
                     console.log("Success at storing img link in database");
@@ -602,27 +603,82 @@ module.exports = function(app, passport) {
 
     });
 
+    var userBooksQuery = "SELECT books.book_category_id, books.author, books.ISBN, books.date_published, items.* FROM items INNER JOIN books ON items.item_id = books.book_id WHERE user_id = ( ? )";
+    var userGamesQuery = "SELECT games.gamestudio, games.date_released, games.platform, items.* FROM items INNER JOIN games ON items.item_id = games.game_id WHERE user_id = ( ? )";
+    var userToolsQuery = "SELECT tools.tool_category_id, items.* FROM items INNER JOIN tools ON items.item_id=tools.tool_id WHERE user_id = ( ? )";
+    var userElectronicsQuery = "SELECT electronics.electronic_category_id, electronics.battery, electronics.brand, electronics.outside_use, items.* FROM items INNER JOIN electronics ON items.item_id = electronics.electronic_id WHERE user_id = ( ? )";
+    var userOthersQuery = "SELECT items.* FROM items INNER JOIN others ON items.item_id = others.other_id WHERE user_id = ( ? )";
+
+    var userItemsArray = [];
+
     app.get('/items', function(req, res){
-      connection.query("select * from items", function(err, rows){
+      connection.query(userBooksQuery, [ req.user ], function(err, rows){
         if(!err)
         {
-            res.send(rows);
+          userItemsArray.push(rows);
+            connection.query(userGamesQuery, [ req.user ], function(err, rows){
+              if(!err)
+              {
+                userItemsArray.push(rows);
+                connection.query(userToolsQuery, [ req.user ], function(err, rows){
+                  if(!err)
+                  {
+                    userItemsArray.push(rows);
+                    connection.query(userElectronicsQuery, [ req.user ], function(err, rows){
+                        if(!err)
+                        {
+                          userItemsArray.push(rows);
+                          connection.query(userOthersQuery, [ req.user ], function(err, rows){
+                              if(!err)
+                              {
+                                  userItemsArray.push(rows);
+                                /* EMPTY THE USERITEMARRAY BEFORE EXITING */
+                                  console.log(userItemsArray);
+                                  res.send(userItemsArray)
+                                  userItemsArray = [];
+                                  console.log(userItemsArray);
+                              }
+                              else{
+                                console.log("ERROR FROM USER OTHERS QUERY: " + err);
+                              }
+                          });
+
+                        }
+                        else{
+                          console.log("ERROR FROM USER ELECTRONICS QUERY: " + err);
+                        }
+                    });
+
+                  }
+                  else{
+                    console.log("ERROR FROM USER TOOLS QUERY: " + err);
+                  }
+                });
+
+              }
+              else{
+                console.log("ERROR FROM USER GAMES QUERY: " + err);
+              }
+            });
         }
         else{
-          console.log(err);
+          console.log("ERROR FROM USER BOOKS QUERY: " + err);
         }
       });
     });
 
+    app.get('/loggedin', isLoggedIn);
+
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
-  console.log("IsLOGGED IN REACHED");
+  console.log("isLoggedIn in reached");
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated()){
+        res.send(new response_object(101, "You're logged in!"));
         return next();
       }
       else{
-        console.log("REdirect REACHED");
+        console.log("Redirect REACHED");
     // if they aren't redirect them to the home page
         res.send(new response_object(109, "redirect to login"));
   }

@@ -12,6 +12,7 @@ angular.module('myApp.profile', ['ngRoute'])
 
     .controller('controller_profile', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
         $scope.user = {};
+
         $http({
             method : "GET",
             url : $rootScope.serverIP + "/profile"
@@ -21,7 +22,7 @@ angular.module('myApp.profile', ['ngRoute'])
 
             $scope.user.fname = response.data[0].first_name;
             $scope.user.lname = response.data[0].last_name;
-            $scope.user.address = response.data[0].address;
+            // $scope.user.address = response.data[0].address;
             $scope.user.dob = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
             $scope.user.email = response.data[0].email;
             $scope.user.phone = response.data[0].phone;

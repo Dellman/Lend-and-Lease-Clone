@@ -13,6 +13,29 @@ angular.module('myApp.login', ['ngRoute'])
 
     .controller('controller_login', ['$scope', '$http', '$location', '$rootScope', function ($scope, $http, $location, $rootScope) {
 
+        $http({
+            method: "GET",
+            url: $rootScope.serverIP + "/loggedin",
+            headers: {
+                'Content-Type': "application/json"
+            }
+        }).then(function success(response) {
+            console.log(response)
+            if (response.data.code == 109) {
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(2) > a').style.display = 'none';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(3) > a').style.display = 'none';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(4) > a').style.display = 'none';
+            }
+            else {
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(2) > a').style.display = 'block';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(3) > a').style.display = 'block';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(4) > a').style.display = 'block';
+            }
+
+        }, function error() {
+            alert("Error!")
+        });
+
         $scope.user = {};
 
         function adjustwidth() {
@@ -64,7 +87,7 @@ angular.module('myApp.login', ['ngRoute'])
                 method: "POST",
                 url: $rootScope.serverIP + "/login",
                 headers: {
-                'Content-Type' : 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 data: {
                     "email": $scope.user.email,
@@ -108,7 +131,36 @@ angular.module('myApp.login', ['ngRoute'])
             }).then(function mySucces(response) {
                 if (response.data.code == 101) {
                     alert("Success, response is: " + response.data.message);
-                    $location.path('/login');
+
+                    $http({
+                        method: 'POST',
+                        url: $rootScope.serverIP + "/ppupload",
+                        headers: {
+                            'Content-Type': undefined
+                        },
+                        data: {
+                            ppupload: $scope.file
+                        },
+                        transformRequest: function (data, headersGetter) {
+                            var formData = new FormData();
+                            angular.forEach(data, function (value, key) {
+                                formData.append(key, value);
+                            });
+
+                            var headers = headersGetter();
+                            delete headers['Content-Type'];
+
+                            return formData;
+                        }
+                    })
+                        .success(function (data) {
+                            console.log("Upload Successful");
+                            $location.path('/login');
+
+                        })
+                        .error(function (data, status) {
+                            console.log("Upload Failed!")
+                        });
 
                 }
                 else {

@@ -13,8 +13,22 @@ angular.module('myApp', [
 ]).
 config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix('!');
-    $routeProvider.otherwise({redirectTo: '/addItem'});
-}]).
-run(function ($rootScope) {
+    $routeProvider.otherwise({redirectTo: '/map'});
+}])
+    .directive('file', function () {
+        return {
+            scope: {
+                file: '='
+            },
+            link: function (scope, el, attrs) {
+                el.bind('change', function (event) {
+                    var file = event.target.files[0];
+                    scope.file = file ? file : undefined;
+                    scope.$apply();
+                });
+            }
+        };
+    })
+    .run(function ($rootScope) {
     $rootScope.serverIP = 'http://localhost:3000';
 });
