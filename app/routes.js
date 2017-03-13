@@ -685,10 +685,10 @@ module.exports = function (app, passport) {
                                             if (!err) {
                                                 allItemsArray.push(rows);
                                                 /* EMPTY THE USERITEMARRAY BEFORE EXITING */
-                                                console.log(allItemsArray);
+                                                console.log("ALL ITEMS ARRAY BEFORE BEING SENT " + JSON.stringify(allItemsArray));
                                                 res.send(allItemsArray)
                                                 allItemsArray = [];
-                                                console.log(allItemsArray);
+                                                console.log("ALL ITEMS ARRAY AFTER BEING SENT" + allItemsArray);
                                             }
                                             else {
                                                 console.log("ERROR FROM ALL  OTHERS QUERY: " + err);
