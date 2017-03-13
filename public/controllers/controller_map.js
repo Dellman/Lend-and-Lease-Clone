@@ -49,6 +49,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 $scope.map = map;
             }).then(function () {
 
+              console.log($scope.items);
                 var itemMarkers = [];
 
                 for (var i = 0; i < $scope.items.length; i++) {
@@ -65,13 +66,13 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 }
 
                 function addMarker(item) {
-                  console.log(item);
+                  // console.log(item);
                   var marker = new google.maps.Marker({
                       position: {lat: item.location.lat, lng: item.location.lng},
                       map: $scope.map,
                       name: item.item_name,
                       category: item.category,
-                      // subCategory: item[0].sub_category,
+                      // subCategory: item.sub_category,
                       description: item.description,
                       image: item.img_link,
                       id: item.item_id
