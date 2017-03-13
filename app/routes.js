@@ -183,53 +183,53 @@ module.exports = function (app, passport) {
     });
 
     app.get('/subCategories', function (req, res) {
-      if(isLoggedIn(req, res)){
-        var subCategories = [];
-        var book_categories = "SELECT book_category_name FROM book_categories";
-        var electronic_categories = "SELECT electronic_category_name FROM electronic_categories";
-        var game_categories = "SELECT game_category_name FROM game_categories";
-        var tool_categories = "SElECT tool_category_name FROM tool_categories";
-        connection.query(book_categories, function (err, result) {
-            if (!err) {
-                subCategories.push(result);
+        if (isLoggedIn(req, res)) {
+            var subCategories = [];
+            var book_categories = "SELECT book_category_name FROM book_categories";
+            var electronic_categories = "SELECT electronic_category_name FROM electronic_categories";
+            var game_categories = "SELECT game_category_name FROM game_categories";
+            var tool_categories = "SElECT tool_category_name FROM tool_categories";
+            connection.query(book_categories, function (err, result) {
+                if (!err) {
+                    subCategories.push(result);
 
-                connection.query(electronic_categories, function (err, result) {
-                    if (!err) {
-                        subCategories.push(result);
+                    connection.query(electronic_categories, function (err, result) {
+                        if (!err) {
+                            subCategories.push(result);
 
-                        connection.query(game_categories, function (err, result) {
-                            if (!err) {
-                                subCategories.push(result);
+                            connection.query(game_categories, function (err, result) {
+                                if (!err) {
+                                    subCategories.push(result);
 
-                                connection.query(tool_categories, function (err, result) {
-                                    if (!err) {
-                                        subCategories.push(result);
-                                        console.log(subCategories);
-                                        res.send(subCategories);
+                                    connection.query(tool_categories, function (err, result) {
+                                        if (!err) {
+                                            subCategories.push(result);
+                                            console.log(subCategories);
+                                            res.send(subCategories);
 
-                                    }
-                                    else {
-                                        console.log(err);
-                                    }
-                                });
-                            }
-                            else {
-                                console.log(err);
-                            }
-                        });
-                    }
-                    else {
-                        console.log(err);
-                    }
-                });
-            }
-            else {
-                console.log(err);
-            }
-        });
-      }else {
-        res.send(new response_object(109, "redirect to login"));
-      }
+                                        }
+                                        else {
+                                            console.log(err);
+                                        }
+                                    });
+                                }
+                                else {
+                                    console.log(err);
+                                }
+                            });
+                        }
+                        else {
+                            console.log(err);
+                        }
+                    });
+                }
+                else {
+                    console.log(err);
+                }
+            });
+        } else {
+            res.send(new response_object(109, "redirect to login"));
+        }
     });
     var storage = multer.diskStorage({ //multers disk storage settings
         destination: function (req, file, cb) {
@@ -605,59 +605,59 @@ module.exports = function (app, passport) {
     var userItemsArray = [];
 
     app.get('/items', function (req, res) {
-      if(isLoggedIn){
-        connection.query(userBooksQuery, [req.user], function (err, rows) {
-            if (!err) {
-                userItemsArray.push(rows);
-                connection.query(userGamesQuery, [req.user], function (err, rows) {
-                    if (!err) {
-                        userItemsArray.push(rows);
-                        connection.query(userToolsQuery, [req.user], function (err, rows) {
-                            if (!err) {
-                                userItemsArray.push(rows);
-                                connection.query(userElectronicsQuery, [req.user], function (err, rows) {
-                                    if (!err) {
-                                        userItemsArray.push(rows);
-                                        connection.query(userOthersQuery, [req.user], function (err, rows) {
-                                            if (!err) {
-                                                userItemsArray.push(rows);
-                                                /* EMPTY THE USERITEMARRAY BEFORE EXITING */
-                                                console.log(userItemsArray);
-                                                res.send(userItemsArray)
-                                                userItemsArray = [];
-                                                console.log(userItemsArray);
-                                            }
-                                            else {
-                                                console.log("ERROR FROM USER OTHERS QUERY: " + err);
-                                            }
-                                        });
+        if (isLoggedIn) {
+            connection.query(userBooksQuery, [req.user], function (err, rows) {
+                if (!err) {
+                    userItemsArray.push(rows);
+                    connection.query(userGamesQuery, [req.user], function (err, rows) {
+                        if (!err) {
+                            userItemsArray.push(rows);
+                            connection.query(userToolsQuery, [req.user], function (err, rows) {
+                                if (!err) {
+                                    userItemsArray.push(rows);
+                                    connection.query(userElectronicsQuery, [req.user], function (err, rows) {
+                                        if (!err) {
+                                            userItemsArray.push(rows);
+                                            connection.query(userOthersQuery, [req.user], function (err, rows) {
+                                                if (!err) {
+                                                    userItemsArray.push(rows);
+                                                    /* EMPTY THE USERITEMARRAY BEFORE EXITING */
+                                                    console.log(userItemsArray);
+                                                    res.send(userItemsArray)
+                                                    userItemsArray = [];
+                                                    console.log(userItemsArray);
+                                                }
+                                                else {
+                                                    console.log("ERROR FROM USER OTHERS QUERY: " + err);
+                                                }
+                                            });
 
-                                    }
-                                    else {
-                                        console.log("ERROR FROM USER ELECTRONICS QUERY: " + err);
-                                    }
-                                });
+                                        }
+                                        else {
+                                            console.log("ERROR FROM USER ELECTRONICS QUERY: " + err);
+                                        }
+                                    });
 
-                            }
-                            else {
-                                console.log("ERROR FROM USER TOOLS QUERY: " + err);
-                            }
-                        });
+                                }
+                                else {
+                                    console.log("ERROR FROM USER TOOLS QUERY: " + err);
+                                }
+                            });
 
-                    }
-                    else {
-                        console.log("ERROR FROM USER GAMES QUERY: " + err);
-                    }
-                });
-            }
-            else {
-                console.log("ERROR FROM USER BOOKS QUERY: " + err);
-            }
-        });
-      }
-      else {
-        res.send(new response_object(109, "login redirect"));
-      }
+                        }
+                        else {
+                            console.log("ERROR FROM USER GAMES QUERY: " + err);
+                        }
+                    });
+                }
+                else {
+                    console.log("ERROR FROM USER BOOKS QUERY: " + err);
+                }
+            });
+        }
+        else {
+            res.send(new response_object(109, "login redirect"));
+        }
     });
 
     var allBooksQuery = "SELECT books.author, books.ISBN, books.date_published, items.*, book_categories.book_category_name FROM items INNER JOIN books ON items.item_id = books.book_id INNER JOIN book_categories ON books.book_category_id = book_categories.book_category_id";
@@ -722,49 +722,50 @@ module.exports = function (app, passport) {
     var getItemUserId = "SELECT user_id, item_name FROM items WHERE item_id = ( ? )";
     var getItemUserEmail = "SELECT email FROM users WHERE user_id = ( ? )";
 
-    app.post('/requestitem', function(req, res){
-      if(isLoggedIn){
+    app.post('/requestitem', function (req, res) {
+        if (isLoggedIn) {
 
-        connection.query(getItemUserId, req.body.item_id, function(err, rows){
-          if(!err)
-          {
+            connection.query(getItemUserId, req.body.item_id, function (err, rows) {
+                if (!err) {
 
-          }
-          else{
-            console.log(err);
-          }
-
-
-        });
+                }
+                else {
+                    console.log(err);
+                }
 
 
-      }
-      else{
-        res.send(new response_object(109, "Redirect to Login"));
-      }
+            });
+
+
+        }
+        else {
+            res.send(new response_object(109, "Redirect to Login"));
+        }
 
     });
 
-    app.get('/loggedin', function(req, res){
-      if(isLoggedIn)
-      {
-        connection.query("SELECT email FROM users WHERE user_id = ( ? )", [req.user], function(err, rows){
-          if(!err){
-            console.log("ROWS EMAIL FROM LOGGED IN: " + JSON.stringify(rows[0]));
-            res.send( {code: 101, email: rows[0]});
-          }
-          else{
-            console.log(err);
-          }
-        });
-      }
-      else{
-        res.send(new response_object(109, "Redirect to Login"));
-      }
+    app.get('/loggedin', function (req, res) {
+        if (isLoggedIn) {
+            connection.query("SELECT email FROM users WHERE user_id = ( ? )", [req.user], function (err, rows) {
+                if (!err) {
+                    console.log("ROWS EMAIL FROM LOGGED IN: " + JSON.stringify(rows[0]));
+                    if (rows[0] != null)
+                        res.send({code: 101, email: rows[0]});
+                    else
+                        res.send(new response_object(109, "Please Log in"));
+                }
+                else {
+                    console.log(err);
+                }
+            });
+        }
+        else {
+            res.send(new response_object(109, "Redirect to Login"));
+        }
     });
 
 // route middleware to make sure
-    function isLoggedIn(req, res, next) {
+    function isLoggedIn(req, res) {
         console.log("isLoggedIn in reached");
         // if user is authenticated in the session, carry on
         if (req.isAuthenticated()) {
