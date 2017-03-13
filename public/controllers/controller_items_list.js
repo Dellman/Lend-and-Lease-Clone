@@ -18,6 +18,10 @@ angular.module('myApp.items_list', ['ngRoute'])
         }).then(function mySucces(response) {
             console.log(response.data)
             $scope.items = response.data;
+
+
+
+
         }, function myError(response) {
             alert("Error");
         });
