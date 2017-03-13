@@ -48,7 +48,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 $scope.map = map;
             }).then(function () {
 
-                console.log($scope.items)
+                // console.log($scope.items);
                 var itemMarkers = [];
 
                 for (var i = 0; i < $scope.items.length; i++) {
@@ -98,27 +98,13 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                         infowindow.open($scope.map, marker);
                     });
                     itemMarkers.push(marker);
-                    putOnMap($scope.map);
+                    // putOnMap($scope.map);
                 }
 
-                function putOnMap(map) {
-                    for (var i = 0; i < itemMarkers.length; i++) {
-                        itemMarkers[i].setMap(map);
-                    }
-                }
-
-                // $scope.markerFilter = function(){
-                //   for (var i = 0; i < itemMarkers.length; i++) {
-                //     var content = itemMarkers[i].name.toUpperCase() + " " + itemMarkers[i].description.toUpperCase() + " " + itemMarkers[i].category.toUpperCase();
-                //     if (content.includes(searchBar.value.toUpperCase())) {
-                //       itemMarkers[i].setVisible(true);
-                //       console.log(content);
+                // function putOnMap(map) {
+                //     for (var i = 0; i < itemMarkers.length; i++) {
+                //         itemMarkers[i].setMap(map);
                 //     }
-                //     else{
-                //       itemMarkers[i].setVisible(false);
-                //       console.log(itemMarkers[i]);
-                //     }
-                //   }
                 // }
 
                 $scope.markerFilter = function (input, checked) {
@@ -132,14 +118,15 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                         else if (itemMarkers[i].category.toUpperCase() != input.toUpperCase() && !checked) {
                             itemMarkers[i].setVisible(true);
                         }
+                        else if (itemMarkers[i].category.toUpperCase() == input.toUpperCase() && !checked){
+                          itemMarkers[i].setVisible(false);
+                        }
                     }
->>>>>>> b1629aa300a2450b272e7d2d970e66c38389c352
                 }
 
                 $scope.showDetail = function (e, marker) {
                     $scope.marker = marker;
                     $scope.map.showInfoWindow('mapPageIW', marker.id);
-                    console.log(this);
                 };
 
             });
