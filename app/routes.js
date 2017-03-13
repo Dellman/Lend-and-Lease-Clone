@@ -596,10 +596,10 @@ module.exports = function (app, passport) {
         }
     });
 
-    var userBooksQuery = "SELECT books.book_category_id, books.author, books.ISBN, books.date_published, items.* FROM items INNER JOIN books ON items.item_id = books.book_id WHERE user_id = ( ? )";
-    var userGamesQuery = "SELECT games.gamestudio, games.date_released, games.platform, items.* FROM items INNER JOIN games ON items.item_id = games.game_id WHERE user_id = ( ? )";
-    var userToolsQuery = "SELECT tools.tool_category_id, items.* FROM items INNER JOIN tools ON items.item_id=tools.tool_id WHERE user_id = ( ? )";
-    var userElectronicsQuery = "SELECT electronics.electronic_category_id, electronics.battery, electronics.brand, electronics.outside_use, items.* FROM items INNER JOIN electronics ON items.item_id = electronics.electronic_id WHERE user_id = ( ? )";
+    var userBooksQuery = "SELECT books.author, books.ISBN, books.date_published, items.*, book_categories.book_category_name FROM items INNER JOIN books ON items.item_id = books.book_id INNER JOIN book_categories ON books.book_category_id = book_categories.book_category_id WHERE user_id = ( ? )";
+    var userGamesQuery = "SELECT games.gamestudio, games.date_released, games.platform, items.*, game_categories.game_category_name FROM items INNER JOIN games ON items.item_id = games.game_id INNER JOIN game_categories ON games.game_category_id = game_categories.game_category_id WHERE user_id = ( ? )";
+    var userToolsQuery = "SELECT items.*, tool_categories.tool_category_name FROM items INNER JOIN tools ON items.item_id=tools.tool_id INNER JOIN tool_categories ON tools.tool_category_id = tool_categories.tool_category_id WHERE user_id = ( ? )";
+    var userElectronicsQuery = "SELECT electronics.electronic_category_id, electronics.battery, electronics.brand, electronics.outside_use, items.*, electronic_categories.electronic_category_name FROM items INNER JOIN electronics ON items.item_id = electronics.electronic_id INNER JOIN electronic_categories ON electronics.electronic_category_id = electronic_categories.electronic_category_id WHERE user_id = ( ? )";
     var userOthersQuery = "SELECT items.* FROM items INNER JOIN others ON items.item_id = others.other_id WHERE user_id = ( ? )";
 
     var userItemsArray = [];
@@ -660,10 +660,10 @@ module.exports = function (app, passport) {
       }
     });
 
-    var allBooksQuery = "SELECT books.book_category_id, books.author, books.ISBN, books.date_published, items.* FROM items INNER JOIN books ON items.item_id = books.book_id";
-    var allGamesQuery = "SELECT games.gamestudio, games.date_released, games.platform, items.* FROM items INNER JOIN games ON items.item_id = games.game_id";
-    var allToolsQuery = "SELECT tools.tool_category_id, items.* FROM items INNER JOIN tools ON items.item_id=tools.tool_id";
-    var allElectronicsQuery = "SELECT electronics.electronic_category_id, electronics.battery, electronics.brand, electronics.outside_use, items.* FROM items INNER JOIN electronics ON items.item_id = electronics.electronic_id";
+    var allBooksQuery = "SELECT books.author, books.ISBN, books.date_published, items.*, book_categories.book_category_name FROM items INNER JOIN books ON items.item_id = books.book_id INNER JOIN book_categories ON books.book_category_id = book_categories.book_category_id";
+    var allGamesQuery = "SELECT games.gamestudio, games.date_released, games.platform, items.*, game_categories.game_category_name FROM items INNER JOIN games ON items.item_id = games.game_id INNER JOIN game_categories ON games.game_category_id = game_categories.game_category_id";
+    var allToolsQuery = "SELECT items.*, tool_categories.tool_category_name FROM items INNER JOIN tools ON items.item_id=tools.tool_id INNER JOIN tool_categories ON tools.tool_category_id = tool_categories.tool_category_id";
+    var allElectronicsQuery = "SELECT electronics.electronic_category_id, electronics.battery, electronics.brand, electronics.outside_use, items.*, electronic_categories.electronic_category_name FROM items INNER JOIN electronics ON items.item_id = electronics.electronic_id INNER JOIN electronic_categories ON electronics.electronic_category_id = electronic_categories.electronic_category_id";
     var allOthersQuery = "SELECT items.* FROM items INNER JOIN others ON items.item_id = others.other_id";
 
     var allItemsArray = [];
@@ -719,7 +719,49 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.get('/loggedin', isLoggedIn);
+    var getItemUserId = "SELECT user_id, item_name FROM items WHERE item_id = ( ? )";
+    var getItemUserEmail = "SELECT email FROM users WHERE user_id = ( ? )";
+
+    app.post('/requestitem', function(req, res){
+      if(isLoggedIn){
+
+        connection.query(getItemUserId, req.body.item_id, function(err, rows){
+          if(!err)
+          {
+
+          }
+          else{
+            console.log(err);
+          }
+
+
+        });
+
+
+      }
+      else{
+        res.send(new response_object(109, "Redirect to Login"));
+      }
+
+    });
+
+    app.get('/loggedin', function(req, res){
+      if(isLoggedIn)
+      {
+        connection.query("SELECT email FROM users WHERE user_id = ( ? )", [req.user], function(err, rows){
+          if(!err){
+            console.log(util.inspect(rows[0], false, null))
+            res.send( {code: 101, email: rows[0]});
+          }
+          else{
+            console.log(err);
+          }
+        });
+      }
+      else{
+        res.send(new response_object(109, "Redirect to Login"));
+      }
+    });
 
 // route middleware to make sure
     function isLoggedIn(req, res, next) {
