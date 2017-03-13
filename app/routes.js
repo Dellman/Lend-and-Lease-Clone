@@ -6,22 +6,14 @@ var util = require('util');
 
 var multer = require('multer');
 
+/* global variable for naming uploaded images*/
+var last_item_inserted;
+
+var insertImgQuery = "UPDATE items SET img_link = ( ? ) WHERE item_id = ( ? )";
+
+var insertPPQuery = "UPDATE users SET pp_link = ( ? ) WHERE user_id = ( ? )";
+
 /* Image functions */
-
-var storage = multer.diskStorage({ //multers disk storage settings
-    destination: function (req, file, cb) {
-        cb(null, 'public/images/');
-
-    },
-    filename: function (req, file, cb) {
-        var datetimestamp = Date.now();
-        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
-    }
-});
-
-var upload = multer({ //multer settings
-                storage: storage
-  }).single('upload');
 
 /** API path that will upload the files */
 
@@ -80,18 +72,6 @@ module.exports = function(app, passport) {
     // =====================================
     app.get('/', function(req, res) {
         res.sendFile('index.html', { root: __dirname + '/../public/'});
-    });
-
-    app.post('/upload', function(req, res) {
-      //console.log("upload IMAGE" + JSON.stringify(req.body));
-        upload(req,res,function(err){
-            if(err){
-                  console.log(err);
-                 res.json({error_code:1,err_desc:err});
-                 return;
-            }
-             res.json({error_code:0,err_desc:null});
-        });
     });
 
     // =====================================
@@ -263,6 +243,71 @@ module.exports = function(app, passport) {
           }
       });
     });
+    var storage = multer.diskStorage({ //multers disk storage settings
+        destination: function (req, file, cb) {
+            cb(null, 'public/images/');
+
+        },
+        filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
+            var storeFile  = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+            if(file.fieldname = 'upload'){
+            connection.query(insertImgQuery, [storeFile, last_item_inserted], function(err, rows){
+                  if(!err){
+                    console.log("Success at storing img link in database");
+                  }
+                  else{
+                    console.log(err);
+                  }
+            });
+          }else{
+            connection.query(insertPPQuery, [storeFile, req.user], function(err, rows){
+                  if(!err){
+                    console.log("Success at storing img link in database");
+                  }
+                  else{
+                    console.log(err);
+                  }
+            });
+
+          }
+            cb(null, storeFile);
+        }
+    });
+
+    var upload = multer({ //multer settings
+                    storage: storage
+      }).single('upload');
+
+    var ppUpload = multer({ //multer settings
+                    storage: storage
+      }).single('ppupload');
+
+    app.post('/upload', function(req, res) {
+        console.log(req.user);
+        //console.log("upload IMAGE" + JSON.stringify(req.body));
+          upload(req,res,function(err){
+              if(err){
+                    console.log(err);
+                   res.json({error_code:1,err_desc:err});
+                   return;
+              }
+               res.json({error_code:0,err_desc:null});
+          });
+      });
+
+    app.post('/ppupload', function(req, res){
+      ppUpload(req, res, function(err){
+        if(err){
+              console.log(err);
+             res.json({error_code:1,err_desc:err});
+             return;
+        }
+         res.json({error_code:0,err_desc:null});
+      });
+    });
+
+
 
     app.post('/addItem', isLoggedIn, function(req, res){
 
@@ -325,6 +370,7 @@ module.exports = function(app, passport) {
                     console.log(rows.insertId);
                     console.log(JSON.stringify(rows));
                     newBook.book_id = insert_item_id;
+                    last_item_inserted = rows.insertId;
 
                     var insertBookArray = [
                       newBook.book_id,
@@ -385,6 +431,7 @@ module.exports = function(app, passport) {
                     console.log(rows.insertId);
                     console.log(JSON.stringify(rows));
                     newElectronic.electronic_id = insert_electronic_item_id;
+                    last_item_inserted = rows.insertId;
 
                     var insertElectronicArray = [
                       newElectronic.battery,
@@ -439,6 +486,7 @@ module.exports = function(app, passport) {
                     console.log("ROWS INSERT ID I GAME: " + rows.insertId);
                     console.log(JSON.stringify(rows));
                     newGame.game_id = insert_game_item_id;
+                    last_item_inserted = rows.insertId;
 
                     var insertGameArray = [
                       newGame.gamestudio,
@@ -490,6 +538,7 @@ module.exports = function(app, passport) {
                     console.log("ROWS INSERT ID I GAME: " + rows.insertId);
                     console.log(JSON.stringify(rows));
                     newTool.tool_id = insert_tool_item_id;
+                    last_item_inserted = rows.insertId;
 
                     var insertToolArray = [
                       newTool.tool_category_id,
@@ -523,14 +572,15 @@ module.exports = function(app, passport) {
               }
               else{
                 insert_other_item_id = rows.insertId;
-                console.log("ROWS INSERT ID I GAME: " + rows.insertId);
+                console.log("ROWS INSERT ID I OTHER: " + rows.insertId);
                 console.log(JSON.stringify(rows));
                 newOther.other_id = insert_other_item_id;
+                last_item_inserted = rows.insertId;
 
                 var insertOtherArray = [
                   newOther.other_id
                 ]
-                  console.log("Insert Electronic array : " + insertToolArray);
+                  console.log("Insert OTHER array : " + insertOtherArray);
 
                   connection.query(insertOtherQuery, [insertOtherArray], function (err, rows) {
                       if (err) {
@@ -566,13 +616,15 @@ module.exports = function(app, passport) {
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
+  console.log("IsLOGGED IN REACHED");
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated()){
         return next();
       }
       else{
+        console.log("REdirect REACHED");
     // if they aren't redirect them to the home page
-        res.send(new response_object(602, "Not logged in"));
+        res.send(new response_object(109, "redirect to login"));
   }
 }
 
