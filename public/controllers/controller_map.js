@@ -37,11 +37,12 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
 
         $http({
             method: "GET",
-            url: $rootScope.serverIP + "/items",
+            url: $rootScope.serverIP + "/allItems",
             headers: {
                 'Content-Type': "application/json"
             }
         }).then(function mySucces(response) {
+            console.log(response.data)
             $scope.items = response.data;
 
             NgMap.getMap({id: 'mapViewMap'}).then(function (map) {
