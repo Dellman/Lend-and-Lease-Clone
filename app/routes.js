@@ -172,28 +172,6 @@ module.exports = function (app, passport) {
     // =====================================
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
-    app.get('/profile', isLoggedIn, function (req, res) {
-        /* WE GET THE PACKET OF THE ROW IN THE TABLE WHERE THE USER IN THE SESSION IS STORED
-
-         TODO: IMPLEMENT SESSIONS FOR MULTIPLE USERS */
-        console.log("REQUEST USER " + req.user);
-        /*res.render('profile.ejs', {
-         user : req.user // get the user out of session and pass to template
-         });*/
-
-        var profileQuery = "SELECT * FROM users WHERE user_id = '" + req.user + "'";
-
-        connection.query(profileQuery, function (err, result) {
-            if (!err) {
-                console.log(result);
-                res.send(result);
-            }
-            else {
-                console.log(err);
-                console.log(result);
-            }
-        });
-    });
 
     // =====================================
     // LOGOUT ==============================
@@ -204,7 +182,8 @@ module.exports = function (app, passport) {
         res.send(new response_object(101, "Successfully logged out"));
     });
 
-    app.get('/subCategories', isLoggedIn, function (req, res) {
+    app.get('/subCategories', function (req, res) {
+      if(isLoggedIn(req, res)){
         var subCategories = [];
         var book_categories = "SELECT book_category_name FROM book_categories";
         var electronic_categories = "SELECT electronic_category_name FROM electronic_categories";
@@ -248,6 +227,9 @@ module.exports = function (app, passport) {
                 console.log(err);
             }
         });
+      }else {
+        res.send(new response_object(109, "redirect to login"));
+      }
     });
     var storage = multer.diskStorage({ //multers disk storage settings
         destination: function (req, file, cb) {
