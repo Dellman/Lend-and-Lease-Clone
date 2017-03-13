@@ -605,6 +605,7 @@ module.exports = function (app, passport) {
     var userItemsArray = [];
 
     app.get('/items', function (req, res) {
+      if(isLoggedIn){
         connection.query(userBooksQuery, [req.user], function (err, rows) {
             if (!err) {
                 userItemsArray.push(rows);
@@ -653,6 +654,10 @@ module.exports = function (app, passport) {
                 console.log("ERROR FROM USER BOOKS QUERY: " + err);
             }
         });
+      }
+      else {
+        res.send(new response_object(109, "login redirect"));
+      }
     });
 
     var allBooksQuery = "SELECT books.book_category_id, books.author, books.ISBN, books.date_published, items.* FROM items INNER JOIN books ON items.item_id = books.book_id";
@@ -664,6 +669,7 @@ module.exports = function (app, passport) {
     var allItemsArray = [];
 
     app.get('/allitems', function (req, res) {
+      if(isLoggedIn){
         connection.query(allBooksQuery, function (err, rows) {
             if (!err) {
                 allItemsArray.push(rows);
@@ -712,6 +718,10 @@ module.exports = function (app, passport) {
                 console.log("ERROR FROM ALL BOOKS QUERY: " + err);
             }
         });
+      }
+      else{
+        res.send(new response_object(109, "Redirect to login"));
+      }
     });
 
     app.get('/loggedin', isLoggedIn);
