@@ -26,9 +26,6 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
             }).then(function(){
 
               var itemMarkers = [];
-              var searchBar = document.getElementById("userSearch");
-
-              console.log($scope.items);
 
               for (var i = 0; i < $scope.items.length; i++) {
                 var latLngStr = $scope.items[i].location.split(',', 2);
@@ -39,15 +36,6 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 addMarker($scope.items[i]);
               }
 
-              // If two markers have the same location, move it slightly
-              // function editLoc(markerLoc){
-              //   for (var i = 0; i < $scope.items.length; i++) {
-              //     if ($scope.items[i].location.lat === $scope.items[i+1].location.lat && $scope.items[i].location.lng === $scope.items[i+1].location.lng) {
-              //
-              //     }
-              //   }
-              // }
-
               function addMarker(item) {
                 var marker = new google.maps.Marker({
                     position: {lat: item.location.lat, lng: item.location.lng},
@@ -56,18 +44,26 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                     category: item.category,
                     subCategory: item.sub_category,
                     description: item.description,
-                    image: item.img_link
+                    image: item.img_link,
+                    id: item.item_id
                 });
                 // Popup window
-                console.log(marker.image);
+                // $scope.sendEmail = new function(marker){
+                function sendEmail(){
+                  // console.log(maker.id);
+                  // console.log("clicked");
+                  alert(marker);
+                }
                 var infowindow = new google.maps.InfoWindow({
                   content: "<h5>" + marker.name + "</h5>" +
                   "<h6>" + marker.category.toUpperCase() + "</h6>" +
                   // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
                   "<p>" + marker.description + "</p>" +
-                  "<div style='overflow:hidden'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/></div>"
+                  "<div style='overflow:hidden;'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/>" +
+                  "<input type='button' value='Request Item' style='display:block; margin:0.25em auto;' onclick='alert(" + marker.id + ")'/></div>"
+                  // "<a onclick='alert(" + marker.id + ");'>Send Request</a></div>"
+
                 });
-                // console.log(itemMarkers);
                 marker.addListener('click', function(){
                   infowindow.open($scope.map, marker);
                 });
