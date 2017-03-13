@@ -609,11 +609,57 @@ module.exports = function(app, passport) {
     var userElectronicsQuery = "SELECT electronics.electronic_category_id, electronics.battery, electronics.brand, electronics.outside_use, items.* FROM items INNER JOIN electronics ON items.item_id = electronics.electronic_id WHERE user_id = ( ? )";
     var userOthersQuery = "SELECT items.* FROM items INNER JOIN others ON items.item_id = others.other_id WHERE user_id = ( ? )";
 
+    var userItemsArray = [];
+
     app.get('/items', function(req, res){
       connection.query(userBooksQuery, [ req.user ], function(err, rows){
         if(!err)
         {
+          userItemsArray.push(rows);
+            connection.query(userGamesQuery, [ req.user ], function(err, rows){
+              if(!err)
+              {
+                userItemsArray.push(rows);
+                connection.query(userToolsQuery, [ req.user ], function(err, rows){
+                  if(!err)
+                  {
+                    userItemsArray.push(rows);
+                    connection.query(userElectronicsQuery, [ req.user ], function(err, rows){
+                        if(!err)
+                        {
+                          userItemsArray.push(rows);
+                          connection.query(userOthersQuery, [ req.user ], function(err, rows){
+                              if(!err)
+                              {
+                                  userItemsArray.push(rows);
+                                /* EMPTY THE USERITEMARRAY BEFORE EXITING */
+                                  console.log(userItemsArray);
+                                  res.send(userItemsArray)
+                                  userItemsArray = [];
+                                  console.log(userItemsArray);
+                              }
+                              else{
+                                console.log("ERROR FROM USER OTHERS QUERY: " + err);
+                              }
+                          });
 
+                        }
+                        else{
+                          console.log("ERROR FROM USER ELECTRONICS QUERY: " + err);
+                        }
+                    });
+
+                  }
+                  else{
+                    console.log("ERROR FROM USER TOOLS QUERY: " + err);
+                  }
+                });
+
+              }
+              else{
+                console.log("ERROR FROM USER GAMES QUERY: " + err);
+              }
+            });
         }
         else{
           console.log("ERROR FROM USER BOOKS QUERY: " + err);
@@ -625,13 +671,13 @@ module.exports = function(app, passport) {
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
-  console.log("IsLOGGED IN REACHED");
+  console.log("isLoggedIn in reached");
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated()){
         return next();
       }
       else{
-        console.log("REdirect REACHED");
+        console.log("Redirect REACHED");
     // if they aren't redirect them to the home page
         res.send(new response_object(109, "redirect to login"));
   }
