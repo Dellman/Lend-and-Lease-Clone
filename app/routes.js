@@ -674,6 +674,7 @@ function isLoggedIn(req, res, next) {
   console.log("isLoggedIn in reached");
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated()){
+        res.send(new response_object(101, "You're logged in!"));
         return next();
       }
       else{
