@@ -11,7 +11,7 @@ angular.module('myApp.login', ['ngRoute'])
         });
     }])
 
-    .controller('controller_login', ['$scope', '$http', '$location', '$rootScope', function ($scope, $http, $location, $rootScope) {
+    .controller('controller_login', ['$scope', '$http', '$location', '$rootScope', '$window', function ($scope, $http, $location, $rootScope, $window) {
 
         $http({
             method: "GET",
@@ -81,7 +81,8 @@ angular.module('myApp.login', ['ngRoute'])
 
         $("#search_bar").hide();
 
-        $scope.login = function () {
+        $scope.login = function (username, pass) {
+
 
             $http({
                 method: "POST",
@@ -90,8 +91,8 @@ angular.module('myApp.login', ['ngRoute'])
                     'Content-Type': 'application/json'
                 },
                 data: {
-                    "email": $scope.user.email,
-                    "password": $scope.user.password
+                    "email": (username != null)? username : $scope.user.email,
+                    "password": (pass != null)? pass : $scope.user.password
                 }
             }).then(function mySucces(response) {
                 if (response.data.code == 101) {
@@ -100,7 +101,35 @@ angular.module('myApp.login', ['ngRoute'])
                     $('#account1').show();
                     document.getElementById("account2").innerHTML = $scope.user.email;
                     $("#logout").show();
+
+                    $( "#logout" ).on( "click", function(){
+                        $http({
+                            method: "GET",
+                            url: $rootScope.serverIP + "/logout",
+                            headers: {
+                                'Content-Type': "application/json",
+                                'WWW-Authenticate': ""
+                            },
+                            data: {
+
+                            }
+                        }).then(function mySucces(response) {
+                            console.log("Logged Out")
+                            document.getElementById("account1").innerHTML = "";
+                            $('#account1').show();
+                            document.getElementById("account2").innerHTML = "Login";
+                            $("#logout").hide();
+                            $window.location.reload();
+                        }, function myError(){
+                            console.log("Error Logging out")
+                        })
+
+                    } );
+
+                    //$.get( "ajax/test.html", function( data ) {
+
                     $location.path('/');
+
                 }
                 else {
                     alert("ERROR: " + response.data.code + "MESSAGE: " + response.data.message);
@@ -155,7 +184,9 @@ angular.module('myApp.login', ['ngRoute'])
                     })
                         .success(function (data) {
                             console.log("Upload Successful");
-                            $location.path('/login');
+
+                            $scope.login($scope.user.email, $scope.user.password)
+                            $window.location.href = '/#!/map';
 
                         })
                         .error(function (data, status) {

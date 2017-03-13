@@ -9,20 +9,20 @@ angular.module('myApp.add_item', ['ngRoute'])
             controller: 'controller_add_item'
         });
     }])
-/*    .directive('file', function () {
-        return {
-            scope: {
-                file: '='
-            },
-            link: function (scope, el, attrs) {
-                el.bind('change', function (event) {
-                    var file = event.target.files[0];
-                    scope.file = file ? file : undefined;
-                    scope.$apply();
-                });
-            }
-        };
-    })*/
+    /*    .directive('file', function () {
+     return {
+     scope: {
+     file: '='
+     },
+     link: function (scope, el, attrs) {
+     el.bind('change', function (event) {
+     var file = event.target.files[0];
+     scope.file = file ? file : undefined;
+     scope.$apply();
+     });
+     }
+     };
+     })*/
     .controller('controller_add_item', ['$scope', '$http', 'NgMap', '$rootScope', '$window', function ($scope, $http, NgMap, $rootScope, $window) {
 
         $http({
@@ -33,18 +33,18 @@ angular.module('myApp.add_item', ['ngRoute'])
             }
         }).then(function success(response) {
             console.log(response)
-            if (response.data.code == 109){
+            if (response.data.code == 109) {
                 document.querySelector('#sidebar-menu > div > ul > li:nth-child(2) > a').style.display = 'none';
                 document.querySelector('#sidebar-menu > div > ul > li:nth-child(3) > a').style.display = 'none';
                 document.querySelector('#sidebar-menu > div > ul > li:nth-child(4) > a').style.display = 'none';
             }
-            else{
+            else {
                 document.querySelector('#sidebar-menu > div > ul > li:nth-child(2) > a').style.display = 'block';
                 document.querySelector('#sidebar-menu > div > ul > li:nth-child(3) > a').style.display = 'block';
                 document.querySelector('#sidebar-menu > div > ul > li:nth-child(4) > a').style.display = 'block';
             }
 
-        }, function error(){
+        }, function error() {
             alert("Error!")
         });
 
@@ -116,18 +116,12 @@ angular.module('myApp.add_item', ['ngRoute'])
             }
         }).then(function mySucces(response) {
             var allCats = response.data;
-            console.log(allCats);
-            if (allCats.code != null) {
-                if (allCats.code == 109)
-                    $window.location.href = '/#!/login';
-            }
-            else {
-                for (var j = 0; j < allCats.length; j++) {
-                    $scope.subCategories.values[categories[j]] = [];
-                    $scope.subCategories.values[categories[j]].push('Choose One')
-                    for (var i = 0; i < allCats[j].length; i++) {
-                        $scope.subCategories.values[categories[j]].push(allCats[j][i][Object.keys(allCats[j][i])[0]]);
-                    }
+
+            for (var j = 0; j < allCats.length; j++) {
+                $scope.subCategories.values[categories[j]] = [];
+                $scope.subCategories.values[categories[j]].push('Choose One')
+                for (var i = 0; i < allCats[j].length; i++) {
+                    $scope.subCategories.values[categories[j]].push(allCats[j][i][Object.keys(allCats[j][i])[0]]);
                 }
             }
 
@@ -317,6 +311,8 @@ angular.module('myApp.add_item', ['ngRoute'])
                 })
                     .success(function (data) {
                         console.log("Upload Successful")
+                        $window.location.href = '/#!/map';
+
                     })
                     .error(function (data, status) {
                         console.log("Upload Failed!")
