@@ -50,6 +50,14 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
 
               var itemMarkers = [];
 
+              function sendEmail(){
+                // var btn = document.getElementById('1');
+                document.getElementById("3").addEventListener("click", function(){
+                  console.log('sumting');
+                });
+                // console.log(marker.id);
+              }
+
               for (var i = 0; i < $scope.items.length; i++) {
                 var latLngStr = $scope.items[i].location.split(',', 2);
                 var markerLatLng = new google.maps.LatLng();
@@ -57,8 +65,10 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 markerLatLng.lng = parseFloat(latLngStr[1].trim());
                 $scope.items[i].location = markerLatLng;
                 addMarker($scope.items[i]);
+                console.log('For loop');
               }
 
+              // $scope.addMarker = new function(item){
               function addMarker(item) {
                 var marker = new google.maps.Marker({
                     position: {lat: item.location.lat, lng: item.location.lng},
@@ -71,47 +81,28 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                     id: item.item_id
                 });
                 // Popup window
-                // $scope.sendEmail = new function(marker){
-                function sendEmail(){
-                  // console.log(maker.id);
-                  // console.log("clicked");
-                  alert(marker);
-                }
                 var infowindow = new google.maps.InfoWindow({
                   content: "<h5>" + marker.name + "</h5>" +
                   "<h6>" + marker.category.toUpperCase() + "</h6>" +
                   // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
                   "<p>" + marker.description + "</p>" +
                   "<div style='overflow:hidden;'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/>" +
-                  "<input type='button' value='Request Item' style='display:block; margin:0.25em auto;' onclick='alert(" + marker.id + ")'/></div>"
-                  // "<a onclick='alert(" + marker.id + ");'>Send Request</a></div>"
-
+                  // "<input id='" + marker.id + "' type='button' value='Request Item' style='display:block; margin:0.25em auto;' onclick='alert(" + marker.id + ")'/></div>"
+                  "<input id='" + marker.id + "' type='button' value='Request Item' style='display:block; margin:0.25em auto;'/></div>"
                 });
                 marker.addListener('click', function(){
                   infowindow.open($scope.map, marker);
+                  console.log("Info");
                 });
                 itemMarkers.push(marker);
-                putOnMap($scope.map);
+                // putOnMap($scope.map);
+                console.log("Marker");
               }
 
-              function putOnMap(map) {
-                  for (var i = 0; i < itemMarkers.length; i++) {
-                      itemMarkers[i].setMap(map);
-                  }
-              }
-
-              // $scope.markerFilter = function(){
-              //   for (var i = 0; i < itemMarkers.length; i++) {
-              //     var content = itemMarkers[i].name.toUpperCase() + " " + itemMarkers[i].description.toUpperCase() + " " + itemMarkers[i].category.toUpperCase();
-              //     if (content.includes(searchBar.value.toUpperCase())) {
-              //       itemMarkers[i].setVisible(true);
-              //       console.log(content);
+              // function putOnMap(map) {
+              //     for (var i = 0; i < itemMarkers.length; i++) {
+              //         itemMarkers[i].setMap(map);
               //     }
-              //     else{
-              //       itemMarkers[i].setVisible(false);
-              //       console.log(itemMarkers[i]);
-              //     }
-              //   }
               // }
 
               $scope.markerFilter = function(input, checked){
