@@ -719,7 +719,20 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.get('/loggedin', isLoggedIn);
+    app.post('/requestitem', function(req, res){
+
+
+    });
+
+    app.get('/loggedin', function(req, res){
+      if(isLoggedIn)
+      {
+        res.send(new response_object(101, "User Logged In."));
+      }
+      else{
+        res.send(new response_object(109, "Redirect to Login"));
+      }
+    });
 
 // route middleware to make sure
     function isLoggedIn(req, res, next) {
