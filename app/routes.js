@@ -669,7 +669,6 @@ module.exports = function (app, passport) {
     var allItemsArray = [];
 
     app.get('/allitems', function (req, res) {
-      if(isLoggedIn){
         connection.query(allBooksQuery, function (err, rows) {
             if (!err) {
                 allItemsArray.push(rows);
@@ -718,10 +717,6 @@ module.exports = function (app, passport) {
                 console.log("ERROR FROM ALL BOOKS QUERY: " + err);
             }
         });
-      }
-      else{
-        res.send(new response_object(109, "Redirect to login"));
-      }
     });
 
     app.get('/loggedin', isLoggedIn);
