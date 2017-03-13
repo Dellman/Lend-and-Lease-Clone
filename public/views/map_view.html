@@ -1,9 +1,18 @@
-<div class="title_right" id="search_bar" ng-controller="controller_map">
+<!-- <div class="title_right" id="search_bar" ng-controller="controller_map">
     <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
         <div class="input-group">
             <input ng-model="userSearch" id="userSearch" type="text" class="form-control" placeholder="Search for...">
             <span class="input-group-btn">
-  <button class="btn btn-default" type="button" ng-click="markerFilter();">Search</button>
+  <button class="btn btn-default" type="button" ng-click="markerFilter();">Search</button> -->
+
+  <form action="">
+    <label><input type="checkbox" name="Books" value="Books" ng-model="booksCheck"  ng-click="markerFilter('Books', booksCheck);"/>Books</label>
+    <label><input type="checkbox" name="Electronics" value="Electronics" ng-model="electronicsCheck" ng-click="markerFilter('Electronics', electronicsCheck);"/>Electronics</label>
+    <label><input type="checkbox" name="Tools" value="Tools" ng-model="toolsCheck" ng-click="markerFilter('Tools', toolsCheck);"/>Tools</label>
+    <label><input type="checkbox" name="Games" value="Games" ng-model="gamesCheck" ng-click="markerFilter('Games', gamesCheck);"/>Games</label>
+    <label><input type="checkbox" name="Others" value="Others" ng-model="othersCheck" ng-click="markerFilter('Others', othersCheck);"/>Others</label>
+  </form>
+
 </span>
         </div>
     </div>

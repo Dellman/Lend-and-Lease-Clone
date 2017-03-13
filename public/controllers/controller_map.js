@@ -28,6 +28,8 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
               var itemMarkers = [];
               var searchBar = document.getElementById("userSearch");
 
+              console.log($scope.items);
+
               for (var i = 0; i < $scope.items.length; i++) {
                 var latLngStr = $scope.items[i].location.split(',', 2);
                 var markerLatLng = new google.maps.LatLng();
@@ -54,13 +56,16 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                     category: item.category,
                     subCategory: item.sub_category,
                     description: item.description,
+                    image: item.img_link
                 });
                 // Popup window
+                console.log(marker.image);
                 var infowindow = new google.maps.InfoWindow({
                   content: "<h5>" + marker.name + "</h5>" +
                   "<h6>" + marker.category.toUpperCase() + "</h6>" +
                   // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
-                  "<p>" + marker.description + "</p>"
+                  "<p>" + marker.description + "</p>" +
+                  "<img src='localhost:3000/images/" + marker.image + "'/>"
                 });
                 // console.log(itemMarkers);
                 marker.addListener('click', function(){
@@ -73,27 +78,33 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
               function putOnMap(map) {
                   for (var i = 0; i < itemMarkers.length; i++) {
                       itemMarkers[i].setMap(map);
-                      // console.log(itemMarkers[i]);
                   }
               }
 
-              $scope.markerFilter = function(){
-                // console.log(searchBar.value);
-                // console.log(itemMarkers[0].name.includes(searchBar.value));
-                for (var i = 0; i < itemMarkers.length; i++) {
-                  if (itemMarkers[i].name.toUpperCase().includes(searchBar.value.toUpperCase()) ||
-                    itemMarkers[i].description.toUpperCase().includes(searchBar.value.toUpperCase()) ||
-                    itemMarkers[i].category.toUpperCase().includes(searchBar.value.toUpperCase())) {
-                      itemMarkers[i].clickable = true;
-                      itemMarkers[i].visible = true;
-                      console.log(itemMarkers[i].name + ": " + itemMarkers[i].visible);
-                  }
-                  else{
-                    itemMarkers[i].setVisible(false);
-                    itemMarkers[i].clickable = false;
-                    itemMarkers[i].visible = false;
-                    console.log(itemMarkers[i].name + ": " + itemMarkers[i].visible);
+              // $scope.markerFilter = function(){
+              //   for (var i = 0; i < itemMarkers.length; i++) {
+              //     var content = itemMarkers[i].name.toUpperCase() + " " + itemMarkers[i].description.toUpperCase() + " " + itemMarkers[i].category.toUpperCase();
+              //     if (content.includes(searchBar.value.toUpperCase())) {
+              //       itemMarkers[i].setVisible(true);
+              //       console.log(content);
+              //     }
+              //     else{
+              //       itemMarkers[i].setVisible(false);
+              //       console.log(itemMarkers[i]);
+              //     }
+              //   }
+              // }
 
+              $scope.markerFilter = function(input, checked){
+                for (var i = 0; i < itemMarkers.length; i++) {
+                  if (itemMarkers[i].category.toUpperCase() == input.toUpperCase() && checked){
+                      itemMarkers[i].setVisible(true);
+                  }
+                  else if(itemMarkers[i].category.toUpperCase() != input.toUpperCase() && checked){
+                    itemMarkers[i].setVisible(false);
+                  }
+                  else if(itemMarkers[i].category.toUpperCase() != input.toUpperCase() && !checked){
+                    itemMarkers[i].setVisible(true);
                   }
                 }
               }
