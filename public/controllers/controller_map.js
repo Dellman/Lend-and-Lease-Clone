@@ -122,12 +122,8 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                       // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
                       "<p>" + marker.description + "</p>" +
                       "<div style='overflow:hidden;'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/>" +
-                      "<input type='button' value='Request Item' style='display:block; margin:0.25em auto;' onclick='" +
-                      "$http({method: 'POST',url: $rootScope.serverIP + '/requestItem', headers: {'Content-Type': 'application/json'}, data:{})." +
-                      "then(function success(response) {" +
-                      "}, function failed(){}" +
-                      "" +
-                      "'/></div>"
+                      "<input type='button' value='Request Item' style='display:block; margin:0.25em auto;' " +
+                      "onclick=''/></div>"
                   });
                   // console.log(marker);
                   marker.addListener('click', function () {

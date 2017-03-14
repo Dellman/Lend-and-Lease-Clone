@@ -239,20 +239,22 @@ module.exports = function (app, passport) {
         filename: function (req, file, cb) {
             var datetimestamp = Date.now();
             var storeFile = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1];
-            if (file.fieldname = 'upload') {
+            console.log(file.fieldname)
+            if (file.fieldname == 'upload') {
                 connection.query(insertImgQuery, [storeFile, last_item_inserted], function (err, rows) {
                     if (!err) {
-                        console.log("Success at storing img link in database");
+                        console.log("Stored File: " + storeFile)
+                        console.log("(UPLOAD) Success at storing img link in database");
                     }
                     else {
                         console.log(err);
                     }
                 });
-            } else {
+            } else if (file.fieldname == 'ppupload' ) {
                 console.log(req.user);
                 connection.query(insertPPQuery, [storeFile, req.user], function (err, rows) {
                     if (!err) {
-                        console.log("Success at storing img link in database");
+                        console.log("(PP_UPLOAD) Success at storing img link in database");
                     }
                     else {
                         console.log(err);

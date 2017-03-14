@@ -42,8 +42,20 @@ angular.module('myApp.profile', ['ngRoute'])
                 document.getElementById("account1").innerHTML = response.data.email.email;
                 $('#account1').show();
                 document.getElementById("account2").innerHTML = response.data.email.email;
-                $("#logout").show();
 
+                $http({
+                    method: "GET",
+                    url: $rootScope.serverIP + "/getprofilepic",
+                    headers: {
+                        'Content-Type': "application/json"
+                    }
+                }).then(function success(response) {
+                    console.log(response.data)
+                    document.getElementById("p-image").src= "/images/" + response.data
+                }, function failed(){})
+
+
+                $("#logout").show();
                 $("#logout").on("click", function () {
                     $http({
                         method: "GET",
@@ -70,9 +82,6 @@ angular.module('myApp.profile', ['ngRoute'])
             alert("Error!")
         });
 
-
-
-
         $scope.user = {};
 
         $http({
@@ -88,6 +97,7 @@ angular.module('myApp.profile', ['ngRoute'])
             $scope.user.dob = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
             $scope.user.email = response.data[0].email;
             $scope.user.phone = response.data[0].phone;
+            $scope.user.pic = "/images/" + response.data[0].pp_link
 
         }, function myError(response) {
             alert("Error");
