@@ -239,20 +239,22 @@ module.exports = function (app, passport) {
         filename: function (req, file, cb) {
             var datetimestamp = Date.now();
             var storeFile = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1];
-            if (file.fieldname = 'upload') {
+            console.log(file.fieldname)
+            if (file.fieldname == 'upload') {
                 connection.query(insertImgQuery, [storeFile, last_item_inserted], function (err, rows) {
                     if (!err) {
-                        console.log("Success at storing img link in database");
+                        console.log("Stored File: " + storeFile)
+                        console.log("(UPLOAD) Success at storing img link in database");
                     }
                     else {
                         console.log(err);
                     }
                 });
-            } else {
+            } else if (file.fieldname == 'ppupload' ) {
                 console.log(req.user);
                 connection.query(insertPPQuery, [storeFile, req.user], function (err, rows) {
                     if (!err) {
-                        console.log("Success at storing img link in database");
+                        console.log("(PP_UPLOAD) Success at storing img link in database");
                     }
                     else {
                         console.log(err);
@@ -723,6 +725,7 @@ module.exports = function (app, passport) {
     var getItemUserEmail = "SELECT email FROM users WHERE user_id = ( ? )";
 
     app.post('/requestitem', function (req, res) {
+      var requestedItemMail = null;
         if (isLoggedIn) {
 
             connection.query(getItemUserId, req.body.item_id, function (err, rows) {
@@ -762,6 +765,23 @@ module.exports = function (app, passport) {
         else {
             res.send(new response_object(109, "Redirect to Login"));
         }
+    });
+
+    app.get('/getprofilepic', function(req, res){
+      if(isLoggedIn(req, res)){
+        connection.query("select pp_link from users where user_id = ( ? )", [req.user], function(err, rows){
+            if(!err && rows.length > 0){
+              res.send(rows[0]);
+            }
+            else{
+                console.log(err);
+            }
+        });
+      }
+        else{
+          console.log(new response_object(109, "Not logged in from getprofilepic"));
+          }
+
     });
 
 // route middleware to make sure
