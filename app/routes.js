@@ -34,7 +34,7 @@ let registeredMail = {
     to: 'rikstavling2016@gmail.com',// sender address
     subject: 'Successfully Registered to Lend and Lease', // Subject line
     text: 'You have successfully registered this email to lend and lease. Enjoy your stay!', // plain text body
-    html: '<b>Hello world ?</b>' // html body
+    html: '<b>You have successfully registered this email to lend and lease. Enjoy your stay!</b>' // html body
 };
 
 let itemRequestMail = {
@@ -42,7 +42,7 @@ let itemRequestMail = {
   to: 'rikstavling2016@gmail.com',// sender address
   subject: 'You have a request for one of your items!', // Subject line
   text: 'You have successfully registered this email to lend and lease. Enjoy your stay!', // plain text body
-  html: '<b>Hello world ?</b>' // html body
+  html: '<b>You have successfully registered this email to lend and lease. Enjoy your stay!</b>' // html body
 }
 console.log(JSON.stringify(registeredMail));
 registeredMail.to = JSON.stringify(email_mottagare);
@@ -749,6 +749,7 @@ module.exports = function (app, passport) {
             connection.query(getItemUserId, req.body.item_id, function (err, rows) {
                 if (!err && rows.length > 0) {
                   itemRequestMail.text = JSON.stringify(item_info);
+                    itemRequestMail.html = JSON.stringify(item_info);
                   console.log("rows stringify from getItemUserId: " + JSON.stringify(rows[0]));
                   console.log("row0 user_id: " + rows[0].user_id);
                   connection.query(getItemUserEmail, [rows[0].user_id], function(err, rows){
@@ -761,6 +762,7 @@ module.exports = function (app, passport) {
                              return console.log(error);
                              }
                              console.log('Message %s sent: %s', info.messageId, info.response);
+                             res.send(new response_object(101, "Sent!"))
                              });
 
                     }
