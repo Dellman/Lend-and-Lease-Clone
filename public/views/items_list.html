@@ -10,15 +10,15 @@
                 <th style="height:30px">Category</th>
                 <th style="height:30px">Description</th>
                 <th style="height:30px">img_link</th>
-                <th style="height:30px">Expiration Date</th>
+                <!--<th style="height:30px">Expiration Date</th>-->
                 <th style="height:30px">Location</th>
             </tr>
             <tr ng-repeat="item in items[0]" style="border-bottom: 1px solid black">
                 <td style="height:30px">{{item.item_name}}</td>
-                <td style="height:30px">{{item.tool_category_id}}</td>
+                <td style="height:30px">{{item.book_category_name}}</td>
                 <td style="height:30px">{{item.description}}</td>
                 <td style="height:30px">{{item.img_link}}</td>
-                <td style="height:30px">{{item.expiration_date}}</td>
+                <!--<td style="height:30px">{{item.expiration_date}}</td>-->
                 <td style="height:30px">{{item.location}}</td>
             </tr>
         </table>
@@ -28,7 +28,7 @@
         <br>
     </div>
 
-    <div id="electronicsTable" ng-show="(items[1].length > 0)">
+    <div id="electronicsTable" ng-show="(items[3].length > 0)">
         <span>Electronics</span>
         <table style="width:100%">
             <tr>
@@ -36,15 +36,15 @@
                 <th style="height:30px">Category</th>
                 <th style="height:30px">Description</th>
                 <th style="height:30px">img_link</th>
-                <th style="height:30px">Expiration Date</th>
+                <!--<th style="height:30px">Expiration Date</th>-->
                 <th style="height:30px">Location</th>
             </tr>
-            <tr ng-repeat="item in items[1]" style="border-bottom: 1px solid black">
+            <tr ng-repeat="item in items[3]" style="border-bottom: 1px solid black">
                 <td style="height:30px">{{item.item_name}}</td>
-                <td style="height:30px">{{item.tool_category_id}}</td>
+                <td style="height:30px">{{item.electronic_category_name}}</td>
                 <td style="height:30px">{{item.description}}</td>
                 <td style="height:30px">{{item.img_link}}</td>
-                <td style="height:30px">{{item.expiration_date}}</td>
+                <!--<td style="height:30px">{{item.expiration_date}}</td>-->
                 <td style="height:30px">{{item.location}}</td>
             </tr>
         </table>
@@ -54,7 +54,7 @@
         <br>
     </div>
 
-    <div id="gamesTable" ng-show="(items[2].length > 0)">
+    <div id="gamesTable" ng-show="(items[1].length > 0)">
         <span>Games</span>
         <table style="width:100%">
             <tr>
@@ -62,15 +62,15 @@
                 <th style="height:30px">Category</th>
                 <th style="height:30px">Description</th>
                 <th style="height:30px">img_link</th>
-                <th style="height:30px">Expiration Date</th>
+                <!--<th style="height:30px">Expiration Date</th>-->
                 <th style="height:30px">Location</th>
             </tr>
-            <tr ng-repeat="item in items[2]" style="border-bottom: 1px solid black">
+            <tr ng-repeat="item in items[1]" style="border-bottom: 1px solid black">
                 <td style="height:30px">{{item.item_name}}</td>
-                <td style="height:30px">{{item.tool_category_id}}</td>
+                <td style="height:30px">{{item.game_category_name}}</td>
                 <td style="height:30px">{{item.description}}</td>
                 <td style="height:30px">{{item.img_link}}</td>
-                <td style="height:30px">{{item.expiration_date}}</td>
+                <!--<td style="height:30px">{{item.expiration_date}}</td>-->
                 <td style="height:30px">{{item.location}}</td>
             </tr>
         </table>
@@ -80,7 +80,7 @@
         <br>
     </div>
 
-    <div id="toolsTable" ng-show="(items[3].length > 0)">
+    <div id="toolsTable" ng-show="(items[2].length > 0)">
         <span>Tools</span>
         <table style="width:100%">
             <tr>
@@ -88,15 +88,15 @@
                 <th style="height:30px">Category</th>
                 <th style="height:30px">Description</th>
                 <th style="height:30px">img_link</th>
-                <th style="height:30px">Expiration Date</th>
+                <!--<th style="height:30px">Expiration Date</th>-->
                 <th style="height:30px">Location</th>
             </tr>
-            <tr ng-repeat="item in items[3]" style="border-bottom: 1px solid black">
+            <tr ng-repeat="item in items[2]" style="border-bottom: 1px solid black">
                 <td style="height:30px">{{item.item_name}}</td>
-                <td style="height:30px">{{item.tool_category_id}}</td>
+                <td style="height:30px">{{item.tool_category_name}}</td>
                 <td style="height:30px">{{item.description}}</td>
                 <td style="height:30px">{{item.img_link}}</td>
-                <td style="height:30px">{{item.expiration_date}}</td>
+                <!--<td style="height:30px">{{item.expiration_date}}</td>-->
                 <td style="height:30px">{{item.location}}</td>
             </tr>
         </table>

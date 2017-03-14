@@ -32,7 +32,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                 'Content-Type': "application/json"
             }
         }).then(function success(response) {
-            console.log(response)
+            //console.log(response)
             if (response.data.code == 109) {
                 //NOT Signed IN!!!
                 document.querySelector('#sidebar-menu > div > ul > li:nth-child(2) > a').style.display = 'none';
@@ -66,7 +66,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                         'Content-Type': "application/json"
                     }
                 }).then(function success(response) {
-                    console.log(response.data)
+                    //console.log(response.data)
                     document.getElementById("p-image").src= "/images/" + response.data.pp_link
                 }, function failed(){})
 
@@ -370,7 +370,7 @@ angular.module('myApp.add_item', ['ngRoute'])
 
             }, function myError(response) {
                 console.log("ErRor")
-                console.log(response)
+                //console.log(response)
             });
         };
 

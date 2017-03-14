@@ -36,18 +36,20 @@ let registeredMail = {
     text: 'You have successfully registered this email to lend and lease. Enjoy your stay!', // plain text body
     html: '<b>Hello world ?</b>' // html body
 };
+
+let itemRequestMail = {
+  from: '"Us at lend and LEASE!" <rikstavling2016@gmail.com>',
+  to: 'rikstavling2016@gmail.com',// sender address
+  subject: 'You have a request for one of your items!', // Subject line
+  text: 'You have successfully registered this email to lend and lease. Enjoy your stay!', // plain text body
+  html: '<b>Hello world ?</b>' // html body
+}
 console.log(JSON.stringify(registeredMail));
 registeredMail.to = JSON.stringify(email_mottagare);
 console.log(JSON.stringify(registeredMail));
 
 
 // send mail with defined transport object
-/*transporter.sendMail(mailOptions, (error, info) => {
- if (error) {
- return console.log(error);
- }
- console.log('Message %s sent: %s', info.messageId, info.response);
- });*/
 
 var mysql = require('mysql');
 
@@ -115,6 +117,12 @@ module.exports = function (app, passport) {
                 console.log(" LENGTH of registered QUERY : " + result.length);
                 registeredMail.to = JSON.stringify(result[0].email);
                 console.log(JSON.stringify(registeredMail));
+                transporter.sendMail(registeredMail, (error, info) => {
+                 if (error) {
+                 return console.log(error);
+                 }
+                 console.log('Message %s sent: %s', info.messageId, info.response);
+                 });
             }
             else {
                 console.log(err);
@@ -401,7 +409,7 @@ module.exports = function (app, passport) {
                         newElectronic.outside_use = 0;
                     }
 
-                    connection.query("SELECT electronic_category_id FROM electronic_categories WHERE electronic_category_name = '" + req.body.electronic_category_id + "'", function (err, rows) {
+                    connection.query("SELECT electronic_category_id FROM electronic_categories WHERE electronic_category_name = '" + req.body.electronics_category_id + "'", function (err, rows) {
                         if (!err) {
                             console.log("Get category ID query rwos ELECTRONICS: " + JSON.stringify(rows));
                             console.log("GET CATEROGYR QUERY ROWS ELECTRONIC_CATEGORY ID " + rows[0].electronic_category_id);
@@ -725,15 +733,46 @@ module.exports = function (app, passport) {
     var getItemUserEmail = "SELECT email FROM users WHERE user_id = ( ? )";
 
     app.post('/requestitem', function (req, res) {
-      var requestedItemMail = null;
-        if (isLoggedIn) {
+      /* Get all information about requested item */
 
+        if (isLoggedIn) {
+          var item_info;
+          connection.query("SELECT item_name, img_link FROM items WHERE item_id = ( ? )", [req.body.item_id], function(err, rows){
+            if(!err){
+                item_info = rows[0];
+            }
+            else{
+                console.log(err);
+            }
+
+          });
             connection.query(getItemUserId, req.body.item_id, function (err, rows) {
-                if (!err) {
+                if (!err && rows.length > 0) {
+                  itemRequestMail.text = JSON.stringify(item_info);
+                  console.log("rows stringify from getItemUserId: " + JSON.stringify(rows[0]));
+                  console.log("row0 user_id: " + rows[0].user_id);
+                  connection.query(getItemUserEmail, [rows[0].user_id], function(err, rows){
+                    if(!err && rows.length > 0){
+                            console.log(JSON.stringify(rows[0]));
+                            console.log("row0 user_id: " + rows[0].email);
+                            itemRequestMail.to = JSON.stringify(rows[0].email);
+                            transporter.sendMail(itemRequestMail, (error, info) => {
+                             if (error) {
+                             return console.log(error);
+                             }
+                             console.log('Message %s sent: %s', info.messageId, info.response);
+                             });
+
+                    }
+                    else{
+                      console.log("ERR from getItemUserEmail query: " + err);
+                    }
+
+                  });
 
                 }
                 else {
-                    console.log(err);
+                    console.log("Error from getItemUserId query: " + err);
                 }
 
 

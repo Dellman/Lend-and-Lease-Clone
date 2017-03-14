@@ -145,7 +145,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                       // "" +
                       // "'/></div>"
                   // });
-                  var content = "<h5>" + marker.name + "</h5>" +
+                  var content = "<div><h5>" + marker.name + "</h5>" +
                       "<h6>" + marker.category.toUpperCase() + "</h6>" +
                       // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
                       "<p>" + marker.description + "</p>" +
@@ -170,7 +170,21 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
 
                 $scope.sendEmail = function(id) {
                   console.log(id);
-                  // console.log(JSON.stringify($scope.[name]));
+                    $http({
+                        method: "POST",
+                        url: $rootScope.serverIP + "/requestitem",
+                        headers: {
+                            'Content-Type': "application/json"
+                        },
+                        data:{
+                            item_id: id
+                        }
+                    }).then(function mySucces(response) {
+                        alert("Request Sent!!")
+                    }, function failed() {
+
+                    });
+
                 }
 
                 // $scope.markerFilter = function (input, checked) {
