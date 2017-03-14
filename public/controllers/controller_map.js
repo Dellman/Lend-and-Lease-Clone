@@ -70,10 +70,6 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
             alert("Error!")
         });
 
-        function callMe() {
-            console.log("This")
-        }
-
         $http({
             method: "GET",
             url: $rootScope.serverIP + "/allItems",
@@ -87,6 +83,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 $scope.map = map;
             }).then(function () {
 
+              console.log($scope.items);
                 var itemMarkers = [];
 
                 for (var i = 0; i < $scope.items.length; i++) {
@@ -103,37 +100,43 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 }
 
                 function addMarker(item) {
-                    console.log(item);
-                    var marker = new google.maps.Marker({
-                        position: {lat: item.location.lat, lng: item.location.lng},
-                        map: $scope.map,
-                        name: item.item_name,
-                        category: item.category,
-                        // subCategory: item[0].sub_category,
-                        description: item.description,
-                        image: item.img_link,
-                        id: item.item_id
+                  // console.log(item);
+                  // if (item.category.toUpperCase() = "BOOKS") {
+                  //   console.log("Test");
+                  // }
+                  var marker = new google.maps.Marker({
+                      position: {lat: item.location.lat, lng: item.location.lng},
+                      map: $scope.map,
+                      name: item.item_name,
+                      category: item.category,
+                      // subCategory: item.sub_category,
+
+                      description: item.description,
+                      image: item.img_link,
+                      id: item.item_id
                     });
-                    // Popup window
-                    var infowindow = new google.maps.InfoWindow({
-                        content: "<h5>" + marker.name + "</h5>" +
-                        "<h6>" + marker.category.toUpperCase() + "</h6>" +
-                        // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
-                        "<p>" + marker.description + "</p>" +
-                        "<div style='overflow:hidden;'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/>" +
-                        "<input id='" + marker.id + "' type='button' value='Request Item' style='display:block; margin:0.25em auto;'" +
-                        " onclick='callMe()'" +
-                        "/></div>"
-                    });
-                    // console.log(marker);
-                    marker.addListener('click', function () {
-                        infowindow.open($scope.map, marker);
-                    });
-                    console.log(document.getElementById('6'))
-                    // console.log(marker);
-                    itemMarkers.push(marker);
-                    // console.log(itemMarkers);
-                    // putOnMap($scope.map);
+                  // Popup window
+                  var infowindow = new google.maps.InfoWindow({
+                      content: "<h5>" + marker.name + "</h5>" +
+                      "<h6>" + marker.category.toUpperCase() + "</h6>" +
+                      // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
+                      "<p>" + marker.description + "</p>" +
+                      "<div style='overflow:hidden;'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/>" +
+                      "<input type='button' value='Request Item' style='display:block; margin:0.25em auto;' onclick='" +
+                      "$http({method: 'POST',url: $rootScope.serverIP + '/requestItem', headers: {'Content-Type': 'application/json'}, data:{})." +
+                      "then(function success(response) {" +
+                      "}, function failed(){}" +
+                      "" +
+                      "'/></div>"
+                  });
+                  // console.log(marker);
+                  marker.addListener('click', function () {
+                      infowindow.open($scope.map, marker);
+                  });
+                  // console.log(marker);
+                  itemMarkers.push(marker);
+                  // console.log(itemMarkers);
+                  // putOnMap($scope.map);
                 }
 
                 // function putOnMap(map) {
@@ -153,8 +156,8 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                         else if (itemMarkers[i].category.toUpperCase() != input.toUpperCase() && !checked) {
                             itemMarkers[i].setVisible(true);
                         }
-                        else if (itemMarkers[i].category.toUpperCase() == input.toUpperCase() && !checked) {
-                            itemMarkers[i].setVisible(false);
+                        else if (itemMarkers[i].category.toUpperCase() == input.toUpperCase() && !checked){
+                          itemMarkers[i].setVisible(false);
                         }
                     }
                 }
@@ -164,10 +167,8 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                     $scope.map.showInfoWindow('mapPageIW', marker.id);
                 };
 
-            })
+            });
         }, function myError(response) {
             console.log("Error");
-        }).then(function () {
-            console.log("ready")
         });
     }]);
