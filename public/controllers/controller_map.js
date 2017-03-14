@@ -151,9 +151,9 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                       "<p>" + marker.description + "</p>" +
                       "<div style='overflow:hidden;'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/></div>" +
                       "<a ng-click='sendEmail(" + marker.id + ");' class='btn btn-default'>View details</a>";
-                      console.log(content);
+                      // console.log(content);
                   var compiledContent = $compile(content)($scope);
-                  console.log(compiledContent);
+                  // console.log(compiledContent);
                   // console.log(marker);
                   // marker.addListener('click', function () {
                   //     infowindow.open($scope.map, marker);
@@ -175,17 +175,17 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
 
                 $scope.markerFilter = function (input, checked) {
                     for (var i = 0; i < itemMarkers.length; i++) {
+                      // Show markers with the category that is checked
                         if (itemMarkers[i].category.toUpperCase() == input.toUpperCase() && checked) {
                             itemMarkers[i].setVisible(true);
                         }
+                        // Hide markers with a different category than the one that is checked
                         else if (itemMarkers[i].category.toUpperCase() != input.toUpperCase() && checked) {
                             itemMarkers[i].setVisible(false);
                         }
+                        // Show markers that were hidden
                         else if (itemMarkers[i].category.toUpperCase() != input.toUpperCase() && !checked) {
                             itemMarkers[i].setVisible(true);
-                        }
-                        else if (itemMarkers[i].category.toUpperCase() == input.toUpperCase() && !checked){
-                          itemMarkers[i].setVisible(false);
                         }
                     }
                 }
