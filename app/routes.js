@@ -723,6 +723,7 @@ module.exports = function (app, passport) {
     var getItemUserEmail = "SELECT email FROM users WHERE user_id = ( ? )";
 
     app.post('/requestitem', function (req, res) {
+      var requestedItemMail = null;
         if (isLoggedIn) {
 
             connection.query(getItemUserId, req.body.item_id, function (err, rows) {
@@ -762,6 +763,24 @@ module.exports = function (app, passport) {
         else {
             res.send(new response_object(109, "Redirect to Login"));
         }
+    });
+
+    app.get('/getprofilepic', function(req, res){
+      if(isLoggedIn(req, res);){
+        connection.query("select pp_link from users where user_id = ( ? )", [req.user], function(err, rows){
+            if(!err && rows.length > 0){
+              res.send(rows[0]);
+            }
+            else{
+                console.log(err);
+            }
+        });
+      }
+        else{
+          console.log(new response_object(109, "Not logged in from getprofilepic"));
+          }
+      }
+
     });
 
 // route middleware to make sure
