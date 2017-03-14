@@ -145,12 +145,12 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                       // "" +
                       // "'/></div>"
                   // });
-                  var content = "<h5>" + marker.name + "</h5>" +
+                  var content = "<div><h5>" + marker.name + "</h5>" +
                       "<h6>" + marker.category.toUpperCase() + "</h6>" +
                       // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
                       "<p>" + marker.description + "</p>" +
                       "<div style='overflow:hidden;'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/></div>" +
-                      "<a ng-click='sendEmail(" + marker.id + ");' class='btn btn-default'>View details</a>";
+                      "<a ng-click='sendEmail(" + marker.id + ");' class='btn btn-default'>View details</a></div>";
                       console.log(content);
                   var compiledContent = $compile(content)($scope);
                   console.log(compiledContent);
