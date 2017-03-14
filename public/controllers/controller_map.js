@@ -150,7 +150,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                       // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
                       "<p>" + marker.description + "</p>" +
                       "<div style='overflow:hidden;'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/></div>" +
-                      "<a ng-click='sendEmail(" + marker.id + ");' class='btn btn-default'>View details</a></div>";
+                      "<a style='margin: auto; display:block' ng-click='sendEmail(" + marker.id + ");' class='btn btn-default'>Send Request</a></div>";
                       console.log(content);
                   var compiledContent = $compile(content)($scope);
                   console.log(compiledContent);
@@ -170,7 +170,21 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
 
                 $scope.sendEmail = function(id) {
                   console.log(id);
-                  // console.log(JSON.stringify($scope.[name]));
+                    $http({
+                        method: "POST",
+                        url: $rootScope.serverIP + "/requestitem",
+                        headers: {
+                            'Content-Type': "application/json"
+                        },
+                        data:{
+                            item_id: id
+                        }
+                    }).then(function mySucces(response) {
+                        alert("Request Sent!!")
+                    }, function failed() {
+
+                    });
+
                 }
 
                 $scope.markerFilter = function (input, checked) {

@@ -409,7 +409,7 @@ module.exports = function (app, passport) {
                         newElectronic.outside_use = 0;
                     }
 
-                    connection.query("SELECT electronic_category_id FROM electronic_categories WHERE electronic_category_name = '" + req.body.electronic_category_id + "'", function (err, rows) {
+                    connection.query("SELECT electronic_category_id FROM electronic_categories WHERE electronic_category_name = '" + req.body.electronics_category_id + "'", function (err, rows) {
                         if (!err) {
                             console.log("Get category ID query rwos ELECTRONICS: " + JSON.stringify(rows));
                             console.log("GET CATEROGYR QUERY ROWS ELECTRONIC_CATEGORY ID " + rows[0].electronic_category_id);
