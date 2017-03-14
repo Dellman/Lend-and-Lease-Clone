@@ -89,12 +89,14 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 for (var i = 0; i < $scope.items.length; i++) {
                     if ($scope.items[i].length > 0) {
                         for (var j = 0; j < $scope.items[i].length; j++) {
+                          if ($scope.items[i][j].location != null) {
                             var latLngStr = $scope.items[i][j].location.split(',', 2);
                             var markerLatLng = new google.maps.LatLng();
                             markerLatLng.lat = parseFloat(latLngStr[0].trim());
                             markerLatLng.lng = parseFloat(latLngStr[1].trim());
                             $scope.items[i][j].location = markerLatLng;
                             addMarker($scope.items[i][j]);
+                          }
                         }
                     }
                 }
