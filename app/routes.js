@@ -768,7 +768,7 @@ module.exports = function (app, passport) {
     });
 
     app.get('/getprofilepic', function(req, res){
-      if(isLoggedIn(req, res);){
+      if(isLoggedIn(req, res)){
         connection.query("select pp_link from users where user_id = ( ? )", [req.user], function(err, rows){
             if(!err && rows.length > 0){
               res.send(rows[0]);
@@ -781,7 +781,6 @@ module.exports = function (app, passport) {
         else{
           console.log(new response_object(109, "Not logged in from getprofilepic"));
           }
-      }
 
     });
 

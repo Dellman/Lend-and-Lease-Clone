@@ -31,6 +31,9 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 $('#account1').show();
                 document.getElementById("account2").innerHTML = "Login";
                 $("#logout").hide();
+
+                document.getElementById("p-image").src= "theme/images/img.jpg"
+
             }
             else {
                 //SIGNED IN!!!
@@ -42,8 +45,20 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 document.getElementById("account1").innerHTML = response.data.email.email;
                 $('#account1').show();
                 document.getElementById("account2").innerHTML = response.data.email.email;
-                $("#logout").show();
 
+                $http({
+                    method: "GET",
+                    url: $rootScope.serverIP + "/getprofilepic",
+                    headers: {
+                        'Content-Type': "application/json"
+                    }
+                }).then(function success(response) {
+                    console.log(response.data)
+                    document.getElementById("p-image").src= "/images/" + response.data.pp_link
+                }, function failed(){})
+
+
+                $("#logout").show();
                 $("#logout").on("click", function () {
                     $http({
                         method: "GET",

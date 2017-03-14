@@ -31,6 +31,9 @@ angular.module('myApp.profile', ['ngRoute'])
                 $('#account1').show();
                 document.getElementById("account2").innerHTML = "Login";
                 $("#logout").hide();
+
+                document.getElementById("p-image").src= "theme/images/img.jpg"
+
             }
             else {
                 //SIGNED IN!!!
@@ -51,7 +54,7 @@ angular.module('myApp.profile', ['ngRoute'])
                     }
                 }).then(function success(response) {
                     console.log(response.data)
-                    document.getElementById("p-image").src= "/images/" + response.data
+                    document.getElementById("p-image").src= "/images/" + response.data.pp_link
                 }, function failed(){})
 
 
