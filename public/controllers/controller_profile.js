@@ -10,14 +10,76 @@ angular.module('myApp.profile', ['ngRoute'])
         });
     }])
 
-    .controller('controller_profile', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+    .controller('controller_profile', ['$scope', '$http', '$rootScope', '$window', function($scope, $http, $rootScope, $window) {
+
+        $http({
+            method: "GET",
+            url: $rootScope.serverIP + "/loggedin",
+            headers: {
+                'Content-Type': "application/json"
+            }
+        }).then(function success(response) {
+            console.log(response)
+            if (response.data.code == 109) {
+                //NOT Signed IN!!!
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(2) > a').style.display = 'none';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(3) > a').style.display = 'none';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(4) > a').style.display = 'none';
+                document.querySelector('body > div > div > div.top_nav > div > nav > ul > li:nth-child(1) > a').classList.remove("disabled");
+
+                document.getElementById("account1").innerHTML = "";
+                $('#account1').show();
+                document.getElementById("account2").innerHTML = "Login";
+                $("#logout").hide();
+            }
+            else {
+                //SIGNED IN!!!
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(2) > a').style.display = 'block';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(3) > a').style.display = 'block';
+                document.querySelector('#sidebar-menu > div > ul > li:nth-child(4) > a').style.display = 'block';
+                document.querySelector('body > div > div > div.top_nav > div > nav > ul > li:nth-child(1) > a').classList.add("disabled");
+
+                document.getElementById("account1").innerHTML = response.data.email.email;
+                $('#account1').show();
+                document.getElementById("account2").innerHTML = response.data.email.email;
+                $("#logout").show();
+
+                $("#logout").on("click", function () {
+                    $http({
+                        method: "GET",
+                        url: $rootScope.serverIP + "/logout",
+                        headers: {
+                            'Content-Type': "application/json",
+                            'WWW-Authenticate': ""
+                        }
+                    }).then(function mySucces(response) {
+                        console.log("Logged Out")
+                        document.getElementById("account1").innerHTML = "";
+                        $('#account1').show();
+                        document.getElementById("account2").innerHTML = "Login";
+                        $("#logout").hide();
+                        $window.location.href = '/#!/map';
+                    }, function myError() {
+                        console.log("Error Logging out")
+                    })
+
+                });
+            }
+
+        }, function error() {
+            alert("Error!")
+        });
+
+
+
+
         $scope.user = {};
 
         $http({
             method : "GET",
             url : $rootScope.serverIP + "/profile"
         }).then(function mySucces(response) {
-            console.log(response.data[0]);
+            console.log(response.data);
             var date = new Date (response.data[0].dob);
 
             $scope.user.fname = response.data[0].first_name;

@@ -44,7 +44,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 document.getElementById("account2").innerHTML = response.data.email.email;
                 $("#logout").show();
 
-                $( "#logout" ).on( "click", function(){
+                $("#logout").on("click", function () {
                     $http({
                         method: "GET",
                         url: $rootScope.serverIP + "/logout",
@@ -59,11 +59,11 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                         document.getElementById("account2").innerHTML = "Login";
                         $("#logout").hide();
                         $window.location.reload();
-                    }, function myError(){
+                    }, function myError() {
                         console.log("Error Logging out")
                     })
 
-                } );
+                });
             }
 
         }, function error() {
@@ -83,29 +83,36 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                 $scope.map = map;
             }).then(function () {
 
+              console.log($scope.items);
                 var itemMarkers = [];
 
                 for (var i = 0; i < $scope.items.length; i++) {
-                  if($scope.items[i].length > 0){
-                    for (var j = 0; j < $scope.items[i].length; j++) {
-                      var latLngStr = $scope.items[i][j].location.split(',', 2);
-                      var markerLatLng = new google.maps.LatLng();
-                      markerLatLng.lat = parseFloat(latLngStr[0].trim());
-                      markerLatLng.lng = parseFloat(latLngStr[1].trim());
-                      $scope.items[i][j].location = markerLatLng;
-                      addMarker($scope.items[i][j]);
+                    if ($scope.items[i].length > 0) {
+                        for (var j = 0; j < $scope.items[i].length; j++) {
+                          if ($scope.items[i][j].location != null) {
+                            var latLngStr = $scope.items[i][j].location.split(',', 2);
+                            var markerLatLng = new google.maps.LatLng();
+                            markerLatLng.lat = parseFloat(latLngStr[0].trim());
+                            markerLatLng.lng = parseFloat(latLngStr[1].trim());
+                            $scope.items[i][j].location = markerLatLng;
+                            addMarker($scope.items[i][j]);
+                          }
+                        }
                     }
-                  }
                 }
 
                 function addMarker(item) {
-                  console.log(item);
+                  // console.log(item);
+                  // if (item.category.toUpperCase() = "BOOKS") {
+                  //   console.log("Test");
+                  // }
                   var marker = new google.maps.Marker({
                       position: {lat: item.location.lat, lng: item.location.lng},
                       map: $scope.map,
                       name: item.item_name,
                       category: item.category,
-                      // subCategory: item[0].sub_category,
+                      // subCategory: item.sub_category,
+
                       description: item.description,
                       image: item.img_link,
                       id: item.item_id

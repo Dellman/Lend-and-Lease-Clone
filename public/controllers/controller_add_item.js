@@ -71,7 +71,7 @@ angular.module('myApp.add_item', ['ngRoute'])
                         $('#account1').show();
                         document.getElementById("account2").innerHTML = "Login";
                         $("#logout").hide();
-                        $window.location.reload();
+                        $window.location.href = '/#!/map';
                     }, function myError(){
                         console.log("Error Logging out")
                     })
