@@ -5,13 +5,23 @@
             <span class="input-group-btn">
   <button class="btn btn-default" type="button" ng-click="markerFilter();">Search</button> -->
 
-  <form action="">
+  <!-- <form action="">
     <label><input type="checkbox" name="Books" value="Books" ng-model="booksCheck"  ng-click="markerFilter('Books', booksCheck);"/>Books</label>
     <label><input type="checkbox" name="Electronics" value="Electronics" ng-model="electronicsCheck" ng-click="markerFilter('Electronics', electronicsCheck);"/>Electronics</label>
     <label><input type="checkbox" name="Tools" value="Tools" ng-model="toolsCheck" ng-click="markerFilter('Tools', toolsCheck);"/>Tools</label>
     <label><input type="checkbox" name="Games" value="Games" ng-model="gamesCheck" ng-click="markerFilter('Games', gamesCheck);"/>Games</label>
     <label><input type="checkbox" name="Others" value="Others" ng-model="othersCheck" ng-click="markerFilter('Others', othersCheck);"/>Others</label>
+  </form> -->
+
+  <form action="">
+    <label><input type="radio" value="All" name="categoryFilter" ng-click="markerFilter('All')" checked="checked">All</label>
+    <label><input type="radio" value="Books" name="categoryFilter" ng-model="booksCheck" ng-click="markerFilter('Books', booksCheck);"/>Books</label>
+    <label><input type="radio" value="Electronics" name="categoryFilter" ng-model="electronicsCheck" ng-click="markerFilter('Electronics', electronicsCheck);"/>Electronics</label>
+    <label><input type="radio" value="Tools"  name="categoryFilter" ng-model="toolsCheck"  ng-click="markerFilter('Tools', toolsCheck);"/>Tools</label>
+    <label><input type="radio" value="Games"  name="categoryFilter" ng-model="gamesCheck" ng-click="markerFilter('Games', gamesCheck);"/>Games</label>
+    <label><input type="radio" value="Others"  name="categoryFilter" ng-model="othersCheck" ng-click="markerFilter('Others', othersCheck);"/>Others</label>
   </form>
+
   <!-- <form action="">
     <label><input type="radio" name="Books" ng-value="Books" ng-model="markerFilter.name"  ng-click="markerFilter('Books', booksCheck);"/>Books</label>
     <label><input type="radio" name="Electronics" ng-value="Electronics" ng-model="markerFilter.name" ng-click="markerFilter('Electronics', electronicsCheck);"/>Electronics</label>

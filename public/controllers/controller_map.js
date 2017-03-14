@@ -173,6 +173,23 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                   // console.log(JSON.stringify($scope.[name]));
                 }
 
+                // $scope.markerFilter = function (input, checked) {
+                //     for (var i = 0; i < itemMarkers.length; i++) {
+                //       // Show markers with the category that is checked
+                //         if (itemMarkers[i].category.toUpperCase() == input.toUpperCase() && checked) {
+                //             itemMarkers[i].setVisible(true);
+                //         }
+                //         // Hide markers with a different category than the one that is checked
+                //         else if (itemMarkers[i].category.toUpperCase() != input.toUpperCase() && checked) {
+                //             itemMarkers[i].setVisible(false);
+                //         }
+                //         // Show markers that were hidden
+                //         else if (itemMarkers[i].category.toUpperCase() != input.toUpperCase() && !checked) {
+                //             itemMarkers[i].setVisible(true);
+                //         }
+                //     }
+                // }
+
                 $scope.markerFilter = function (input, checked) {
                     for (var i = 0; i < itemMarkers.length; i++) {
                       // Show markers with the category that is checked
