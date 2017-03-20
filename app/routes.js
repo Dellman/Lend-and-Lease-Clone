@@ -115,7 +115,6 @@ module.exports = function (app, passport) {
             if (!err && result.length > 0) {
                 console.log(" REGISTERED QUERY :" + result);
                 console.log(" LENGTH of registered QUERY : " + result.length);
-                registeredMail.to = JSON.stringify(result[0].email);
                 console.log(JSON.stringify(registeredMail));
                 transporter.sendMail(registeredMail, (error, info) => {
                  if (error) {
@@ -756,7 +755,6 @@ module.exports = function (app, passport) {
                     if(!err && rows.length > 0){
                             console.log(JSON.stringify(rows[0]));
                             console.log("row0 user_id: " + rows[0].email);
-                            itemRequestMail.to = JSON.stringify(rows[0].email);
                             transporter.sendMail(itemRequestMail, (error, info) => {
                              if (error) {
                              return console.log(error);
