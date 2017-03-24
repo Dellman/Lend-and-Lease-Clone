@@ -128,25 +128,11 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                     name: item.item_name,
                     category: item.category,
                     // subCategory: item.sub_category,
-
                     description: item.description,
                     image: item.img_link,
                     id: item.item_id
                   });
-                // Popup window
-                // var infowindow = new google.maps.InfoWindow({
-                    // content: "<h5>" + marker.name + "</h5>" +
-                    // "<h6>" + marker.category.toUpperCase() + "</h6>" +
-                    // // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
-                    // "<p>" + marker.description + "</p>" +
-                    // "<div style='overflow:hidden;'><img style='width: 225px; height:225px' src='/images/" + marker.image + "'/>" +
-                    // "<input type='button' value='Request Item' style='display:block; margin:0.25em auto;' onclick='" +
-                    // // "$http({method: 'POST',url: $rootScope.serverIP + '/requestItem', headers: {'Content-Type': 'application/json'}, data:{})." +
-                    // "then(function success(response) {" +
-                    // "}, function failed(){}" +
-                    // "" +
-                    // "'/></div>"
-                // });
+
                 var content = "<div><h5>" + marker.name + "</h5>" +
                     "<h6>" + marker.category.toUpperCase() + "</h6>" +
                     // "<h6>" + marker.subCategory.toUpperCase() + "</h6>" +
@@ -155,11 +141,7 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                     "<a style='margin: auto; display:block' ng-click='sendEmail(" + marker.id + ");' class='btn btn-default'>Send Request</a></div>";
                     //console.log(content);
                 var compiledContent = $compile(content)($scope);
-                // console.log(compiledContent);
-                // console.log(marker);
-                // marker.addListener('click', function () {
-                //     infowindow.open($scope.map, marker);
-                // });
+
                 google.maps.event.addListener(marker, 'click', (function(marker, content, scope) {
                   return function() {
                       scope.infowindow.setContent(content);
@@ -188,23 +170,6 @@ angular.module('myApp.map', ['ngRoute', 'ngMap'])
                   });
 
               }
-
-              // $scope.markerFilter = function (input, checked) {
-              //     for (var i = 0; i < itemMarkers.length; i++) {
-              //       // Show markers with the category that is checked
-              //         if (itemMarkers[i].category.toUpperCase() == input.toUpperCase() && checked) {
-              //             itemMarkers[i].setVisible(true);
-              //         }
-              //         // Hide markers with a different category than the one that is checked
-              //         else if (itemMarkers[i].category.toUpperCase() != input.toUpperCase() && checked) {
-              //             itemMarkers[i].setVisible(false);
-              //         }
-              //         // Show markers that were hidden
-              //         else if (itemMarkers[i].category.toUpperCase() != input.toUpperCase() && !checked) {
-              //             itemMarkers[i].setVisible(true);
-              //         }
-              //     }
-              // }
 
               $scope.markerFilter = function (input, checked) {
                   for (var i = 0; i < itemMarkers.length; i++) {
